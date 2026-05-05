@@ -1,0 +1,6597 @@
+{
+  "num_jobs": 15,
+  "num_machines": 10,
+  "avg_options": 5,
+  "random_factor_a": 2.0833333333333335,
+  "job_random_factors_a": [
+    2.25,
+    1.92,
+    1.84,
+    1.87,
+    2.06,
+    2.19,
+    2.06,
+    1.96,
+    2.26,
+    2.16,
+    1.82,
+    2.29,
+    2.22,
+    2.2,
+    2.15
+  ],
+  "machines": [
+    {
+      "machine_id": 1,
+      "idle_power": 1.44,
+      "processing_power": 11.39
+    },
+    {
+      "machine_id": 2,
+      "idle_power": 1.51,
+      "processing_power": 12.55
+    },
+    {
+      "machine_id": 3,
+      "idle_power": 2.82,
+      "processing_power": 8.61
+    },
+    {
+      "machine_id": 4,
+      "idle_power": 2.85,
+      "processing_power": 10.8
+    },
+    {
+      "machine_id": 5,
+      "idle_power": 1.13,
+      "processing_power": 10.36
+    },
+    {
+      "machine_id": 6,
+      "idle_power": 2.86,
+      "processing_power": 10.24
+    },
+    {
+      "machine_id": 7,
+      "idle_power": 3.64,
+      "processing_power": 12.82
+    },
+    {
+      "machine_id": 8,
+      "idle_power": 2.13,
+      "processing_power": 6.72
+    },
+    {
+      "machine_id": 9,
+      "idle_power": 1.38,
+      "processing_power": 13.72
+    },
+    {
+      "machine_id": 10,
+      "idle_power": 3.07,
+      "processing_power": 11.31
+    }
+  ],
+  "jobs": [
+    {
+      "due_date": [
+        1041.75,
+        1176.6599999999999
+      ],
+      "operations": [
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                12.83,
+                14.0,
+                15.4
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                12.37,
+                14.0,
+                15.49
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                12.21,
+                14.0,
+                15.74
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                13.22,
+                14.0,
+                15.88
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                12.42,
+                14.0,
+                14.26
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                12.6,
+                14.0,
+                15.93
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                12.97,
+                14.0,
+                16.09
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                68.6,
+                75.0,
+                80.98
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                73.96,
+                75.0,
+                77.51
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                66.08,
+                75.0,
+                83.83
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                70.85,
+                75.0,
+                81.49
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                70.03,
+                75.0,
+                81.61
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                11.4,
+                12.0,
+                14.13
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                11.69,
+                12.0,
+                13.53
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                11.05,
+                12.0,
+                14.27
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                11.0,
+                12.0,
+                13.5
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                11.76,
+                12.0,
+                13.64
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                10.9,
+                12.0,
+                13.78
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                11.28,
+                12.0,
+                14.2
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                11.32,
+                12.0,
+                13.28
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 3,
+              "processing_time": [
+                37.85,
+                38.0,
+                42.01
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                34.57,
+                38.0,
+                45.13
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                75.36,
+                76.0,
+                78.61
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                65.43,
+                76.0,
+                89.04
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                74.66,
+                76.0,
+                81.84
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                67.5,
+                76.0,
+                86.4
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                75.32,
+                76.0,
+                79.24
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 4,
+              "processing_time": [
+                88.97,
+                97.0,
+                109.86
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                85.66,
+                97.0,
+                105.05
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                84.53,
+                97.0,
+                106.31
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                85.8,
+                97.0,
+                98.56
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 4,
+              "processing_time": [
+                10.9,
+                12.0,
+                12.36
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                10.41,
+                12.0,
+                12.36
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                10.95,
+                12.0,
+                12.76
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                27.82,
+                29.0,
+                31.4
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                25.71,
+                29.0,
+                30.09
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                25.94,
+                29.0,
+                33.31
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                25.53,
+                29.0,
+                31.7
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                28.16,
+                29.0,
+                33.81
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                40.45,
+                44.0,
+                51.42
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                41.64,
+                44.0,
+                46.0
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                38.01,
+                44.0,
+                45.5
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                42.61,
+                44.0,
+                47.43
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                42.93,
+                44.0,
+                52.51
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                43.47,
+                44.0,
+                48.13
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                37.45,
+                44.0,
+                46.43
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 4,
+              "processing_time": [
+                58.27,
+                66.0,
+                74.57
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                63.05,
+                66.0,
+                78.17
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                63.08,
+                66.0,
+                78.67
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "due_date": [
+        1388.1599999999999,
+        1585.8432
+      ],
+      "operations": [
+        {
+          "options": [
+            {
+              "machine_id": 4,
+              "processing_time": [
+                35.94,
+                38.0,
+                41.61
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                37.07,
+                38.0,
+                40.08
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                36.74,
+                38.0,
+                43.53
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                37.24,
+                38.0,
+                38.46
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                72.02,
+                82.0,
+                97.58
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                71.45,
+                82.0,
+                89.4
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                77.1,
+                82.0,
+                89.91
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                80.52,
+                82.0,
+                97.67
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                73.9,
+                82.0,
+                84.2
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                80.95,
+                82.0,
+                89.44
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 3,
+              "processing_time": [
+                75.42,
+                85.0,
+                87.35
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                72.37,
+                85.0,
+                94.91
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 3,
+              "processing_time": [
+                51.74,
+                58.0,
+                64.45
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                57.34,
+                58.0,
+                63.62
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                57.59,
+                58.0,
+                58.77
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                83.84,
+                87.0,
+                100.13
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                86.46,
+                87.0,
+                87.54
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                80.56,
+                87.0,
+                96.68
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                81.76,
+                87.0,
+                95.2
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                77.51,
+                87.0,
+                102.71
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                85.41,
+                87.0,
+                99.2
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 10,
+              "processing_time": [
+                88.46,
+                89.0,
+                98.85
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                37.06,
+                43.0,
+                48.97
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                37.23,
+                43.0,
+                49.46
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                40.73,
+                43.0,
+                44.78
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                37.53,
+                43.0,
+                43.58
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                37.69,
+                43.0,
+                51.41
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                38.02,
+                43.0,
+                50.6
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                37.42,
+                43.0,
+                45.91
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                73.67,
+                80.0,
+                85.73
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                79.57,
+                80.0,
+                83.84
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                73.8,
+                80.0,
+                83.28
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                69.31,
+                80.0,
+                91.05
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                72.07,
+                80.0,
+                87.79
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 6,
+              "processing_time": [
+                65.82,
+                69.0,
+                70.23
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                59.21,
+                69.0,
+                78.49
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                68.94,
+                69.0,
+                69.25
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                63.33,
+                69.0,
+                82.73
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 5,
+              "processing_time": [
+                89.7,
+                92.0,
+                110.2
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                85.5,
+                92.0,
+                109.88
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                78.97,
+                92.0,
+                100.68
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                89.9,
+                92.0,
+                99.19
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                84.28,
+                92.0,
+                100.26
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "due_date": [
+        693.6800000000001,
+        808.6984
+      ],
+      "operations": [
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                4.53,
+                5.0,
+                5.81
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                4.98,
+                5.0,
+                5.23
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                4.49,
+                5.0,
+                5.8
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                4.81,
+                5.0,
+                5.81
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                4.76,
+                5.0,
+                5.91
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                4.88,
+                5.0,
+                5.63
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                74.97,
+                84.0,
+                85.43
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                82.24,
+                84.0,
+                98.42
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                82.63,
+                84.0,
+                88.45
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                80.7,
+                84.0,
+                99.63
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                74.01,
+                84.0,
+                84.4
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                37.67,
+                43.0,
+                44.88
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                40.94,
+                43.0,
+                50.06
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                41.83,
+                43.0,
+                48.93
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                42.86,
+                43.0,
+                51.36
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                43.96,
+                48.0,
+                56.85
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                45.98,
+                48.0,
+                50.35
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                45.01,
+                48.0,
+                49.64
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                43.68,
+                48.0,
+                55.8
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                40.87,
+                48.0,
+                53.15
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 3,
+              "processing_time": [
+                7.32,
+                8.0,
+                8.45
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                6.88,
+                8.0,
+                8.84
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                7.2,
+                8.0,
+                8.16
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                7.28,
+                8.0,
+                9.09
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                6.9,
+                8.0,
+                9.26
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                6.9,
+                8.0,
+                8.75
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                6.33,
+                7.0,
+                8.2
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                6.89,
+                7.0,
+                8.03
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                6.26,
+                7.0,
+                7.45
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                6.82,
+                7.0,
+                7.71
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                6.62,
+                7.0,
+                8.01
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                6.15,
+                7.0,
+                7.54
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                40.72,
+                41.0,
+                43.72
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                40.07,
+                41.0,
+                42.27
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                34.94,
+                41.0,
+                45.12
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                36.59,
+                41.0,
+                45.89
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                39.58,
+                41.0,
+                41.32
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                37.92,
+                41.0,
+                44.06
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                40.42,
+                41.0,
+                47.92
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                40.29,
+                41.0,
+                47.08
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 6,
+              "processing_time": [
+                55.02,
+                61.0,
+                68.56
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                56.83,
+                61.0,
+                65.49
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                54.5,
+                61.0,
+                68.92
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                64.97,
+                66.0,
+                69.19
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                59.62,
+                66.0,
+                68.09
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                59.71,
+                66.0,
+                71.13
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                57.03,
+                66.0,
+                74.52
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                59.5,
+                66.0,
+                76.65
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                12.41,
+                14.0,
+                16.06
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                13.96,
+                14.0,
+                14.47
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                12.68,
+                14.0,
+                16.72
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                12.75,
+                14.0,
+                14.92
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                12.22,
+                14.0,
+                16.32
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                12.58,
+                14.0,
+                16.46
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "due_date": [
+        1032.24,
+        1210.5445000000002
+      ],
+      "operations": [
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                39.22,
+                42.0,
+                43.51
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                41.95,
+                42.0,
+                49.56
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                40.42,
+                42.0,
+                47.05
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                40.45,
+                42.0,
+                49.96
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                36.94,
+                42.0,
+                44.03
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                7.71,
+                8.0,
+                8.67
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                7.98,
+                8.0,
+                9.33
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                7.43,
+                8.0,
+                8.26
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                7.53,
+                8.0,
+                8.96
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                89.96,
+                96.0,
+                110.95
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                88.48,
+                96.0,
+                113.14
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                90.17,
+                96.0,
+                99.08
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                18.49,
+                19.0,
+                19.64
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                18.73,
+                19.0,
+                22.52
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                16.71,
+                19.0,
+                19.76
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                18.15,
+                19.0,
+                20.74
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                53.47,
+                59.0,
+                67.86
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                53.12,
+                59.0,
+                60.54
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                55.03,
+                59.0,
+                69.35
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                58.64,
+                59.0,
+                60.25
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                56.75,
+                59.0,
+                62.82
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                58.74,
+                59.0,
+                63.6
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                51.06,
+                59.0,
+                62.9
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                54.71,
+                59.0,
+                61.07
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                93.65,
+                97.0,
+                103.39
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                93.25,
+                97.0,
+                101.51
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                89.6,
+                97.0,
+                109.8
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                85.46,
+                97.0,
+                102.61
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                94.67,
+                97.0,
+                104.65
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                87.52,
+                97.0,
+                108.98
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                69.62,
+                73.0,
+                85.62
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                68.24,
+                73.0,
+                85.47
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                71.83,
+                73.0,
+                86.53
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                72.12,
+                73.0,
+                83.14
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                69.67,
+                73.0,
+                78.68
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                63.22,
+                73.0,
+                86.47
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                66.59,
+                73.0,
+                77.93
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                40.09,
+                43.0,
+                49.5
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                41.9,
+                43.0,
+                43.98
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                41.61,
+                43.0,
+                51.09
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                42.86,
+                43.0,
+                51.1
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                69.25,
+                74.0,
+                87.16
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                69.46,
+                74.0,
+                86.56
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                73.89,
+                74.0,
+                79.55
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                64.27,
+                74.0,
+                85.1
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                73.31,
+                74.0,
+                87.39
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                37.69,
+                41.0,
+                44.68
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                35.62,
+                41.0,
+                47.98
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                36.52,
+                41.0,
+                42.0
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                35.48,
+                41.0,
+                48.63
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "due_date": [
+        824.0,
+        951.102
+      ],
+      "operations": [
+        {
+          "options": [
+            {
+              "machine_id": 7,
+              "processing_time": [
+                50.18,
+                55.0,
+                63.72
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                47.33,
+                55.0,
+                60.3
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                52.9,
+                55.0,
+                63.49
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                48.32,
+                55.0,
+                60.29
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 3,
+              "processing_time": [
+                68.03,
+                70.0,
+                82.79
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                60.49,
+                70.0,
+                78.23
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                68.84,
+                70.0,
+                78.68
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                67.75,
+                70.0,
+                74.16
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                64.67,
+                70.0,
+                70.2
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                72.73,
+                75.0,
+                83.45
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                65.79,
+                75.0,
+                89.12
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                66.13,
+                75.0,
+                75.5
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                71.9,
+                75.0,
+                76.2
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                71.16,
+                75.0,
+                77.05
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                64.01,
+                75.0,
+                86.05
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 3,
+              "processing_time": [
+                39.56,
+                42.0,
+                47.54
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                40.17,
+                42.0,
+                48.02
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                36.81,
+                42.0,
+                45.56
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                39.43,
+                42.0,
+                49.28
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                39.77,
+                42.0,
+                46.1
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                36.0,
+                37.0,
+                43.25
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                32.84,
+                37.0,
+                38.36
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                31.48,
+                37.0,
+                43.45
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                32.63,
+                37.0,
+                41.28
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                34.37,
+                37.0,
+                41.87
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                22.79,
+                23.0,
+                26.02
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                20.14,
+                23.0,
+                24.98
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                20.19,
+                23.0,
+                24.76
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                22.1,
+                23.0,
+                26.0
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                21.72,
+                23.0,
+                26.97
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                47.98,
+                48.0,
+                50.42
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                45.85,
+                48.0,
+                54.2
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                40.99,
+                48.0,
+                57.52
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                43.67,
+                48.0,
+                54.46
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                42.45,
+                48.0,
+                52.07
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                41.65,
+                48.0,
+                57.29
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                41.1,
+                48.0,
+                48.7
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                4.79,
+                5.0,
+                5.58
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                4.49,
+                5.0,
+                5.94
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                4.77,
+                5.0,
+                5.45
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                4.78,
+                5.0,
+                5.94
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                4.9,
+                5.0,
+                5.36
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                36.71,
+                38.0,
+                39.68
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                34.5,
+                38.0,
+                45.55
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                36.49,
+                38.0,
+                41.05
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                6.52,
+                7.0,
+                7.61
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                6.69,
+                7.0,
+                7.73
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                6.43,
+                7.0,
+                7.59
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "due_date": [
+        1189.17,
+        1370.0859
+      ],
+      "operations": [
+        {
+          "options": [
+            {
+              "machine_id": 6,
+              "processing_time": [
+                8.84,
+                9.0,
+                10.46
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                7.98,
+                9.0,
+                9.72
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                8.87,
+                9.0,
+                10.31
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 3,
+              "processing_time": [
+                67.69,
+                72.0,
+                81.06
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                63.38,
+                72.0,
+                80.18
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                69.26,
+                72.0,
+                78.35
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                65.62,
+                72.0,
+                78.21
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 4,
+              "processing_time": [
+                29.14,
+                31.0,
+                32.36
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                30.17,
+                31.0,
+                31.4
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                76.31,
+                79.0,
+                87.29
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                70.12,
+                79.0,
+                82.97
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                70.34,
+                79.0,
+                81.56
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                78.92,
+                79.0,
+                83.4
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                68.15,
+                79.0,
+                89.4
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                72.73,
+                73.0,
+                77.2
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                64.58,
+                73.0,
+                81.54
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                65.62,
+                73.0,
+                79.71
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                68.32,
+                73.0,
+                87.57
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                66.18,
+                73.0,
+                78.3
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                69.8,
+                73.0,
+                81.33
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                93.24,
+                95.0,
+                103.25
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                89.81,
+                95.0,
+                104.69
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                89.35,
+                95.0,
+                104.3
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                83.06,
+                95.0,
+                97.35
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                86.41,
+                95.0,
+                114.0
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                23.16,
+                25.0,
+                27.5
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                22.93,
+                25.0,
+                28.88
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                22.58,
+                25.0,
+                26.95
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                22.51,
+                25.0,
+                27.86
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                23.05,
+                25.0,
+                28.02
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                24.76,
+                25.0,
+                26.71
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                23.59,
+                25.0,
+                29.96
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                24.03,
+                25.0,
+                29.22
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                41.79,
+                43.0,
+                44.69
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                40.64,
+                43.0,
+                45.97
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                38.84,
+                43.0,
+                44.1
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                41.59,
+                43.0,
+                50.94
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                58.76,
+                60.0,
+                65.23
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                59.27,
+                60.0,
+                69.65
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                56.54,
+                60.0,
+                69.63
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                57.99,
+                60.0,
+                60.14
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                52.81,
+                56.0,
+                63.28
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                50.62,
+                56.0,
+                65.06
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                53.8,
+                56.0,
+                57.02
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                50.85,
+                56.0,
+                56.1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "due_date": [
+        1126.82,
+        1299.345
+      ],
+      "operations": [
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                87.9,
+                97.0,
+                99.15
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                82.48,
+                97.0,
+                102.79
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                92.88,
+                97.0,
+                100.4
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                96.56,
+                97.0,
+                100.62
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                94.52,
+                97.0,
+                102.24
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                95.19,
+                97.0,
+                106.83
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                94.68,
+                97.0,
+                105.64
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                57.09,
+                64.0,
+                75.34
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                54.6,
+                64.0,
+                65.64
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                55.74,
+                64.0,
+                71.17
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                61.69,
+                64.0,
+                67.14
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                59.98,
+                64.0,
+                74.91
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                54.45,
+                64.0,
+                73.77
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                67.91,
+                78.0,
+                78.42
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                72.07,
+                78.0,
+                84.04
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                70.92,
+                78.0,
+                87.93
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                66.47,
+                78.0,
+                87.43
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                68.01,
+                78.0,
+                92.72
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                71.84,
+                78.0,
+                81.33
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                19.5,
+                21.0,
+                22.73
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                18.07,
+                21.0,
+                24.2
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                19.21,
+                21.0,
+                24.54
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                20.24,
+                21.0,
+                24.47
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                20.85,
+                21.0,
+                22.24
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                19.63,
+                21.0,
+                23.4
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 3,
+              "processing_time": [
+                88.61,
+                94.0,
+                108.02
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                90.67,
+                94.0,
+                106.23
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                88.41,
+                94.0,
+                104.2
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                81.9,
+                94.0,
+                99.11
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                81.59,
+                94.0,
+                105.23
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                29.17,
+                31.0,
+                32.39
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                28.11,
+                31.0,
+                36.37
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                27.08,
+                31.0,
+                34.33
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                28.73,
+                31.0,
+                33.92
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                27.68,
+                31.0,
+                36.91
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                28.96,
+                31.0,
+                34.11
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                45.66,
+                53.0,
+                53.4
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                48.78,
+                53.0,
+                55.8
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                50.49,
+                53.0,
+                60.52
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                45.53,
+                53.0,
+                57.01
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                47.52,
+                53.0,
+                59.88
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                14.96,
+                16.0,
+                18.76
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                13.69,
+                16.0,
+                17.53
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                15.35,
+                16.0,
+                16.53
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                13.7,
+                16.0,
+                17.43
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                14.16,
+                16.0,
+                16.14
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                84.05,
+                86.0,
+                98.75
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                81.75,
+                86.0,
+                101.0
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                82.58,
+                86.0,
+                93.59
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                82.96,
+                86.0,
+                102.0
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                85.29,
+                86.0,
+                101.04
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                6.78,
+                7.0,
+                8.36
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                6.94,
+                7.0,
+                7.88
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "due_date": [
+        1093.68,
+        1252.0676
+      ],
+      "operations": [
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                78.52,
+                86.0,
+                97.91
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                85.68,
+                86.0,
+                87.62
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                78.69,
+                86.0,
+                88.38
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                73.6,
+                85.0,
+                94.72
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                74.63,
+                85.0,
+                86.76
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                79.65,
+                85.0,
+                94.43
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                78.57,
+                85.0,
+                85.43
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                54.82,
+                63.0,
+                69.79
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                54.15,
+                63.0,
+                64.38
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                56.78,
+                63.0,
+                74.91
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                60.78,
+                63.0,
+                74.18
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                60.94,
+                63.0,
+                64.3
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                58.46,
+                61.0,
+                69.18
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                60.3,
+                61.0,
+                61.73
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                53.43,
+                61.0,
+                62.57
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                55.73,
+                61.0,
+                65.14
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                54.34,
+                61.0,
+                70.45
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                60.42,
+                61.0,
+                72.44
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                56.0,
+                65.0,
+                67.16
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                59.61,
+                65.0,
+                75.02
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                62.68,
+                65.0,
+                75.9
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                56.47,
+                65.0,
+                72.26
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                55.76,
+                65.0,
+                73.94
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                63.34,
+                65.0,
+                69.1
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                58.96,
+                65.0,
+                65.95
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                29.45,
+                30.0,
+                32.04
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                26.76,
+                30.0,
+                32.29
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                26.21,
+                30.0,
+                35.94
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                29.71,
+                30.0,
+                33.26
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                29.11,
+                32.0,
+                35.11
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                31.69,
+                32.0,
+                32.22
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                29.14,
+                33.0,
+                37.46
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                29.6,
+                33.0,
+                36.28
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                28.53,
+                33.0,
+                35.83
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                32.66,
+                33.0,
+                37.6
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                31.0,
+                33.0,
+                38.62
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                38.56,
+                44.0,
+                50.22
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                43.76,
+                44.0,
+                47.28
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                37.5,
+                44.0,
+                49.34
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                43.44,
+                44.0,
+                44.98
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                39.21,
+                44.0,
+                50.2
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                54.83,
+                59.0,
+                70.7
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                55.02,
+                59.0,
+                63.3
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                53.32,
+                59.0,
+                64.79
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                57.07,
+                59.0,
+                67.96
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                54.04,
+                59.0,
+                63.46
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                55.58,
+                59.0,
+                61.18
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "due_date": [
+        1206.84,
+        1412.4096
+      ],
+      "operations": [
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                40.61,
+                44.0,
+                47.04
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                37.52,
+                44.0,
+                49.99
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                37.98,
+                44.0,
+                46.61
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                41.37,
+                44.0,
+                51.62
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                41.63,
+                44.0,
+                52.42
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                37.54,
+                44.0,
+                51.07
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                15.37,
+                16.0,
+                18.26
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                15.9,
+                16.0,
+                16.22
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                13.8,
+                16.0,
+                19.05
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                15.73,
+                16.0,
+                16.37
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                14.71,
+                16.0,
+                18.8
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                15.02,
+                16.0,
+                16.1
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                9.71,
+                11.0,
+                12.84
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                9.61,
+                11.0,
+                11.62
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                10.71,
+                11.0,
+                11.4
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                10.32,
+                11.0,
+                11.38
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                9.63,
+                11.0,
+                12.21
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 3,
+              "processing_time": [
+                43.53,
+                45.0,
+                48.5
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                39.9,
+                45.0,
+                51.37
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                43.13,
+                45.0,
+                45.13
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                28.52,
+                30.0,
+                33.14
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                29.94,
+                30.0,
+                33.61
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                28.27,
+                30.0,
+                30.45
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                27.66,
+                30.0,
+                30.3
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                26.27,
+                30.0,
+                33.03
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 5,
+              "processing_time": [
+                82.17,
+                84.0,
+                100.26
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                81.96,
+                84.0,
+                92.36
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                85.31,
+                93.0,
+                105.93
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                84.03,
+                93.0,
+                93.42
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                89.48,
+                93.0,
+                110.62
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                91.43,
+                93.0,
+                104.91
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                58.2,
+                60.0,
+                62.38
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                53.12,
+                60.0,
+                70.42
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                55.64,
+                60.0,
+                62.73
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                56.85,
+                60.0,
+                68.67
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                59.94,
+                61.0,
+                62.51
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                54.61,
+                61.0,
+                67.25
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                59.54,
+                61.0,
+                73.04
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                77.89,
+                90.0,
+                95.93
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                82.11,
+                90.0,
+                106.74
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                85.35,
+                90.0,
+                95.54
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                84.32,
+                90.0,
+                93.49
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "due_date": [
+        736.5600000000001,
+        842.4000000000001
+      ],
+      "operations": [
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                35.26,
+                36.0,
+                39.02
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                33.64,
+                36.0,
+                41.75
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                33.37,
+                36.0,
+                36.48
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                32.49,
+                36.0,
+                36.08
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                32.91,
+                36.0,
+                43.09
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 3,
+              "processing_time": [
+                29.91,
+                31.0,
+                37.05
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                27.03,
+                31.0,
+                35.24
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                29.99,
+                31.0,
+                33.75
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                30.16,
+                31.0,
+                31.62
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                30.55,
+                31.0,
+                36.95
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 3,
+              "processing_time": [
+                41.38,
+                47.0,
+                47.68
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                46.08,
+                47.0,
+                52.48
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                46.9,
+                47.0,
+                52.18
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                46.0,
+                52.0,
+                54.79
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                49.38,
+                52.0,
+                55.55
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                51.85,
+                52.0,
+                60.07
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                29.98,
+                32.0,
+                37.58
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                31.04,
+                32.0,
+                34.46
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                30.11,
+                32.0,
+                34.74
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                27.41,
+                32.0,
+                32.74
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                28.47,
+                32.0,
+                32.18
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 3,
+              "processing_time": [
+                10.79,
+                11.0,
+                12.11
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                9.76,
+                11.0,
+                11.2
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                10.47,
+                11.0,
+                11.93
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                10.77,
+                11.0,
+                12.37
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                24.21,
+                28.0,
+                33.43
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                27.51,
+                28.0,
+                30.02
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                27.14,
+                28.0,
+                31.55
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                30.28,
+                35.0,
+                36.67
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                31.43,
+                35.0,
+                38.95
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                32.39,
+                35.0,
+                38.96
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                17.09,
+                20.0,
+                21.46
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                17.4,
+                20.0,
+                21.53
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                19.99,
+                20.0,
+                20.4
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                17.04,
+                20.0,
+                21.62
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                44.45,
+                49.0,
+                49.82
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                47.97,
+                49.0,
+                56.85
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "due_date": [
+        942.76,
+        1092.273
+      ],
+      "operations": [
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                19.48,
+                20.0,
+                22.58
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                18.53,
+                20.0,
+                22.25
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                17.54,
+                20.0,
+                20.09
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                19.88,
+                20.0,
+                23.59
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                17.84,
+                20.0,
+                22.11
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                17.35,
+                20.0,
+                23.3
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                48.28,
+                49.0,
+                58.6
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                42.33,
+                49.0,
+                58.55
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                42.41,
+                49.0,
+                56.4
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                48.76,
+                49.0,
+                50.77
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                46.02,
+                49.0,
+                56.9
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                47.49,
+                49.0,
+                57.05
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                70.31,
+                74.0,
+                81.52
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                68.87,
+                74.0,
+                85.29
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                71.21,
+                74.0,
+                83.86
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                72.56,
+                74.0,
+                78.04
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                66.62,
+                74.0,
+                79.92
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                65.82,
+                74.0,
+                84.54
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                8.52,
+                10.0,
+                11.89
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                8.74,
+                10.0,
+                11.31
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                9.62,
+                10.0,
+                10.55
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                8.55,
+                10.0,
+                11.97
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                9.87,
+                10.0,
+                11.0
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                8.85,
+                10.0,
+                10.98
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                9.42,
+                10.0,
+                10.24
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                9.42,
+                10.0,
+                11.4
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                8.82,
+                10.0,
+                10.7
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                15.43,
+                17.0,
+                17.96
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                15.56,
+                17.0,
+                17.44
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                15.3,
+                17.0,
+                19.96
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                16.16,
+                17.0,
+                18.54
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                14.78,
+                17.0,
+                18.16
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                16.28,
+                17.0,
+                18.62
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                16.39,
+                17.0,
+                19.35
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                31.44,
+                34.0,
+                38.72
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                31.46,
+                34.0,
+                36.33
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                33.94,
+                34.0,
+                38.99
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                30.85,
+                34.0,
+                34.06
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                78.18,
+                85.0,
+                90.68
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                83.42,
+                85.0,
+                101.36
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                81.35,
+                85.0,
+                85.52
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                80.93,
+                85.0,
+                88.36
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                79.41,
+                85.0,
+                98.97
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                66.18,
+                77.0,
+                91.98
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                75.09,
+                77.0,
+                83.5
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                71.57,
+                77.0,
+                82.32
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                75.11,
+                77.0,
+                91.86
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                70.84,
+                77.0,
+                89.09
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                66.65,
+                77.0,
+                79.15
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 6,
+              "processing_time": [
+                67.24,
+                68.0,
+                70.36
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                65.31,
+                68.0,
+                77.95
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                72.22,
+                84.0,
+                98.18
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                78.46,
+                84.0,
+                92.42
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                80.39,
+                84.0,
+                90.81
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                82.34,
+                84.0,
+                93.59
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "due_date": [
+        966.38,
+        1121.0466
+      ],
+      "operations": [
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                82.13,
+                85.0,
+                92.27
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                77.59,
+                85.0,
+                90.77
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                6.15,
+                7.0,
+                8.21
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                6.57,
+                7.0,
+                8.3
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                6.62,
+                7.0,
+                8.07
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                6.55,
+                7.0,
+                7.7
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                6.85,
+                7.0,
+                7.17
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                6.6,
+                7.0,
+                7.01
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                61.7,
+                71.0,
+                84.9
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                60.59,
+                71.0,
+                82.47
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                70.93,
+                71.0,
+                80.91
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                70.76,
+                71.0,
+                73.16
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                68.01,
+                71.0,
+                79.73
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                65.73,
+                71.0,
+                72.07
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                50.71,
+                59.0,
+                68.49
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                51.67,
+                59.0,
+                67.09
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                51.43,
+                59.0,
+                66.59
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                50.65,
+                59.0,
+                70.45
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                56.19,
+                59.0,
+                61.68
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                75.65,
+                76.0,
+                78.42
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                70.05,
+                76.0,
+                84.93
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                66.26,
+                76.0,
+                86.49
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                67.64,
+                76.0,
+                88.21
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                75.68,
+                76.0,
+                90.15
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                65.87,
+                76.0,
+                83.38
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                16.21,
+                17.0,
+                17.12
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                14.5,
+                17.0,
+                19.64
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                16.24,
+                17.0,
+                17.66
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                16.33,
+                17.0,
+                19.75
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                15.18,
+                17.0,
+                18.88
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                27.98,
+                29.0,
+                29.34
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                27.76,
+                29.0,
+                34.59
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                28.92,
+                29.0,
+                34.75
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                28.18,
+                29.0,
+                34.44
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                26.33,
+                29.0,
+                30.71
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                28.05,
+                29.0,
+                30.35
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 3,
+              "processing_time": [
+                15.11,
+                17.0,
+                19.08
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                15.47,
+                17.0,
+                20.15
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                14.81,
+                17.0,
+                18.19
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                16.71,
+                17.0,
+                18.03
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                46.01,
+                48.0,
+                52.97
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                47.62,
+                48.0,
+                49.42
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                44.46,
+                48.0,
+                51.09
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                45.94,
+                48.0,
+                57.06
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                45.75,
+                48.0,
+                57.28
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                12.7,
+                13.0,
+                14.2
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                11.55,
+                13.0,
+                13.13
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                11.78,
+                13.0,
+                13.88
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                12.22,
+                13.0,
+                15.53
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                12.07,
+                13.0,
+                13.51
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "due_date": [
+        810.3000000000001,
+        936.1962000000001
+      ],
+      "operations": [
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                14.64,
+                15.0,
+                16.09
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                14.27,
+                15.0,
+                17.01
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                14.2,
+                15.0,
+                15.3
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                12.97,
+                15.0,
+                17.21
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                13.81,
+                15.0,
+                16.95
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                14.77,
+                15.0,
+                15.99
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 3,
+              "processing_time": [
+                78.94,
+                87.0,
+                99.66
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                76.31,
+                87.0,
+                95.93
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                75.11,
+                87.0,
+                100.2
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                77.5,
+                87.0,
+                90.76
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                80.21,
+                87.0,
+                100.55
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                82.24,
+                87.0,
+                94.18
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                9.52,
+                11.0,
+                11.96
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                9.36,
+                11.0,
+                12.04
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                9.52,
+                11.0,
+                12.48
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                10.79,
+                11.0,
+                11.79
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                10.95,
+                11.0,
+                12.32
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                10.09,
+                11.0,
+                12.21
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                37.83,
+                39.0,
+                44.8
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                38.46,
+                39.0,
+                46.24
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                34.3,
+                39.0,
+                46.01
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                38.46,
+                39.0,
+                41.83
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                36.99,
+                39.0,
+                42.49
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                35.19,
+                39.0,
+                42.53
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                38.85,
+                39.0,
+                41.74
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                33.4,
+                39.0,
+                45.34
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                38.03,
+                43.0,
+                43.14
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                37.92,
+                43.0,
+                44.76
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                40.24,
+                43.0,
+                43.86
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                42.3,
+                43.0,
+                49.12
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                42.74,
+                43.0,
+                50.83
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                18.65,
+                19.0,
+                22.59
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                17.09,
+                19.0,
+                22.24
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                17.3,
+                19.0,
+                22.54
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                16.26,
+                19.0,
+                21.4
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                17.54,
+                19.0,
+                22.27
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                28.21,
+                32.0,
+                36.54
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                28.82,
+                32.0,
+                38.32
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                29.68,
+                32.0,
+                34.52
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                31.3,
+                32.0,
+                36.22
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                30.34,
+                32.0,
+                36.23
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                29.95,
+                32.0,
+                36.71
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                15.39,
+                16.0,
+                18.28
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                13.67,
+                16.0,
+                18.12
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                16.0,
+                16.0,
+                18.26
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                14.96,
+                16.0,
+                16.38
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                14.81,
+                16.0,
+                17.4
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                56.06,
+                64.0,
+                67.87
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                57.15,
+                64.0,
+                64.33
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                59.03,
+                64.0,
+                74.24
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                60.33,
+                64.0,
+                75.95
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                63.18,
+                64.0,
+                72.16
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                56.15,
+                64.0,
+                64.41
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "due_date": [
+        1487.2,
+        1722.9960000000003
+      ],
+      "operations": [
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                30.03,
+                32.0,
+                32.52
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                30.38,
+                32.0,
+                37.47
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                28.87,
+                32.0,
+                33.66
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                28.19,
+                32.0,
+                38.27
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                29.29,
+                32.0,
+                34.22
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 3,
+              "processing_time": [
+                86.05,
+                92.0,
+                104.48
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                84.1,
+                92.0,
+                103.1
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                79.96,
+                92.0,
+                95.12
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                82.87,
+                92.0,
+                103.13
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                84.91,
+                92.0,
+                97.62
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                29.77,
+                33.0,
+                33.28
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                31.48,
+                33.0,
+                38.67
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                31.63,
+                33.0,
+                37.96
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                29.36,
+                33.0,
+                35.12
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                30.26,
+                33.0,
+                34.02
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                28.35,
+                33.0,
+                38.39
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                30.6,
+                33.0,
+                38.6
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                78.84,
+                82.0,
+                88.56
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                71.8,
+                82.0,
+                86.25
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                75.86,
+                82.0,
+                92.76
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                73.49,
+                82.0,
+                87.85
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                72.76,
+                82.0,
+                87.57
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                74.02,
+                82.0,
+                90.04
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                71.08,
+                83.0,
+                96.01
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                80.26,
+                83.0,
+                92.96
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                80.06,
+                83.0,
+                92.53
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                76.75,
+                83.0,
+                97.88
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                82.16,
+                83.0,
+                98.33
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                56.86,
+                57.0,
+                60.72
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                51.48,
+                57.0,
+                65.78
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                51.53,
+                57.0,
+                62.01
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                51.8,
+                57.0,
+                66.12
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                50.63,
+                57.0,
+                57.17
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                56.24,
+                57.0,
+                63.77
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                56.33,
+                57.0,
+                59.97
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                84.47,
+                99.0,
+                99.97
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                91.31,
+                99.0,
+                105.51
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                86.45,
+                99.0,
+                117.46
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                98.51,
+                99.0,
+                103.59
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                96.38,
+                99.0,
+                118.04
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                85.86,
+                91.0,
+                95.12
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                78.44,
+                91.0,
+                97.0
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                78.08,
+                91.0,
+                107.53
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                86.2,
+                91.0,
+                102.5
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 4,
+              "processing_time": [
+                97.8,
+                99.0,
+                106.0
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                86.68,
+                99.0,
+                113.64
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                87.62,
+                99.0,
+                107.35
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                97.82,
+                99.0,
+                118.43
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                7.23,
+                8.0,
+                8.58
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                7.39,
+                8.0,
+                8.52
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                6.83,
+                8.0,
+                8.17
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                7.33,
+                8.0,
+                8.73
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "due_date": [
+        1053.5,
+        1193.7659999999996
+      ],
+      "operations": [
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                87.14,
+                88.0,
+                90.11
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                76.82,
+                88.0,
+                88.4
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                78.62,
+                88.0,
+                89.97
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                82.46,
+                88.0,
+                93.84
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                87.1,
+                88.0,
+                92.85
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                80.88,
+                88.0,
+                95.69
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                84.57,
+                88.0,
+                92.13
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 4,
+              "processing_time": [
+                6.0,
+                7.0,
+                8.09
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                6.19,
+                7.0,
+                7.93
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                6.68,
+                7.0,
+                7.79
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                6.63,
+                7.0,
+                7.4
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                6.86,
+                7.0,
+                7.35
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 4,
+              "processing_time": [
+                26.72,
+                27.0,
+                28.76
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                25.55,
+                27.0,
+                29.64
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                24.12,
+                27.0,
+                28.09
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                25.02,
+                27.0,
+                32.32
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                34.95,
+                38.0,
+                43.82
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                37.42,
+                38.0,
+                40.14
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                35.4,
+                38.0,
+                38.94
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                37.45,
+                38.0,
+                43.73
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                80.06,
+                91.0,
+                107.5
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                87.32,
+                91.0,
+                101.59
+              ]
+            },
+            {
+              "machine_id": 4,
+              "processing_time": [
+                85.37,
+                91.0,
+                100.84
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                88.3,
+                91.0,
+                98.26
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                82.23,
+                91.0,
+                97.43
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                59.75,
+                69.0,
+                81.33
+              ]
+            },
+            {
+              "machine_id": 3,
+              "processing_time": [
+                61.36,
+                69.0,
+                70.94
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                62.89,
+                69.0,
+                72.62
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                67.6,
+                69.0,
+                71.03
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                66.62,
+                69.0,
+                77.71
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                59.11,
+                69.0,
+                73.09
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 6,
+              "processing_time": [
+                20.4,
+                21.0,
+                23.52
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                19.36,
+                21.0,
+                23.84
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                20.89,
+                21.0,
+                25.02
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                55.94,
+                62.0,
+                64.7
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                59.35,
+                62.0,
+                68.74
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                61.06,
+                62.0,
+                73.11
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                60.55,
+                62.0,
+                62.27
+              ]
+            },
+            {
+              "machine_id": 10,
+              "processing_time": [
+                55.55,
+                62.0,
+                72.9
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 2,
+              "processing_time": [
+                38.53,
+                39.0,
+                39.82
+              ]
+            },
+            {
+              "machine_id": 6,
+              "processing_time": [
+                33.17,
+                39.0,
+                46.4
+              ]
+            },
+            {
+              "machine_id": 8,
+              "processing_time": [
+                33.71,
+                39.0,
+                44.57
+              ]
+            }
+          ]
+        },
+        {
+          "options": [
+            {
+              "machine_id": 1,
+              "processing_time": [
+                46.93,
+                48.0,
+                54.72
+              ]
+            },
+            {
+              "machine_id": 2,
+              "processing_time": [
+                43.6,
+                48.0,
+                52.54
+              ]
+            },
+            {
+              "machine_id": 5,
+              "processing_time": [
+                42.18,
+                48.0,
+                48.43
+              ]
+            },
+            {
+              "machine_id": 7,
+              "processing_time": [
+                41.01,
+                48.0,
+                49.04
+              ]
+            },
+            {
+              "machine_id": 9,
+              "processing_time": [
+                47.53,
+                48.0,
+                49.0
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

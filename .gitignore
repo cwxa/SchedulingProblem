@@ -1,0 +1,22 @@
+# Python cache and bytecode
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Test/cache tooling
+.pytest_cache/
+
+# IDE/editor settings
+.idea/
+.vscode/
+
+# Runtime/profiling artifacts
+*.pstats
+tmp_profile_run/
+out/
+
+# Large experiment outputs
+experiments/results/
+trained_network/

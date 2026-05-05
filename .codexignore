@@ -1,0 +1,10 @@
+# Skip bulky runtime artifacts unless explicitly requested
+experiments/results/**
+out/**
+tmp_profile_run/**
+trained_network/**
+
+# Skip generated caches/profiles
+**/__pycache__/**
+.pytest_cache/**
+**/*.pstats
