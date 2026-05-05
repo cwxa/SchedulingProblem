@@ -1,5 +1,6 @@
-5. Rule: 写代码或回答问题前，必须阅读《（已压缩）A_Bi-Population_Evolutionary_Algorithm_With_Feedback_for_Energy-Efficient_Fuzzy_Flexible_Job_Shop_Scheduling (1).md》中的文章要求。  
-6. Rule: 涉及 PlatEMO 的讨论或开发前，先查阅《manual  (Chinese).md》中 PlatEMO 使用手册内容。  
+
+1. Rule: 写代码或回答问题前，必须阅读《A reinforcement learning based RMOEA/D for bi-objective fuzzy flexible job shop scheduling》中的算法要求。
+2. Rule: 涉及 PlatEMO 的讨论或开发前，先查阅《manual  (Chinese).md》中 PlatEMO 使用手册内容。
 
 # 命名约定（批量运行输出）
 - runs_root / 输出文件名统一带：模型名 + 比例/标签 + 实例名 + 时间戳。示例（20% 混入、模型 ppo_mk02_fuzzy3obj_run3、实例 seed_101、时间戳 20241215_0930）：  
