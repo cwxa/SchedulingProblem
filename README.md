@@ -14,11 +14,14 @@ SchedulingProblem/
 │   ├── rmoead/            # RMOEA/D 算法（论文规范实现）
 │   │   ├── rmoead_enhanced.py       # 主算法
 │   │   └── ...
-│   └── COA/               # COA 算法
+│   ├── COA/               # COA 算法
+│   ├── run_batch_launcher.py # 批量算法运行器
+│   └── run_batch_metrics.py  # 性能指标计算器
 ├── scripts/                # 实验运行脚本
-│   ├── run_fbea_*.py
+│   ├── run_fbea_*.py       # FBEA 批量运行脚本
 │   ├── run_nsga2_full.py
-│   └── run_rmoead.py
+│   ├── run_rmoead.py       # RMOEA/D 单实例运行
+│   └── run_rmoead_all_mk.py # RMOEA/D 批量运行脚本
 ├── dataset/                # 基准数据集
 │   ├── mk01-mk15/         # 标准 MK 数据集
 │   └── special_*/         # 特殊数据集
@@ -78,7 +81,7 @@ SchedulingProblem/
 pip install -r requirements.txt
 ```
 
-### 运行 RMOEA/D
+### 运行 RMOEA/D (单实例)
 
 ```bash
 python scripts/run_rmoead.py \
@@ -92,11 +95,22 @@ python scripts/run_rmoead.py \
     --memory-size 40
 ```
 
-### 运行 FBEA
+### 运行 RMOEA/D 批量实验
+
+```bash
+python scripts/run_rmoead_all_mk.py \
+    --mk-filter mk01 mk02 mk03 \
+    --budgets 10000 50000 150000 \
+    --runs 20
+```
+
+### 运行 FBEA 批量实验
 
 ```bash
 python scripts/run_fbea_idle25_init_dedup_gap50_q_ls_2step_ms_ego_all_mk.py \
-    --instance-json experiments/prepared_instances/mk01/a=1.5-2/mk01/seed_102.json
+    --mk-filter mk01 mk02 mk03 \
+    --budgets 10000 50000 150000 \
+    --runs 20
 ```
 
 ### 运行 NSGA-II (对比算法)

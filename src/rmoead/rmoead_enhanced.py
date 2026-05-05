@@ -97,23 +97,18 @@ class MIX3Initializer:
         scheduling.extend(remaining_ops)
         
         # 步骤3: 为每个操作选择负载最小的机器
+        # 注意: machine_assignment_string[pos] 使用线性化位置索引
         machine_workload = {m: 0.0 for m in range(1, instance.num_machines + 1)}
-        machine_assignment = []
-        
+        machine_assignment = [0] * instance.total_operations
+
         for position in range(instance.total_operations):
             job_id = scheduling[position]
-            op_idx = 0
-            # 找到当前作业的位置索引
-            count = 0
-            for i, jid in enumerate(scheduling[:position + 1]):
-                if jid == job_id:
-                    count += 1
-                if i == position:
-                    op_idx = count - 1
-            
+            # 计算当前操作是 job_id 的第几个操作（从0开始）
+            op_idx = scheduling[:position + 1].count(job_id) - 1
+            # 线性化位置
             pos = instance.get_operation_position(job_id, op_idx)
             processing_map = instance.operation_processing_map[pos]
-            
+
             # 选择负载最小的机器
             min_workload = float('inf')
             selected_machine = None
@@ -122,7 +117,7 @@ class MIX3Initializer:
                 if workload < min_workload:
                     min_workload = workload
                     selected_machine = machine_id
-            
+
             # 如果有多个机器负载相同，选择加工时间最短的
             if selected_machine is not None:
                 for machine_id, proc_time in processing_map.items():
@@ -130,8 +125,8 @@ class MIX3Initializer:
                         if proc_time._c2() < processing_map[selected_machine]._c2():
                             selected_machine = machine_id
                 machine_workload[selected_machine] = min_workload
-            
-            machine_assignment.append(selected_machine or list(processing_map.keys())[0])
+
+            machine_assignment[pos] = selected_machine or list(processing_map.keys())[0]
         
         return Solution(
             instance=instance,
@@ -156,20 +151,16 @@ class MIX3Initializer:
         rng.shuffle(scheduling)
         
         # 步骤2: 为每个操作选择加工时间最短的机器
-        machine_assignment = []
-        
+        # 注意: machine_assignment_string[pos] 使用线性化位置索引
+        machine_assignment = [0] * instance.total_operations
         for position in range(instance.total_operations):
             job_id = scheduling[position]
-            # 找到当前作业操作的位置索引
-            count = 0
-            for i, jid in enumerate(scheduling[:position + 1]):
-                if jid == job_id:
-                    count += 1
-            op_idx = count - 1
-            
+            # 计算当前操作是 job_id 的第几个操作（从0开始）
+            op_idx = scheduling[:position + 1].count(job_id) - 1
+            # 线性化位置
             pos = instance.get_operation_position(job_id, op_idx)
             processing_map = instance.operation_processing_map[pos]
-            
+
             # 选择加工时间最短的机器
             min_time = float('inf')
             selected_machine = None
@@ -177,8 +168,8 @@ class MIX3Initializer:
                 if proc_time._c2() < min_time:
                     min_time = proc_time._c2()
                     selected_machine = machine_id
-            
-            machine_assignment.append(selected_machine or list(processing_map.keys())[0])
+
+            machine_assignment[pos] = selected_machine or list(processing_map.keys())[0]
         
         return Solution(
             instance=instance,
@@ -191,27 +182,25 @@ class MIX3Initializer:
     def generate_random_solution(instance: Instance) -> Solution:
         """Random Rule: 随机初始化，保证多样性"""
         rng = get_rng()
-        
+
         # 生成调度向量
         scheduling = []
         for job_id, op_count in instance.job_operation_counts.items():
             scheduling.extend([job_id] * op_count)
         rng.shuffle(scheduling)
-        
+
         # 随机选择机器
-        machine_assignment = []
+        # 注意: machine_assignment_string[pos] 使用线性化位置索引
+        machine_assignment = [0] * instance.total_operations
         for position in range(instance.total_operations):
             job_id = scheduling[position]
-            count = 0
-            for i, jid in enumerate(scheduling[:position + 1]):
-                if jid == job_id:
-                    count += 1
-            op_idx = count - 1
-            
+            # 计算当前操作是 job_id 的第几个操作（从0开始）
+            op_idx = scheduling[:position + 1].count(job_id) - 1
+            # 线性化位置
             pos = instance.get_operation_position(job_id, op_idx)
             valid_machines = list(instance.operation_machine_options[pos])
-            machine_assignment.append(rng.choice(valid_machines))
-        
+            machine_assignment[pos] = rng.choice(valid_machines)
+
         return Solution(
             instance=instance,
             scheduling_string=scheduling,
@@ -383,16 +372,31 @@ class RVNSLocalSearch:
         self.selection_probabilities = [0.2] * 5  # 初始均匀概率
     
     def _ls1_swap_scheduling(self, solution: Solution) -> Solution:
-        """LS1: 交换调度向量中两个位置"""
+        """LS1: 交换调度向量中两个位置的操作（只交换相同作业的操作以保持机器分配一致）"""
         rng = get_rng()
-        new_scheduling = list(solution.scheduling_string)
-        
-        if len(new_scheduling) < 2:
+
+        # 收集每个作业出现的位置
+        job_positions: Dict[int, List[int]] = {}
+        for idx, job_id in enumerate(solution.scheduling_string):
+            if job_id not in job_positions:
+                job_positions[job_id] = []
+            job_positions[job_id].append(idx)
+
+        # 选择有多个操作的作业
+        valid_jobs = [j for j, positions in job_positions.items() if len(positions) >= 2]
+        if not valid_jobs:
             return solution
-        
-        pos1, pos2 = rng.sample(range(len(new_scheduling)), 2)
+
+        # 随机选择一个作业
+        job_id = rng.choice(valid_jobs)
+        positions = job_positions[job_id]
+
+        # 交换该作业的两个操作位置
+        pos1, pos2 = rng.sample(positions, 2)
+
+        new_scheduling = list(solution.scheduling_string)
         new_scheduling[pos1], new_scheduling[pos2] = new_scheduling[pos2], new_scheduling[pos1]
-        
+
         return Solution(
             instance=solution.instance,
             scheduling_string=new_scheduling,
@@ -404,86 +408,78 @@ class RVNSLocalSearch:
         """LS2: 将操作移动到加工时间最短的机器"""
         rng = get_rng()
         new_machines = list(solution.machine_assignment_string)
-        
-        position = rng.randint(0, len(new_machines) - 1)
-        job_id = solution.scheduling_string[position]
-        
-        # 找到当前操作的索引
-        op_idx = 0
-        for i in range(position + 1):
-            if solution.scheduling_string[i] == job_id:
-                op_idx = i
-        
+
+        # 随机选择一个作业
+        job_id = rng.randint(1, solution.instance.num_jobs)
+        op_count = solution.instance.job_operation_counts[job_id]
+        if op_count < 1:
+            return solution
+
+        # 随机选择该作业的一个操作
+        op_idx = rng.randint(0, op_count - 1)
         pos = solution.instance.get_operation_position(job_id, op_idx)
         processing_map = solution.instance.operation_processing_map[pos]
-        
+
         # 选择加工时间最短的机器
         min_time = float('inf')
-        best_machine = new_machines[position]
+        best_machine = new_machines[pos]
         for machine_id, proc_time in processing_map.items():
             if proc_time._c2() < min_time:
                 min_time = proc_time._c2()
                 best_machine = machine_id
-        
-        new_machines[position] = best_machine
-        
+
+        new_machines[pos] = best_machine
+
         return Solution(
             instance=solution.instance,
             scheduling_string=list(solution.scheduling_string),
             machine_assignment_string=new_machines,
             skip_validation=True,
         )
-    
+
     def _ls3_move_from_max_load_machine(self, solution: Solution) -> Solution:
         """LS3: 从最大负载机器移动操作到另一台机器"""
         rng = get_rng()
-        
+
         # 计算每台机器的负载
         machine_workload: Dict[int, float] = {m: 0.0 for m in range(1, solution.instance.num_machines + 1)}
-        
+
         for position in range(solution.instance.total_operations):
-            machine_id = solution.machine_assignment_string[position]
             job_id = solution.scheduling_string[position]
-            
-            # 找到当前操作的索引
-            op_idx = 0
-            for i in range(position + 1):
-                if solution.scheduling_string[i] == job_id:
-                    op_idx = i
-            
+            op_idx = solution.scheduling_string[:position + 1].count(job_id) - 1
             pos = solution.instance.get_operation_position(job_id, op_idx)
+            machine_id = solution.machine_assignment_string[pos]
             processing_map = solution.instance.operation_processing_map[pos]
             if machine_id in processing_map:
                 machine_workload[machine_id] += processing_map[machine_id]._c2()
-        
+
         # 找到最大负载机器
         max_load_machine = max(machine_workload.items(), key=lambda x: x[1])[0]
-        
+
         # 找到在该机器上的操作
-        operations_on_machine = [
-            i for i, m in enumerate(solution.machine_assignment_string) if m == max_load_machine
-        ]
-        
+        operations_on_machine = []
+        for position in range(solution.instance.total_operations):
+            job_id = solution.scheduling_string[position]
+            op_idx = solution.scheduling_string[:position + 1].count(job_id) - 1
+            pos = solution.instance.get_operation_position(job_id, op_idx)
+            if solution.machine_assignment_string[pos] == max_load_machine:
+                operations_on_machine.append(position)
+
         if not operations_on_machine:
             return solution
-        
+
         # 随机选择一个操作移动到另一台机器
         position = rng.choice(operations_on_machine)
         job_id = solution.scheduling_string[position]
-        
-        op_idx = 0
-        for i in range(position + 1):
-            if solution.scheduling_string[i] == job_id:
-                op_idx = i
-        
+        op_idx = solution.scheduling_string[:position + 1].count(job_id) - 1
         pos = solution.instance.get_operation_position(job_id, op_idx)
         processing_map = solution.instance.operation_processing_map[pos]
-        
+
         # 选择另一台可用机器（不是最大负载机器）
         available_machines = [m for m in processing_map.keys() if m != max_load_machine]
         if not available_machines:
             return solution
-        
+
         # 选择负载最小的可用机器
         min_load = float('inf')
         best_machine = available_machines[0]
@@ -491,10 +487,10 @@ class RVNSLocalSearch:
             if machine_workload[m] < min_load:
                 min_load = machine_workload[m]
                 best_machine = m
-        
+
         new_machines = list(solution.machine_assignment_string)
-        new_machines[position] = best_machine
-        
+        new_machines[pos] = best_machine
+
         return Solution(
             instance=solution.instance,
             scheduling_string=list(solution.scheduling_string),
@@ -503,28 +499,41 @@ class RVNSLocalSearch:
         )
     
     def _ls4_swap_machine_assignment(self, solution: Solution) -> Solution:
-        """LS4: 交换机器分配向量中两个位置的机器"""
+        """LS4: 为单个操作更换为有效但不同的机器"""
         rng = get_rng()
         new_machines = list(solution.machine_assignment_string)
-        
-        if len(new_machines) < 2:
+
+        job_positions: Dict[int, List[int]] = {}
+        for idx, job_id in enumerate(solution.scheduling_string):
+            if job_id not in job_positions:
+                job_positions[job_id] = []
+            job_positions[job_id].append(idx)
+
+        valid_jobs = [j for j, positions in job_positions.items() if len(positions) >= 2]
+        if not valid_jobs:
             return solution
-        
-        pos1, pos2 = rng.sample(range(len(new_machines)), 2)
-        
-        # 确保两个位置可以选择机器
-        job1 = solution.scheduling_string[pos1]
-        job2 = solution.scheduling_string[pos2]
-        
-        op1_idx = sum(1 for i in range(pos1 + 1) if solution.scheduling_string[i] == job1) - 1
-        op2_idx = sum(1 for i in range(pos2 + 1) if solution.scheduling_string[i] == job2) - 1
-        
-        pos_op1 = solution.instance.get_operation_position(job1, op1_idx)
-        pos_op2 = solution.instance.get_operation_position(job2, op2_idx)
-        
-        # 交换
-        new_machines[pos1], new_machines[pos2] = new_machines[pos2], new_machines[pos1]
-        
+
+        job_id = rng.choice(valid_jobs)
+        positions = job_positions[job_id]
+
+        pos = rng.choice(positions)
+        op_idx = solution.scheduling_string[:pos + 1].count(job_id) - 1
+        lin_pos = solution.instance.get_operation_position(job_id, op_idx)
+
+        processing_map = solution.instance.operation_processing_map[lin_pos]
+        valid_machines = list(processing_map.keys())
+        current_machine = new_machines[lin_pos]
+
+        if len(valid_machines) <= 1:
+            return solution
+
+        alternative_machines = [m for m in valid_machines if m != current_machine]
+        if not alternative_machines:
+            return solution
+
+        new_machine = rng.choice(alternative_machines)
+        new_machines[lin_pos] = new_machine
+
         return Solution(
             instance=solution.instance,
             scheduling_string=list(solution.scheduling_string),
@@ -533,22 +542,56 @@ class RVNSLocalSearch:
         )
     
     def _ls5_inverse_sequence(self, solution: Solution) -> Solution:
-        """LS5: 逆序调度向量中两个位置之间的所有操作"""
+        """LS5: 逆序同一作业两个位置之间的操作（仅当该作业所有操作连续时）"""
         rng = get_rng()
-        new_scheduling = list(solution.scheduling_string)
-        
-        if len(new_scheduling) < 2:
+
+        job_positions: Dict[int, List[int]] = {}
+        for idx, job_id in enumerate(solution.scheduling_string):
+            if job_id not in job_positions:
+                job_positions[job_id] = []
+            job_positions[job_id].append(idx)
+
+        valid_jobs = [j for j, positions in job_positions.items() if len(positions) >= 2]
+        if not valid_jobs:
             return solution
-        
-        pos1, pos2 = sorted(rng.sample(range(len(new_scheduling)), 2))
-        
-        # 逆序 pos1 到 pos2 之间的所有操作
+
+        job_id = rng.choice(valid_jobs)
+        positions = job_positions[job_id]
+
+        # 检查是否所有操作都连续
+        positions_set = set(positions)
+        expected = set(range(positions[0], positions[-1] + 1))
+        if positions_set != expected:
+            return solution
+
+        if len(positions) == 2:
+            pos1, pos2 = positions
+        else:
+            pos1_idx, pos2_idx = rng.sample(range(len(positions)), 2)
+            pos1, pos2 = sorted([positions[pos1_idx], positions[pos2_idx]])
+
+        new_scheduling = list(solution.scheduling_string)
         new_scheduling[pos1:pos2 + 1] = reversed(new_scheduling[pos1:pos2 + 1])
-        
+
+        new_machines = list(solution.machine_assignment_string)
+        for offset in range(pos2 - pos1 + 1):
+            old_pos = pos1 + offset
+            new_pos = pos2 - offset
+
+            old_job = solution.scheduling_string[old_pos]
+            old_op_idx = solution.scheduling_string[:old_pos + 1].count(old_job) - 1
+            old_lin_pos = solution.instance.get_operation_position(old_job, old_op_idx)
+
+            new_job = new_scheduling[new_pos]
+            new_op_idx = new_scheduling[:new_pos + 1].count(new_job) - 1
+            new_lin_pos = solution.instance.get_operation_position(new_job, new_op_idx)
+
+            new_machines[new_lin_pos] = solution.machine_assignment_string[old_lin_pos]
+
         return Solution(
             instance=solution.instance,
             scheduling_string=new_scheduling,
-            machine_assignment_string=list(solution.machine_assignment_string),
+            machine_assignment_string=new_machines,
             skip_validation=True,
         )
     
@@ -605,8 +648,10 @@ class RVNSLocalSearch:
         ls_idx = self.select_local_search()
         
         # 根据选择的策略生成邻居
+        # 注意: 只有 LS2, LS3, LS4 是安全的，因为它们只改变机器分配
+        # LS1 和 LS5 会改变调度顺序，导致机器分配失效
         if ls_idx == 0:
-            new_solution = self._ls1_swap_scheduling(solution)
+            return solution, False  # LS1 禁用
         elif ls_idx == 1:
             new_solution = self._ls2_move_to_min_machine(solution)
         elif ls_idx == 2:
@@ -614,7 +659,7 @@ class RVNSLocalSearch:
         elif ls_idx == 3:
             new_solution = self._ls4_swap_machine_assignment(solution)
         else:
-            new_solution = self._ls5_inverse_sequence(solution)
+            return solution, False  # LS5 禁用
         
         # 评估解
         new_solution.evaluate()
@@ -927,36 +972,81 @@ class RMOEAD:
     def _crossover_mutation(self, parent1: Solution, parent2: Solution) -> Solution:
         """交叉和变异"""
         rng = get_rng()
-        
+
         sched1 = list(parent1.scheduling_string)
-        sched2 = list(parent2.scheduling_string)
         mach1 = list(parent1.machine_assignment_string)
-        mach2 = list(parent2.machine_assignment_string)
-        
-        # POX 交叉
-        if rng.random() < 0.9:  # 高交叉率
-            mode = _choose_mode(rng)
+
+        mode = _choose_mode(rng)
+        scheduling_changed = False
+
+        # 交叉
+        if rng.random() < 0.9:
             if mode in ("scheduling", "both"):
-                sched1, sched2, _ = pox_crossover(self.instance, parent1, parent2)
+                new_sched, _, _ = pox_crossover(self.instance, parent1, parent2)
+                sched1 = new_sched
+                scheduling_changed = True
             if mode in ("machine", "both"):
-                mach1, mach2, _ = uniform_machine_crossover(parent1, parent2)
-        
+                mach1, _, _ = uniform_machine_crossover(parent1, parent2)
+
         # 变异
         if rng.random() < self.mutation_rate:
-            mode = _choose_mode(rng)
             op_info = OperatorUsageInfo()
             if mode in ("scheduling", "both"):
                 sched1 = apply_scheduling_mutation(sched1, FIXED_SCHED_MUTATION, op_info)
+                scheduling_changed = True
             if mode in ("machine", "both"):
-                mach1 = apply_machine_mutation(self.instance, mach1, sched1, 
+                mach1 = apply_machine_mutation(self.instance, mach1, sched1,
                                               FIXED_MACHINE_MUTATION, op_info)
-        
+
+        # 如果调度顺序改变了，需要重新计算机器分配以保证一致性
+        if scheduling_changed:
+            mach1 = self._recompute_machine_assignment(sched1, parent1)
+
         return Solution(
             instance=self.instance,
             scheduling_string=sched1,
             machine_assignment_string=mach1,
             skip_validation=True,
         )
+
+    def _recompute_machine_assignment(self, scheduling: List[int], reference: Solution) -> List[int]:
+        """根据调度顺序重新计算机器分配（使用参考解的机器分配模式）
+
+        核心思想：新调度中每个操作的机器分配应该与参考解中相同 (job_id, op_idx) 的操作保持一致。
+        我们需要建立参考解中 (job_id, op_idx) -> machine 的映射，然后为新调度中每个位置分配正确的机器。
+        """
+        rng = get_rng()
+
+        # 第一步：建立参考解中 (job_id, op_idx) -> machine 的映射
+        ref_job_op_to_machine: Dict[Tuple[int, int], int] = {}
+        for pos in range(reference.instance.total_operations):
+            job_id = reference.scheduling_string[pos]
+            op_idx = reference.scheduling_string[:pos + 1].count(job_id) - 1
+            machine = reference.machine_assignment_string[pos]
+            ref_job_op_to_machine[(job_id, op_idx)] = machine
+
+        # 第二步：为新调度中每个位置分配机器
+        new_machines = [0] * self.instance.total_operations
+
+        for position in range(len(scheduling)):
+            job_id = scheduling[position]
+            op_idx = scheduling[:position + 1].count(job_id) - 1
+            lin_pos = self.instance.get_operation_position(job_id, op_idx)
+
+            # 尝试使用参考解中相同 (job_id, op_idx) 的机器分配
+            if (job_id, op_idx) in ref_job_op_to_machine:
+                ref_machine = ref_job_op_to_machine[(job_id, op_idx)]
+                processing_map = self.instance.operation_processing_map[lin_pos]
+                if ref_machine in processing_map:
+                    new_machines[lin_pos] = ref_machine
+                else:
+                    new_machines[lin_pos] = rng.choice(list(processing_map.keys()))
+            else:
+                # 如果参考解中没有这个 (job_id, op_idx)，随机选择一个
+                processing_map = self.instance.operation_processing_map[lin_pos]
+                new_machines[lin_pos] = rng.choice(list(processing_map.keys()))
+
+        return new_machines
     
     def _moea_decomposition_step(self, T: int) -> List[Solution]:
         """MOEA/D 分解步骤"""

@@ -23,7 +23,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 # Ensure project modules are importable without relying on external PYTHONPATH.
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 for extra in (ROOT, ROOT / "src", ROOT / "tools"):
     extra_str = extra.resolve().as_posix()
     if extra_str not in sys.path:
