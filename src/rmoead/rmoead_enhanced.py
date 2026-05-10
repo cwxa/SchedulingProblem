@@ -337,10 +337,11 @@ class QPASController:
         reward = 10 if delta_dv > 0 else 0
         
         # Q-learning 更新
-        current_q = self.q_table[self.current_state][self.select_action()]
+        action = self.select_action()
+        current_q = self.q_table[self.current_state][action]
         max_next_q = max(self.q_table[next_state])
-        
-        self.q_table[self.current_state][self.select_action()] = (
+
+        self.q_table[self.current_state][action] = (
             current_q + self.alpha * (reward + self.gamma * max_next_q - current_q)
         )
         
@@ -648,10 +649,8 @@ class RVNSLocalSearch:
         ls_idx = self.select_local_search()
         
         # 根据选择的策略生成邻居
-        # 注意: 只有 LS2, LS3, LS4 是安全的，因为它们只改变机器分配
-        # LS1 和 LS5 会改变调度顺序，导致机器分配失效
         if ls_idx == 0:
-            return solution, False  # LS1 禁用
+            new_solution = self._ls1_swap_scheduling(solution)
         elif ls_idx == 1:
             new_solution = self._ls2_move_to_min_machine(solution)
         elif ls_idx == 2:
@@ -659,17 +658,23 @@ class RVNSLocalSearch:
         elif ls_idx == 3:
             new_solution = self._ls4_swap_machine_assignment(solution)
         else:
-            return solution, False  # LS5 禁用
+            new_solution = self._ls5_inverse_sequence(solution)
         
         # 评估解
-        new_solution.evaluate()
-        solution.evaluate()
+        if not new_solution.evaluated:
+            evaluate_solutions_with_count([new_solution])
+        if not solution.evaluated:
+            evaluate_solutions_with_count([solution])
         
         # 判断是否改进 (使用 Tchebycheff 聚合函数)
         # 这里简化处理：比较解的目标值
-        old_obj = _get_fuzzy_scalar(solution.makespan) + _get_fuzzy_scalar(solution.energy)
-        new_obj = _get_fuzzy_scalar(new_solution.makespan) + _get_fuzzy_scalar(new_solution.energy)
-        
+        old_obj = (_get_fuzzy_scalar(solution.makespan) +
+                   _get_fuzzy_scalar(solution.energy) +
+                   _get_fuzzy_scalar(solution.agreement))
+        new_obj = (_get_fuzzy_scalar(new_solution.makespan) +
+                   _get_fuzzy_scalar(new_solution.energy) +
+                   _get_fuzzy_scalar(new_solution.agreement))
+
         improved = new_obj < old_obj
         
         # 记录到记忆
@@ -732,20 +737,22 @@ class MetricsCalculator:
         for sol in solutions:
             f1 = _get_fuzzy_scalar(sol.makespan)
             f2 = _get_fuzzy_scalar(sol.energy)
-            objectives.append((f1, f2))
-        
+            f3 = _get_fuzzy_scalar(sol.agreement)
+            objectives.append((f1, f2, f3))
+
         # 计算相邻点之间的欧几里得距离
         objectives.sort(key=lambda x: x[0])
-        
+
         distances = []
         for i in range(len(objectives) - 1):
             d = math.sqrt((objectives[i + 1][0] - objectives[i][0]) ** 2 +
-                         (objectives[i + 1][1] - objectives[i][1]) ** 2)
+                         (objectives[i + 1][1] - objectives[i][1]) ** 2 +
+                         (objectives[i + 1][2] - objectives[i][2]) ** 2)
             distances.append(d)
-        
+
         if not distances:
             return 0.0
-        
+
         # CV = sqrt(sum(min_distance^2)) / |P|
         cv = math.sqrt(sum(d ** 2 for d in distances)) / len(solutions)
         return cv
@@ -772,23 +779,25 @@ class MetricsCalculator:
         for sol in solutions:
             f1 = _get_fuzzy_scalar(sol.makespan)
             f2 = _get_fuzzy_scalar(sol.energy)
-            objectives.append((f1, f2))
-        
+            f3 = _get_fuzzy_scalar(sol.agreement)
+            objectives.append((f1, f2, f3))
+
         # 计算相邻点之间的欧几里得距离
         objectives.sort(key=lambda x: x[0])
-        
+
         distances = []
         for i in range(len(objectives) - 1):
             d = math.sqrt((objectives[i + 1][0] - objectives[i][0]) ** 2 +
-                         (objectives[i + 1][1] - objectives[i][1]) ** 2)
+                         (objectives[i + 1][1] - objectives[i][1]) ** 2 +
+                         (objectives[i + 1][2] - objectives[i][2]) ** 2)
             distances.append(d)
-        
+
         if not distances:
             return 0.0
-        
+
         # 计算平均距离
         d_mean = sum(distances) / len(distances)
-        
+
         # DV = sum(|di - d_mean|) / ((n-1) * d_mean)
         dv = sum(abs(d - d_mean) for d in distances) / ((len(distances)) * d_mean)
         return dv
@@ -907,23 +916,37 @@ class RMOEAD:
     
     def _initialize_weights_and_neighborhoods(self) -> None:
         """初始化权重向量和邻域"""
-        # 生成 2 目标权重向量
+        # 生成 3 目标权重向量
         self.weights = []
-        for i in range(self.population_size):
-            w1 = i / (self.population_size - 1) if self.population_size > 1 else 0.5
-            w2 = 1.0 - w1
-            self.weights.append([w1, w2])
-        
+        H = 13
+        for i in range(H + 1):
+            for j in range(H + 1 - i):
+                w1 = i / H
+                w2 = j / H
+                w3 = (H - i - j) / H
+                self.weights.append([w1, w2, w3])
+
+        # 调整到 population_size
+        if len(self.weights) > self.population_size:
+            step = len(self.weights) / self.population_size
+            self.weights = [self.weights[int(i * step)] for i in range(self.population_size)]
+        elif len(self.weights) < self.population_size:
+            rng = get_rng()
+            while len(self.weights) < self.population_size:
+                w1, w2 = rng.random(), rng.random()
+                if w1 + w2 <= 1:
+                    self.weights.append([w1, w2, 1 - w1 - w2])
+
         # 计算邻域
         self.neighborhoods = []
         for i in range(self.population_size):
             # 使用权重向量之间的距离
             distances = []
             for j in range(self.population_size):
-                dist = math.sqrt(sum((self.weights[i][k] - self.weights[j][k]) ** 2 
+                dist = math.sqrt(sum((self.weights[i][k] - self.weights[j][k]) ** 2
                                      for k in range(len(self.weights[i]))))
                 distances.append((dist, j))
-            
+
             distances.sort()
             # 使用第一个邻域大小 T[0] = 5
             T = self.t_candidates[0]
@@ -942,31 +965,35 @@ class RMOEAD:
             distances.sort()
             self.neighborhoods[i] = [idx for (dist, idx) in distances[:T]]
     
-    def _tchebycheff(self, solution: Solution, weight: List[float], 
+    def _tchebycheff(self, solution: Solution, weight: List[float],
                      reference_point: List[float]) -> float:
         """Tchebycheff 聚合函数"""
         f1 = _get_fuzzy_scalar(solution.makespan)
         f2 = _get_fuzzy_scalar(solution.energy)
-        objectives = [f1, f2]
-        
+        f3 = _get_fuzzy_scalar(solution.agreement)
+        objectives = [f1, f2, f3]
+
         max_val = 0.0
         for i in range(len(weight)):
             term = weight[i] * abs(objectives[i] - reference_point[i])
             if term > max_val:
                 max_val = term
         return max_val
-    
-    def _update_reference_point(self, reference_point: List[float], 
+
+    def _update_reference_point(self, reference_point: List[float],
                                solution: Solution) -> List[float]:
         """更新参考点（理想点）"""
         f1 = _get_fuzzy_scalar(solution.makespan)
         f2 = _get_fuzzy_scalar(solution.energy)
-        
+        f3 = _get_fuzzy_scalar(solution.agreement)
+
         new_ref = list(reference_point)
         if f1 < new_ref[0]:
             new_ref[0] = f1
         if f2 < new_ref[1]:
             new_ref[1] = f2
+        if f3 < new_ref[2]:
+            new_ref[2] = f3
         return new_ref
     
     def _crossover_mutation(self, parent1: Solution, parent2: Solution) -> Solution:
@@ -1052,33 +1079,38 @@ class RMOEAD:
         """MOEA/D 分解步骤"""
         rng = get_rng()
         new_population = []
-        reference_point = [float('inf'), float('inf')]
-        
+        reference_point = [float('inf'), float('inf'), float('inf')]
+
         # 更新参考点
         for sol in self.population:
             reference_point = self._update_reference_point(reference_point, sol)
-        
+
+        # 复制当前种群用于父代选择，避免同代内 offspring 污染父代
+        population_copy = [sol.clone() for sol in self.population]
+
         for i in range(self.population_size):
             # 选择邻域
             neighborhood = self.neighborhoods[i][:T]
-            
-            # 选择两个父代
+
+            # 选择两个父代（从副本中选择）
             indices = rng.sample(neighborhood, 2)
-            parent1 = self.population[indices[0]]
-            parent2 = self.population[indices[1]]
-            
+            parent1 = population_copy[indices[0]]
+            parent2 = population_copy[indices[1]]
+
             # 生成子代
             offspring = self._crossover_mutation(parent1, parent2)
-            offspring.evaluate()
-            
-            # 更新邻域
+            evaluate_solutions_with_count([offspring])
+
+            # 更新邻域（应用到实际种群）
             for j in neighborhood:
                 if self._tchebycheff(offspring, self.weights[j], reference_point) < \
                    self._tchebycheff(self.population[j], self.weights[j], reference_point):
                     self.population[j] = offspring.clone()
-            
+                    # 动态更新参考点
+                    reference_point = self._update_reference_point(reference_point, self.population[j])
+
             new_population.append(offspring)
-        
+
         return new_population
     
     def run(
@@ -1120,13 +1152,13 @@ class RMOEAD:
         while get_evaluation_count() < evaluation_limit and generation < max_generations:
             generation += 1
             
-            # Step 4: 对每个个体执行 VNS (简化版，每代只对部分解执行)
-            if generation % 5 == 0:  # 每5代执行一次完整VNS
-                for i in range(0, self.population_size, 10):
-                    improved_sol = self.rvns.apply_vns(self.population[i])
-                    if improved_sol is not self.population[i]:
-                        self.population[i] = improved_sol
-                        evaluate_solutions_with_count([improved_sol])
+            # Step 4: 对每个个体执行 VNS
+            for i in range(self.population_size):
+                if get_evaluation_count() >= evaluation_limit:
+                    break
+                improved_sol = self.rvns.apply_vns(self.population[i])
+                if improved_sol is not self.population[i]:
+                    self.population[i] = improved_sol
             
             # Step 5: Q-PAS 选择邻域参数 T
             action_idx = self.qpas.select_action()

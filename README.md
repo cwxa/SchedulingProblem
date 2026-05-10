@@ -18,10 +18,9 @@ SchedulingProblem/
 │   ├── run_batch_launcher.py # 批量算法运行器
 │   └── run_batch_metrics.py  # 性能指标计算器
 ├── scripts/                # 实验运行脚本
-│   ├── run_fbea_*.py       # FBEA 批量运行脚本
-│   ├── run_nsga2_full.py
 │   ├── run_rmoead.py       # RMOEA/D 单实例运行
-│   └── run_rmoead_all_mk.py # RMOEA/D 批量运行脚本
+│   ├── run_rmoead_all_mk.py # RMOEA/D 批量运行 (mk01-mk10)
+│   └── run_fbea_*.py       # FBEA 批量运行脚本
 ├── dataset/                # 基准数据集
 │   ├── mk01-mk15/         # 标准 MK 数据集
 │   └── special_*/         # 特殊数据集
@@ -54,7 +53,7 @@ SchedulingProblem/
 
 ### 2. RMOEA/D (Reinforcement Learning based MOEA/D)
 
-**基于强化学习的 MOEA/D 算法**，专门针对双目标模糊柔性作业车间调度问题。
+**基于强化学习的 MOEA/D 算法**，针对模糊柔性作业车间调度问题。
 
 **核心组件** (按论文 Algorithm 1 规范)：
 
@@ -69,6 +68,15 @@ SchedulingProblem/
 **目标函数**：
 - **Makespan**: 最大完工时间（模糊数）
 - **Energy**: 总机器能耗（模糊数）
+- **Agreement**: 模糊一致度指标（由 `calculate_average_dissatisfaction_degree` 计算）
+
+**实现细节**：
+- Tchebycheff 分解同时优化 makespan、energy、agreement 三个标量化目标
+- Q-PAS 使用 ε-greedy 策略从 {5, 10, 15, 20} 中选择邻域大小 T，Q-table 按标准 Q-learning 公式更新
+- MOEA/D 邻域更新使用种群副本选父代，避免 offspring 在同代内污染父代
+- 所有解评估通过 `evaluate_solutions_with_count` 计数，确保 budget 控制准确
+- RVNS 包含 LS1（交换同作业操作）、LS2（移到最短加工时间机器）、LS3（从最大负载机器移出）、LS4（更换机器分配）、LS5（逆序同作业片段）五种局部搜索
+- VNS 每代对全部种群成员执行
 
 **参考文献**：
 > A reinforcement learning based RMOEA/D for bi-objective fuzzy flexible job shop scheduling (Li, Gong, Lu)
@@ -87,6 +95,7 @@ pip install -r requirements.txt
 python scripts/run_rmoead.py \
     --instance-json experiments/prepared_instances/mk01/a=1.5-2/mk01/seed_102.json \
     --algorithm-seed 42 \
+    --max-evaluations 10000 \
     --population-size 100 \
     --mutation-rate 0.8 \
     --alpha 0.4 \
@@ -101,24 +110,15 @@ python scripts/run_rmoead.py \
 python scripts/run_rmoead_all_mk.py \
     --mk-filter mk01 mk02 mk03 \
     --budgets 10000 50000 150000 \
-    --runs 20
+    --runs 20 \
+    --skip-existing
 ```
 
-### 运行 FBEA 批量实验
-
-```bash
-python scripts/run_fbea_idle25_init_dedup_gap50_q_ls_2step_ms_ego_all_mk.py \
-    --mk-filter mk01 mk02 mk03 \
-    --budgets 10000 50000 150000 \
-    --runs 20
-```
-
-### 运行 NSGA-II (对比算法)
-
-```bash
-python scripts/run_nsga2_full.py \
-    --instance-json experiments/prepared_instances/mk01/a=1.5-2/mk01/seed_102.json
-```
+参数说明：
+- `--mk-filter`: 指定要运行的数据集，默认 mk01-mk10
+- `--budgets`: 评估预算，默认 `[10000, 50000, 150000]`
+- `--runs`: 每个配置运行次数，默认 20
+- `--skip-existing`: 跳过已有结果文件，避免重复计算
 
 ## ⚙️ 参数设置
 
@@ -161,13 +161,19 @@ python scripts/run_nsga2_full.py \
 
 ```
 experiments/results/
-├── rmoead/                 # RMOEA/D 结果
-│   └── mk01/
-│       └── seed_102/
-│           ├── seed_42.json       # 最终解集
-│           └── snapshots/         # 收敛过程快照
-├── fbea/                       # FBEA 结果
-└── nsga2/                      # NSGA-II 结果
+├── mk01/
+│   ├── RMOEAD_PAPER_COMPLIANT/
+│   │   ├── maxeval_10000/
+│   │   │   └── mk01/
+│   │   │       └── seed_102/
+│   │   │           ├── seed_1000.json    # 单次运行结果
+│   │   │           └── snapshots/        # 收敛过程快照 (gen 50/100/150/200)
+│   │   ├── maxeval_50000/
+│   │   └── maxeval_150000/
+│   └── FBEA_IDLE25_INIT_DEDUP_GAP50_Q_LS_2STEP_MS_EGO/
+│       └── maxeval_10000/
+│           └── seed_102/
+│               └── fbea_*.json
 ```
 
 ### 输出文件格式
@@ -177,17 +183,27 @@ experiments/results/
   "algorithm": "RMOEAD_ENHANCED",
   "dataset_id": "mk01",
   "instance_id": "seed_102",
-  "algorithm_seed": 42,
+  "algorithm_seed": 1000,
+  "evaluations": 10002,
+  "runtime_seconds": 3.24,
   "solutions": [
     {
-      "scheduling_string": [...],
-      "machine_assignment_string": [...],
-      "makespan": {"c1": 41.79, "c2": 46.0, "c3": 50.41},
-      "energy": {"c1": 1673.84, "c2": 1813.62, "c3": 1988.26},
-      "agreement": 0.126
+      "makespan": [40.63, 44.0, 48.17],
+      "energy": [1834.86, 1986.79, 2169.39],
+      "agreement": [0.087, 0.106, 0.3],
+      "dissatisfaction": [0.0, 0.106, 0.3]
     }
   ],
-  "runtime_seconds": 45.23
+  "extra_metadata": {
+    "population_size": 100,
+    "mutation_rate": 0.8,
+    "alpha": 0.4,
+    "gamma": 0.6,
+    "epsilon": 0.8,
+    "memory_size": 40,
+    "max_evaluations": 10000,
+    "paper_compliant": true
+  }
 }
 ```
 
@@ -209,13 +225,27 @@ experiments/results/
 
 ## 📝 实验记录
 
-### RMOEA/D 论文参数验证
+### RMOEA/D 关键修复验证 (mk01, 10k budget)
 
-使用论文推荐参数 (α=0.4, γ=0.6, ε=0.8) 在 mk01 数据集上验证：
+修复后在 mk01 上的初步验证（4 seeds）：
 
-- HV 指标表现良好
-- Q-table 在 50-100 代后收敛稳定
-- VNS 记忆在 30 代后效果显著
+| 指标 | 修复前 | 修复后 | FBEA 对比 |
+|------|--------|--------|-----------|
+| Best Makespan (scalar) | ~50.97 | **44.20 ~ 48.94** | 41.77 |
+| Best Energy (scalar) | ~1932 | **1816 ~ 1912** | 1736.88 |
+| 解数量 | ~7.8 | **5 ~ 16** | 66 |
+| 运行时间 | ~3.8s | ~3.3s | ~1.6s |
+
+主要改进：
+- **Makespan 显著改善**：从 ~51 提升到 ~45，接近 FBEA 水平
+- **三目标支持**：agreement 目标已纳入 Tchebycheff 分解和归档管理
+- **Evaluation counter 准确**：实际 evaluations 与预算设定一致
+- **局部搜索全面启用**：LS1~LS5 全部可用，VNS 每代全种群执行
+
+### 已知限制
+
+- RMOEA/D 解数量仍偏少（~10 vs FBEA ~66），主要受限于精英归档的截断策略
+- 归档修剪目前使用简单截断，未使用拥挤度距离筛选
 
 ## 📚 相关文献
 
