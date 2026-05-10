@@ -151,8 +151,6 @@ def main() -> None:
             print(f"Generation {gen} | evaluations {eval_count}/{budget}")
 
     output_dir = pathlib.Path(args.output_dir) / dataset_id / instance_id
-    if output_dir.exists():
-        shutil.rmtree(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     snapshot_dir = output_dir / "snapshots"
     snapshot_dir.mkdir(exist_ok=True)

@@ -93,6 +93,11 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Print planned commands only.",
     )
+    parser.add_argument(
+        "--skip-existing",
+        action="store_true",
+        help="Skip runs whose output JSON already exists.",
+    )
     return parser.parse_args()
 
 
@@ -143,7 +148,11 @@ def main() -> None:
         for instance_path in instances:
             for budget in args.budgets:
                 for run_idx in range(args.runs):
-                    output_dir = results_root / mk_name / ALGO_LABEL / f"maxeval_{budget}" / instance_path.stem
+                    output_dir = results_root / mk_name / ALGO_LABEL / f"maxeval_{budget}"
+                    expected_json = output_dir / mk_name / instance_path.stem / f"seed_{1000 + run_idx}.json"
+                    if args.skip_existing and expected_json.exists():
+                        print(f"[skip] {mk_name} {instance_path.stem} budget={budget} run={run_idx} (exists)")
+                        continue
                     run_rmoead_cmd = [
                         sys.executable,
                         str(PROJECT_ROOT / "scripts" / "run_rmoead.py"),
@@ -174,7 +183,7 @@ def main() -> None:
                     run_command(run_rmoead_cmd, args.dry_run)
 
             if args.compute_metrics:
-                runs_dir = output_dir / instance_path.stem
+                runs_dir = output_dir / mk_name / instance_path.stem
                 metrics_cmd = [
                     sys.executable,
                     "run_batch_metrics.py",
