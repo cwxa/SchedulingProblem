@@ -104,6 +104,19 @@ python scripts/run_rmoead.py \
     --memory-size 40
 ```
 
+```powershell
+python scripts/run_rmoead.py `
+    --instance-json experiments/prepared_instances/mk01/a=1.5-2/mk01/seed_102.json `
+    --algorithm-seed 42 `
+    --max-evaluations 10000 `
+    --population-size 100 `
+    --mutation-rate 0.8 `
+    --alpha 0.4 `
+    --gamma 0.6 `
+    --epsilon 0.8 `
+    --memory-size 40
+```
+
 ### 运行 RMOEA/D 批量实验
 
 ```bash
@@ -111,6 +124,14 @@ python scripts/run_rmoead_all_mk.py \
     --mk-filter mk01 mk02 mk03 \
     --budgets 10000 50000 150000 \
     --runs 20 \
+    --skip-existing
+```
+
+```powershell
+python scripts/run_rmoead_all_mk.py `
+    --mk-filter mk01 mk02 mk03 `
+    --budgets 10000 50000 150000 `
+    --runs 20 `
     --skip-existing
 ```
 

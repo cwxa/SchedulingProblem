@@ -1136,7 +1136,7 @@ class RMOEAD:
             max_evaluations = MAX_EVALUATIONS
         
         # Step 1: 初始化种群 (使用 MIX3)
-        print("初始化种群 (MIX3)...")
+        print("Initializing population (MIX3)...")
         self.population = self.mix3.initialize(self.instance, self.population_size)
         evaluate_solutions_with_count(self.population)
         
@@ -1147,7 +1147,7 @@ class RMOEAD:
         generation = 0
         evaluation_limit = max_evaluations
         
-        print(f"开始进化: 最多 {max_generations} 代或 {evaluation_limit} 次评估")
+        print(f"Starting evolution: max {max_generations} generations or {evaluation_limit} evaluations")
         
         while get_evaluation_count() < evaluation_limit and generation < max_generations:
             generation += 1

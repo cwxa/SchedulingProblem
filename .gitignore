@@ -20,3 +20,4 @@ out/
 # Large experiment outputs
 experiments/results/
 trained_network/
+/.claude
