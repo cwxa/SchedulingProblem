@@ -131,7 +131,7 @@ python scripts/run_rmoead_all_mk.py \
 python scripts/run_rmoead_all_mk.py `
     --mk-filter mk01 mk02 mk03 `
     --budgets 10000 50000 150000 `
-    --runs 20 `
+    --runs 5 `
     --skip-existing
 ```
 
