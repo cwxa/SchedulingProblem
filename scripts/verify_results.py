@@ -2,7 +2,7 @@
 import json
 
 # 检查最新生成的结果文件
-result_file = 'experiments/results/mk01/RMOEAD_PAPER_COMPLIANT/maxeval_10000/mk01/seed_102/seed_1002.json'
+result_file = '../experiments/results/mk01/RMOEAD_PAPER_COMPLIANT/maxeval_10000/mk01/seed_102/seed_1002.json'
 
 with open(result_file, 'r') as f:
     data = json.load(f)
@@ -20,7 +20,7 @@ for op in sorted(job4_ops, key=lambda x: x['operation_idx']):
 
 # 验证所有工序的机器分配是否有效
 print('\n验证机器分配有效性...')
-instance_file = 'experiments/prepared_instances/mk01/a=1.5-2/mk01/seed_102.json'
+instance_file = '../experiments/prepared_instances/mk01/a=1.5-2/mk01/seed_102.json'
 with open(instance_file, 'r') as f:
     instance = json.load(f)
 
