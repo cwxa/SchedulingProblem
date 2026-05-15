@@ -1,0 +1,2508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>调度结果可视化 - 零件·机器·调度完整流程</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts-gl@latest/dist/echarts-gl.min.js"></script>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: #f9fafb;
+            min-height: 100vh;
+            color: #111827
+        }
+
+        .max-w-7xl {
+            max-width: 80rem;
+            margin-left: auto;
+            margin-right: auto
+        }
+
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto
+        }
+
+        .px-6 {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem
+        }
+
+        .py-6 {
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem
+        }
+
+        .py-2 {
+            padding-top: .5rem;
+            padding-bottom: .5rem
+        }
+
+        .py-1\.5 {
+            padding-top: .375rem;
+            padding-bottom: .375rem
+        }
+
+        .px-3 {
+            padding-left: .75rem;
+            padding-right: .75rem
+        }
+
+        .px-4 {
+            padding-left: 1rem;
+            padding-right: 1rem
+        }
+
+        .px-2 {
+            padding-left: .5rem;
+            padding-right: .5rem
+        }
+
+        .p-4 {
+            padding: 1rem
+        }
+
+        .p-5 {
+            padding: 1.25rem
+        }
+
+        .p-3 {
+            padding: .75rem
+        }
+
+        .mb-2 {
+            margin-bottom: .5rem
+        }
+
+        .mb-3 {
+            margin-bottom: .75rem
+        }
+
+        .mb-4 {
+            margin-bottom: 1rem
+        }
+
+        .mt-1 {
+            margin-top: .25rem
+        }
+
+        .mt-3 {
+            margin-top: .75rem
+        }
+
+        .mt-4 {
+            margin-top: 1rem
+        }
+
+        .ml-auto {
+            margin-left: auto
+        }
+
+        .space-y-6>*+* {
+            margin-top: 1.5rem
+        }
+
+        .space-y-1>*+* {
+            margin-top: .25rem
+        }
+
+        .gap-2 {
+            gap: .5rem
+        }
+
+        .gap-3 {
+            gap: .75rem
+        }
+
+        .gap-4 {
+            gap: 1rem
+        }
+
+        .gap-6 {
+            gap: 1.5rem
+        }
+
+        .flex {
+            display: flex
+        }
+
+        .grid {
+            display: grid
+        }
+
+        .hidden {
+            display: none
+        }
+
+        .items-center {
+            align-items: center
+        }
+
+        .items-baseline {
+            align-items: baseline
+        }
+
+        .justify-between {
+            justify-content: space-between
+        }
+
+        .flex-wrap {
+            flex-wrap: wrap
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: repeat(1, minmax(0, 1fr))
+        }
+
+        .grid-cols-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr))
+        }
+
+        .grid-cols-3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr))
+        }
+
+        @media(min-width:768px) {
+            .md\:grid-cols-3 {
+                grid-template-columns: repeat(3, minmax(0, 1fr))
+            }
+
+            .md\:grid-cols-4 {
+                grid-template-columns: repeat(4, minmax(0, 1fr))
+            }
+
+            .md\:grid-cols-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+        }
+
+        @media(min-width:1024px) {
+            .lg\:grid-cols-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+        }
+
+        .min-h-screen {
+            min-height: 100vh
+        }
+
+        .w-full {
+            width: 100%
+        }
+
+        .w-1 {
+            width: .25rem
+        }
+
+        .w-4 {
+            width: 1rem
+        }
+
+        .w-5 {
+            width: 1.25rem
+        }
+
+        .h-5 {
+            height: 1.25rem
+        }
+
+        .h-4 {
+            height: 1rem
+        }
+
+        .h-\[480px\] {
+            height: 480px
+        }
+
+        .h-\[420px\] {
+            height: 420px
+        }
+
+        .h-\[320px\] {
+            height: 320px
+        }
+
+        .h-\[360px\] {
+            height: 360px
+        }
+
+        .h-\[300px\] {
+            height: 300px
+        }
+
+        .h-\[280px\] {
+            height: 280px
+        }
+
+        .min-w-\[220px\] {
+            min-width: 220px
+        }
+
+        .text-3xl {
+            font-size: 1.875rem;
+            line-height: 2.25rem
+        }
+
+        .text-lg {
+            font-size: 1.125rem;
+            line-height: 1.75rem
+        }
+
+        .text-sm {
+            font-size: .875rem;
+            line-height: 1.25rem
+        }
+
+        .text-xs {
+            font-size: .75rem;
+            line-height: 1rem
+        }
+
+        .font-bold {
+            font-weight: 700
+        }
+
+        .font-semibold {
+            font-weight: 600
+        }
+
+        .font-medium {
+            font-weight: 500
+        }
+
+        .font-normal {
+            font-weight: 400
+        }
+
+        .font-mono {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
+        }
+
+        .uppercase {
+            text-transform: uppercase
+        }
+
+        .tracking-wider {
+            letter-spacing: .05em
+        }
+
+        .text-white {
+            color: #fff
+        }
+
+        .text-gray-800 {
+            color: #1f2937
+        }
+
+        .text-gray-700 {
+            color: #374151
+        }
+
+        .text-gray-600 {
+            color: #4b5563
+        }
+
+        .text-gray-500 {
+            color: #6b7280
+        }
+
+        .text-gray-400 {
+            color: #9ca3af
+        }
+
+        .text-blue-600 {
+            color: #2563eb
+        }
+
+        .text-green-600 {
+            color: #16a34a
+        }
+
+        .text-orange-600 {
+            color: #ea580c
+        }
+
+        .text-purple-600 {
+            color: #7c3aed
+        }
+
+        .text-indigo-100 {
+            color: #e0e7ff
+        }
+
+        .text-indigo-200 {
+            color: #c7d2fe
+        }
+
+        .text-slate-300 {
+            color: #cbd5e1
+        }
+
+        .text-slate-400 {
+            color: #94a3b8
+        }
+
+        .text-yellow-400 {
+            color: #facc15
+        }
+
+        .text-center {
+            text-align: center
+        }
+
+        .rounded {
+            border-radius: .25rem
+        }
+
+        .rounded-lg {
+            border-radius: .5rem
+        }
+
+        .rounded-xl {
+            border-radius: .75rem
+        }
+
+        .rounded-full {
+            border-radius: 9999px
+        }
+
+        .border {
+            border-width: 1px
+        }
+
+        .border-gray-200 {
+            border-color: #e5e7eb
+        }
+
+        .border-gray-300 {
+            border-color: #d1d5db
+        }
+
+        .border-slate-600 {
+            border-color: #475569
+        }
+
+        .border-slate-500 {
+            border-color: #64748b
+        }
+
+        .bg-white {
+            background: #fff
+        }
+
+        .bg-gray-50 {
+            background: #f9fafb
+        }
+
+        .bg-gray-100 {
+            background: #f3f4f6
+        }
+
+        .bg-blue-50 {
+            background: #eff6ff
+        }
+
+        .bg-green-50 {
+            background: #f0fdf4
+        }
+
+        .bg-orange-50 {
+            background: #fff7ed
+        }
+
+        .bg-purple-50 {
+            background: #faf5ff
+        }
+
+        .bg-indigo-600 {
+            background: #4f46e5
+        }
+
+        .bg-emerald-500 {
+            background: #10b981
+        }
+
+        .bg-amber-500 {
+            background: #f59e0b
+        }
+
+        .bg-rose-500 {
+            background: #f43f5e
+        }
+
+        .bg-slate-600 {
+            background: #475569
+        }
+
+        .bg-slate-700 {
+            background: #334155
+        }
+
+        .bg-slate-800 {
+            background: #1e293b
+        }
+
+        .bg-slate-900 {
+            background: #0f172a
+        }
+
+        .bg-gradient-to-r {
+            background-image: linear-gradient(to right, var(--tw-gradient-stops))
+        }
+
+        .from-indigo-600 {
+            --tw-gradient-from: #4f46e5;
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(79, 70, 229, 0))
+        }
+
+        .to-purple-700 {
+            --tw-gradient-to: #7e22ce
+        }
+
+        .from-slate-800 {
+            --tw-gradient-from: #1e293b;
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(30, 41, 59, 0))
+        }
+
+        .to-slate-900 {
+            --tw-gradient-to: #0f172a
+        }
+
+        .shadow-lg {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -2px rgba(0, 0, 0, .05)
+        }
+
+        .shadow-sm {
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05)
+        }
+
+        .outline-none {
+            outline: 2px solid transparent;
+            outline-offset: 2px
+        }
+
+        .cursor-pointer {
+            cursor: pointer
+        }
+
+        .transition-colors {
+            transition-property: background-color, border-color, color, fill, stroke;
+            transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+            transition-duration: .15s
+        }
+
+        .transition-all {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+            transition-duration: .15s
+        }
+
+        .hover\:bg-indigo-700:hover {
+            background: #4338ca
+        }
+
+        .hover\:bg-gray-200:hover {
+            background: #e5e7eb
+        }
+
+        .hover\:bg-emerald-600:hover {
+            background: #059669
+        }
+
+        .hover\:bg-amber-600:hover {
+            background: #d97706
+        }
+
+        .hover\:bg-rose-600:hover {
+            background: #e11d48
+        }
+
+        .hover\:bg-slate-500:hover {
+            background: #64748b
+        }
+
+        .focus\:ring-2:focus {
+            --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+            --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+            box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)
+        }
+
+        .focus\:ring-indigo-500:focus {
+            --tw-ring-color: #6366f1
+        }
+
+        .focus\:ring-emerald-500:focus {
+            --tw-ring-color: #10b981
+        }
+
+        .solution-card {
+            transition: all 0.3s ease
+        }
+
+        .solution-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15)
+        }
+
+        .metric-badge {
+            font-variant-numeric: tabular-nums
+        }
+
+        .anim-btn {
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px
+        }
+
+        .anim-btn:active {
+            transform: scale(0.95)
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #475569;
+            outline: none
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #4f46e5;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2)
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.8);
+                opacity: 1
+            }
+
+            100% {
+                transform: scale(2.2);
+                opacity: 0
+            }
+        }
+
+        .pulse-dot {
+            position: relative
+        }
+
+        .pulse-dot::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            animation: pulse-ring 1.2s ease-out infinite
+        }
+
+        @keyframes card-flash {
+            0% {
+                background: #fef3c7
+            }
+
+            100% {
+                background: white
+            }
+        }
+
+        .card-flash {
+            animation: card-flash 0.6s ease-out
+        }
+
+        .process-flow {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .process-step {
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #374151
+        }
+
+        .process-arrow {
+            color: #9ca3af;
+            font-size: 16px
+        }
+
+        .job-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 10px;
+            background: #fff;
+            transition: all 0.2s
+        }
+
+        .job-card:hover {
+            border-color: #4f46e5;
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.1)
+        }
+
+        .machine-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 10px;
+            background: #fff
+        }
+
+        .op-tag {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin: 2px;
+            background: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #dbeafe
+        }
+
+        .op-tag-alt {
+            background: #f0fdf4;
+            color: #16a34a;
+            border-color: #bbf7d0
+        }
+
+        .dataset-info {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px
+        }
+
+        .tab-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: #6b7280;
+            border-bottom: 2px solid transparent
+        }
+
+        .tab-btn.active {
+            color: #4f46e5;
+            border-bottom-color: #4f46e5
+        }
+
+        .tab-content {
+            display: none
+        }
+
+        .tab-content.active {
+            display: block
+        }
+
+        .file-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: #f3f4f6;
+            border: 1px dashed #d1d5db;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #6b7280;
+            cursor: pointer
+        }
+
+        .file-label:hover {
+            background: #e5e7eb
+        }
+
+        .file-name {
+            color: #374151;
+            font-weight: 500
+        }
+
+        .job-queue-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 8px;
+            border-radius: 7px;
+            background: #fff;
+            border: 1.5px solid #e5e7eb;
+            font-size: 11px;
+            cursor: default;
+            transition: all 0.35s cubic-bezier(.4, 0, .2, 1);
+            position: relative;
+            overflow: hidden;
+            flex-wrap: wrap
+        }
+
+        .job-queue-item.active {
+            border-color: #fbbf24;
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            box-shadow: 0 0 14px rgba(251, 191, 36, 0.35);
+            transform: scale(1.02);
+            z-index: 2
+        }
+
+        .job-queue-item.entering {
+            animation: jobEnterPulse 0.6s ease-out
+        }
+
+        @keyframes jobEnterPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7);
+                transform: scale(1.05);
+            }
+
+            100% {
+                box-shadow: 0 0 12px rgba(251, 191, 36, 0.15);
+                transform: scale(1.02);
+            }
+        }
+
+        .job-queue-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: all 0.3s
+        }
+
+        .job-queue-item.active .job-queue-dot {
+            box-shadow: 0 0 8px currentColor;
+            animation: dotPulse 0.8s ease-in-out infinite
+        }
+
+        @keyframes dotPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.5);
+            }
+        }
+
+        .job-queue-main {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px
+        }
+
+        .job-queue-sub {
+            font-size: 9px;
+            color: #9ca3af;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.3s
+        }
+
+        .job-queue-item.active .job-queue-sub {
+            color: #92400e
+        }
+
+        .job-queue-mini-bar {
+            width: 100%;
+            height: 3px;
+            background: #e5e7eb;
+            border-radius: 1.5px;
+            overflow: hidden
+        }
+
+        .job-queue-mini-fill {
+            height: 100%;
+            border-radius: 1.5px;
+            transition: width 0.5s cubic-bezier(.4, 0, .2, 1)
+        }
+
+        .job-queue-arrow {
+            font-size: 10px;
+            color: #d1d5db;
+            transition: all 0.3s;
+            opacity: 0;
+            flex-shrink: 0
+        }
+
+        .job-queue-item.active .job-queue-arrow {
+            color: #f59e0b;
+            opacity: 1;
+            animation: arrowBounce 0.5s ease-in-out infinite
+        }
+
+        @keyframes arrowBounce {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            50% {
+                transform: translateX(3px);
+            }
+        }
+
+        .machine-status-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 8px;
+            border-radius: 7px;
+            background: #fff;
+            border: 1.5px solid #e5e7eb;
+            font-size: 11px;
+            cursor: default;
+            transition: all 0.35s cubic-bezier(.4, 0, .2, 1);
+            flex-wrap: wrap
+        }
+
+        .machine-status-item.busy {
+            border-color: #93c5fd;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)
+        }
+
+        .machine-status-item.receiving {
+            animation: machineReceivePulse 0.6s ease-out;
+            border-color: #60a5fa;
+            background: #dbeafe
+        }
+
+        @keyframes machineReceivePulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(96, 165, 250, 0.6);
+                transform: scale(1.04);
+            }
+
+            100% {
+                box-shadow: 0 0 8px rgba(96, 165, 250, 0.1);
+                transform: scale(1);
+            }
+        }
+
+        .machine-status-main {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px
+        }
+
+        .machine-status-sub {
+            font-size: 9px;
+            color: #9ca3af;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.3s
+        }
+
+        .machine-status-item.busy .machine-status-sub {
+            color: #3b82f6
+        }
+
+        .machine-load-bar {
+            width: 100%;
+            height: 3px;
+            background: #e5e7eb;
+            border-radius: 1.5px;
+            overflow: hidden
+        }
+
+        .machine-load-fill {
+            height: 100%;
+            border-radius: 1.5px;
+            transition: width 0.5s cubic-bezier(.4, 0, .2, 1)
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+    <header class="bg-gradient-to-r from-indigo-600 to-purple-700 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-6 py-6">
+            <h1 class="text-3xl font-bold mb-2">调度结果可视化 Dashboard (Scheduling Visualization)</h1>
+            <p class="text-indigo-100 text-sm">算法 (Algorithm): <span id="algo-name"
+                    class="font-mono font-semibold">-</span> | 数据集 (Dataset):
+                <span id="dataset-id" class="font-mono">-</span> | 实例 (Instance): <span id="instance-id"
+                    class="font-mono">-</span>
+            </p>
+            <div class="flex gap-6 mt-3 text-xs text-indigo-200">
+                <span>评估次数 (Evaluations): <b id="evaluations" class="text-white">-</b></span>
+                <span>运行时间 (Runtime): <b id="runtime" class="text-white">-</b>s</span>
+                <span>种群大小 (Pop Size): <b id="pop-size" class="text-white">-</b></span>
+                <span>Pareto解数量 (Solutions): <b id="solution-count" class="text-white">-</b></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-6 space-y-6">
+        <!-- 数据加载区域 -->
+        <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+            <h3 class="text-sm font-semibold text-gray-700 mb-3">数据加载 (Data Loading)</h3>
+            <div class="flex flex-wrap items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <label class="file-label" onclick="document.getElementById('dataset-input').click()">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" />
+                        </svg>
+                        <span>选择Dataset原始数据 (Raw Dataset)</span>
+                    </label>
+                    <input type="file" id="dataset-input" accept=".txt,.dat,.mk" class="hidden"
+                        onchange="handleDatasetSelect(event)">
+                    <span id="dataset-file-name" class="file-name text-xs">未选择 (None)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <label class="file-label" onclick="document.getElementById('instance-input').click()">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" />
+                        </svg>
+                        <span>选择Instance JSON (Instance Data)</span>
+                    </label>
+                    <input type="file" id="instance-input" accept=".json" class="hidden"
+                        onchange="handleInstanceSelect(event)">
+                    <span id="instance-file-name" class="file-name text-xs">未选择 (None)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <label class="file-label" onclick="document.getElementById('result-input').click()">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" />
+                        </svg>
+                        <span>选择运行结果JSON (Result Data)</span>
+                    </label>
+                    <input type="file" id="result-input" accept=".json" class="hidden"
+                        onchange="handleResultSelect(event)">
+                    <span id="result-file-name" class="file-name text-xs">未选择 (None)</span>
+                </div>
+                <div class="flex items-center gap-2 ml-auto">
+                    <label class="text-sm font-medium text-gray-600">选择解 (Select Solution):</label>
+                    <select id="solution-select"
+                        class="px-3 py-1.5 border border-gray-300 rounded-lg text-sm outline-none min-w-[220px]">
+                        <option value="">请先加载结果JSON (Load Result First)</option>
+                    </select>
+                </div>
+                <div class="flex items-center gap-2">
+                    <label class="text-sm font-medium text-gray-600">场景 (Scenario):</label>
+                    <select id="scenario-select"
+                        class="px-3 py-1.5 border border-gray-300 rounded-lg text-sm outline-none">
+                        <option value="0">乐观 (Optimistic)</option>
+                        <option value="1" selected>最可能 (Most Likely)</option>
+                        <option value="2">悲观 (Pessimistic)</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- 流程示意 -->
+        <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+            <div class="process-flow">
+                <div class="process-step" style="background:#eff6ff;border-color:#dbeafe;color:#1e40af">
+                    <span style="font-size:16px">📦</span> 零件/工件 (Jobs)
+                    <span id="flow-jobs-count" class="text-xs ml-1" style="color:#6b7280">-</span>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step" style="background:#f0fdf4;border-color:#bbf7d0;color:#166534">
+                    <span style="font-size:16px">⚙️</span> 机器 (Machines)
+                    <span id="flow-machines-count" class="text-xs ml-1" style="color:#6b7280">-</span>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step" style="background:#faf5ff;border-color:#e9d5ff;color:#6b21a8">
+                    <span style="font-size:16px">📋</span> 调度方案 (Scheduling)
+                    <span id="flow-ops-count" class="text-xs ml-1" style="color:#6b7280">-</span>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step" style="background:#fff7ed;border-color:#fed7aa;color:#9a3412">
+                    <span style="font-size:16px">🎯</span> 优化目标 (Objectives)
+                </div>
+            </div>
+        </section>
+
+        <!-- 动画控制台 -->
+        <section class="bg-gradient-to-r from-slate-800 to-slate-900 rounded-xl shadow-lg p-5 text-white">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-bold flex items-center gap-2">
+                    <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" />
+                    </svg>
+                    动画演示控制台 (Animation Console)
+                </h2>
+                <div class="flex items-center gap-2 text-xs text-slate-300">
+                    <span id="anim-status" class="px-2 py-0.5 bg-slate-700 rounded">就绪 (Ready)</span>
+                    <span id="anim-progress-text">0 / 0</span>
+                </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <button id="btn-play" onclick="togglePlay()"
+                        class="anim-btn px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg font-medium">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                        </svg>
+                        播放 (Play)
+                    </button>
+                    <button id="btn-pause" onclick="pauseAnim()"
+                        class="anim-btn px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg font-medium hidden">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M5 4h3v12H5V4zm7 0h3v12h-3V4z" />
+                        </svg>
+                        暂停 (Pause)
+                    </button>
+                    <button onclick="stopAnim()"
+                        class="anim-btn px-3 py-2 bg-rose-500 hover:bg-rose-600 text-white rounded-lg font-medium">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M4 4h12v12H4V4z" />
+                        </svg>
+                        停止 (Stop)
+                    </button>
+                    <button onclick="stepPrev()"
+                        class="anim-btn px-3 py-2 bg-slate-600 hover:bg-slate-500 text-white rounded-lg">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M8.445 14.832A1 1 0 0010 14V6a1 1 0 00-1.555-.832l-6 4a1 1 0 000 1.664l6 4zM18 5a1 1 0 00-1 1v8a1 1 0 102 0V6a1 1 0 00-1-1z" />
+                        </svg>
+                        上一步 (Prev)
+                    </button>
+                    <button onclick="stepNext()"
+                        class="anim-btn px-3 py-2 bg-slate-600 hover:bg-slate-500 text-white rounded-lg">
+                        下一步 (Next)
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M4.555 14.832A1 1 0 006 14V6a1 1 0 00-1.555-.832l-6 4a1 1 0 000 1.664l6 4zM12 5a1 1 0 00-1 1v8a1 1 0 102 0V6a1 1 0 00-1-1z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="flex items-center gap-2">
+                    <label class="text-xs text-slate-300">速度 (Speed):</label>
+                    <select id="anim-speed"
+                        class="px-2 py-1 bg-slate-700 border border-slate-600 rounded text-sm text-white outline-none">
+                        <option value="2000">慢速 (Slow, 2s)</option>
+                        <option value="800" selected>正常 (Normal, 0.8s)</option>
+                        <option value="300">快速 (Fast, 0.3s)</option>
+                        <option value="100">极速 (Ultra, 0.1s)</option>
+                    </select>
+                </div>
+                <div class="flex items-center gap-2">
+                    <label class="text-xs text-slate-300">模式 (Mode):</label>
+                    <select id="anim-mode"
+                        class="px-2 py-1 bg-slate-700 border border-slate-600 rounded text-sm text-white outline-none">
+                        <option value="sequential">逐工序播放 (Sequential)</option>
+                        <option value="solution">解轮播 (Solution Carousel)</option>
+                        <option value="scenario">场景切换 (Scenario Switch)</option>
+                    </select>
+                </div>
+                <label class="flex items-center gap-1.5 text-sm text-slate-300 cursor-pointer">
+                    <input type="checkbox" id="anim-loop" checked
+                        class="w-4 h-4 rounded border-slate-500 text-emerald-500 bg-slate-700">
+                    循环播放 (Loop)
+                </label>
+            </div>
+            <div class="mt-4">
+                <input type="range" id="anim-slider" min="0" max="100" value="0" oninput="seekAnim(this.value)">
+                <div class="flex justify-between text-xs text-slate-400 mt-1">
+                    <span>开始 (Start)</span>
+                    <span id="anim-current-label">-</span>
+                    <span>结束 (End)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 调度甘特图 (Scheduling Gantt Chart) - 两栏布局：左侧信息面板 | 右侧甘特图 -->
+        <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+            <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2 mb-4">
+                <span class="w-1.5 h-5 bg-emerald-500 rounded-full"></span>
+                调度甘特图 (Scheduling Gantt Chart)
+            </h2>
+            <div class="flex gap-4" style="min-height:480px">
+                <!-- 左侧信息面板：零件队列 + 机器状态 + 实时统计 -->
+                <div class="flex-shrink-0 w-60 flex flex-col gap-3">
+                    <!-- 零件队列 -->
+                    <div class="bg-slate-50 rounded-lg border border-slate-200 p-3 overflow-y-auto"
+                        style="max-height:180px">
+                        <div
+                            class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+                            <span class="w-1.5 h-3.5 bg-blue-400 rounded-full"></span>
+                            零件队列 (Job Queue)
+                        </div>
+                        <div id="job-queue-panel" class="space-y-1">
+                            <div class="text-xs text-slate-400 text-center py-6">请先加载数据</div>
+                        </div>
+                    </div>
+                    <!-- 机器状态 -->
+                    <div class="bg-slate-50 rounded-lg border border-slate-200 p-3 overflow-y-auto"
+                        style="max-height:180px">
+                        <div
+                            class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+                            <span class="w-1.5 h-3.5 bg-amber-400 rounded-full"></span>
+                            机器状态 (Machine Status)
+                        </div>
+                        <div id="machine-status-panel" class="space-y-1">
+                            <div class="text-xs text-slate-400 text-center py-6">请先加载数据</div>
+                        </div>
+                    </div>
+                    <!-- 实时统计 -->
+                    <div class="flex-1 bg-slate-50 rounded-lg border border-slate-200 p-3 overflow-y-auto">
+                        <div
+                            class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+                            <span class="w-1.5 h-3.5 bg-purple-400 rounded-full"></span>
+                            实时统计 (Live Stats)
+                        </div>
+                        <div id="gantt-stats-panel" class="grid grid-cols-2 gap-1.5 text-xs">
+                            <div class="text-slate-400 text-center py-6 col-span-2">请先加载数据</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 右侧：甘特图主区域 -->
+                <div class="flex-1 min-w-0 flex flex-col">
+                    <div id="gantt-job-legend" class="flex items-center gap-1.5 text-xs mb-2 px-1"></div>
+                    <div class="flex-1 bg-slate-50 rounded-lg border border-slate-200 p-2">
+                        <div id="gantt-chart" class="w-full" style="height:452px;min-width:400px"></div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-xs text-gray-400 mt-2">X轴: 时间 (Time) | Y轴: 机器 (Machine) | 彩色条块 = 零件工序 (Job Operations)</p>
+        </section>
+
+        <!-- Tab切换：零件信息 / 机器信息 / 调度结果 -->
+        <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+            <div class="flex gap-4 border-b border-gray-200 mb-4">
+                <button class="tab-btn active" onclick="switchTab('tab-jobs')">📦 零件/工件信息 (Jobs)</button>
+                <button class="tab-btn" onclick="switchTab('tab-machines')">⚙️ 机器信息 (Machines)</button>
+                <button class="tab-btn" onclick="switchTab('tab-process')">🔄 加工流程图 (Process Flow)</button>
+            </div>
+
+            <!-- 零件信息Tab -->
+            <div id="tab-jobs" class="tab-content active">
+                <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <span class="w-1 h-5 bg-blue-500 rounded-full"></span>
+                    零件/工件详情 (Job Details)
+                </h2>
+                <div id="jobs-info-panel" class="text-sm text-gray-500">
+                    请先加载Dataset原始数据或Instance JSON文件 (Load Dataset or Instance first)
+                </div>
+                <div id="jobs-chart" class="w-full h-[360px] mt-4"></div>
+            </div>
+
+            <!-- 机器信息Tab -->
+            <div id="tab-machines" class="tab-content">
+                <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <span class="w-1 h-5 bg-green-500 rounded-full"></span>
+                    机器详情 (Machine Details)
+                </h2>
+                <div id="machines-info-panel" class="text-sm text-gray-500">
+                    请先加载Dataset原始数据或Instance JSON文件 (Load Dataset or Instance first)
+                </div>
+                <div id="machines-chart" class="w-full h-[300px] mt-4"></div>
+            </div>
+
+            <!-- 加工流程图Tab -->
+            <div id="tab-process" class="tab-content">
+                <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <span class="w-1 h-5 bg-purple-500 rounded-full"></span>
+                    零件→机器加工流程 (Job-Machine Process Flow)
+                </h2>
+                <div id="process-chart" class="w-full h-[480px]"></div>
+                <p class="text-xs text-gray-400 mt-2">展示每个工件的每道工序可选择的机器及加工时间 (Machines & Processing Times per Operation)
+                    | 蓝色=乐观 (Optimistic) 绿色=最可能 (Most Likely) 橙色=悲观 (Pessimistic)</p>
+            </div>
+        </section>
+
+
+
+        <!-- 3D Pareto前沿 -->
+        <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+            <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <span class="w-1 h-5 bg-indigo-500 rounded-full"></span>
+                三目标Pareto前沿 (3D Pareto Frontier)
+                <span class="ml-auto text-xs font-normal text-gray-400">当前选中解以金色高亮 (Selected: Gold)</span>
+            </h2>
+            <div id="pareto-3d-chart" class="w-full h-[480px]"></div>
+        </section>
+
+        <!-- 指标卡片 -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-4" id="metrics-section">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 solution-card" id="card-makespan">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Makespan (最大完工时间)</h3>
+                    <span class="px-2 py-0.5 bg-blue-50 text-blue-600 text-xs rounded-full font-medium">目标1 (Obj
+                        1)</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                    <span id="makespan-val" class="text-3xl font-bold text-gray-800 metric-badge">-</span>
+                    <span class="text-sm text-gray-400">单位 (Units)</span>
+                </div>
+                <div class="mt-3 text-xs text-gray-500 space-y-1">
+                    <div class="flex justify-between"><span>乐观 (Opt)</span><span id="makespan-0"
+                            class="font-mono">-</span></div>
+                    <div class="flex justify-between"><span>最可能 (ML)</span><span id="makespan-1"
+                            class="font-mono">-</span></div>
+                    <div class="flex justify-between"><span>悲观 (Pes)</span><span id="makespan-2"
+                            class="font-mono">-</span></div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 solution-card" id="card-energy">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Energy (能耗)</h3>
+                    <span class="px-2 py-0.5 bg-green-50 text-green-600 text-xs rounded-full font-medium">目标2 (Obj
+                        2)</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                    <span id="energy-val" class="text-3xl font-bold text-gray-800 metric-badge">-</span>
+                    <span class="text-sm text-gray-400">单位 (Units)</span>
+                </div>
+                <div class="mt-3 text-xs text-gray-500 space-y-1">
+                    <div class="flex justify-between"><span>乐观 (Opt)</span><span id="energy-0"
+                            class="font-mono">-</span></div>
+                    <div class="flex justify-between"><span>最可能 (ML)</span><span id="energy-1"
+                            class="font-mono">-</span></div>
+                    <div class="flex justify-between"><span>悲观 (Pes)</span><span id="energy-2"
+                            class="font-mono">-</span></div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 solution-card"
+                id="card-dissatisfaction">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Dissatisfaction (不满意度)</h3>
+                    <span class="px-2 py-0.5 bg-orange-50 text-orange-600 text-xs rounded-full font-medium">目标3 (Obj
+                        3)</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                    <span id="dissatisfaction-val" class="text-3xl font-bold text-gray-800 metric-badge">-</span>
+                    <span class="text-sm text-gray-400">单位 (Units)</span>
+                </div>
+                <div class="mt-3 text-xs text-gray-500 space-y-1">
+                    <div class="flex justify-between"><span>乐观 (Opt)</span><span id="dissatisfaction-0"
+                            class="font-mono">-</span></div>
+                    <div class="flex justify-between"><span>最可能 (ML)</span><span id="dissatisfaction-1"
+                            class="font-mono">-</span></div>
+                    <div class="flex justify-between"><span>悲观 (Pes)</span><span id="dissatisfaction-2"
+                            class="font-mono">-</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 机器负载 + Job分布 -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <span class="w-1 h-5 bg-purple-500 rounded-full"></span>
+                    机器负载分布 (Machine Load Distribution)
+                </h2>
+                <div id="machine-load-chart" class="w-full h-[320px]"></div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <span class="w-1 h-5 bg-pink-500 rounded-full"></span>
+                    各Job工序数分布 (Job Operation Distribution)
+                </h2>
+                <div id="job-distribution-chart" class="w-full h-[320px]"></div>
+            </div>
+        </section>
+
+        <!-- 算法参数 -->
+        <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+            <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <span class="w-1 h-5 bg-gray-500 rounded-full"></span>
+                算法参数与实例信息 (Algorithm Parameters & Instance Info)
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                <div class="bg-gray-50 rounded-lg p-3">
+                    <div class="text-gray-500 text-xs mb-1">变异率 (Mutation Rate)</div>
+                    <div id="param-mutation" class="font-mono font-semibold text-gray-800">-</div>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-3">
+                    <div class="text-gray-500 text-xs mb-1">Alpha (α)</div>
+                    <div id="param-alpha" class="font-mono font-semibold text-gray-800">-</div>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-3">
+                    <div class="text-gray-500 text-xs mb-1">Gamma (γ)</div>
+                    <div id="param-gamma" class="font-mono font-semibold text-gray-800">-</div>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-3">
+                    <div class="text-gray-500 text-xs mb-1">Epsilon (ε)</div>
+                    <div id="param-epsilon" class="font-mono font-semibold text-gray-800">-</div>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-3">
+                    <div class="text-gray-500 text-xs mb-1">记忆大小 (Memory Size)</div>
+                    <div id="param-memory" class="font-mono font-semibold text-gray-800">-</div>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-3">
+                    <div class="text-gray-500 text-xs mb-1">最大代数 (Max Generations)</div>
+                    <div id="param-maxgen" class="font-mono font-semibold text-gray-800">-</div>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-3">
+                    <div class="text-gray-500 text-xs mb-1">随机因子 a (Random Factor)</div>
+                    <div id="param-random-a" class="font-mono font-semibold text-gray-800">-</div>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-3">
+                    <div class="text-gray-500 text-xs mb-1">Paper Compliant</div>
+                    <div id="param-paper" class="font-mono font-semibold text-gray-800">-</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="max-w-7xl mx-auto px-6 py-6 text-center text-xs text-gray-400">
+        Scheduling Problem Visualization | 零件·机器·调度完整流程 (Job-Machine-Scheduling Pipeline) | Generated for Research
+    </footer>
+
+    <script>
+        // ==================== 全局状态 ====================
+        let globalData = null;
+        let instanceData = null;
+        let datasetData = null;
+        let currentSolutionIndex = 0;
+        let currentScenario = 1;
+
+        let paretoChart = null;
+        let ganttChart = null;
+        let machineLoadChart = null;
+        let jobDistributionChart = null;
+        let jobsChart = null;
+        let machinesChart = null;
+        let processChart = null;
+
+        let animTimer = null;
+        let isPlaying = false;
+        let animStep = 0;
+        let animTotalSteps = 0;
+        let ganttAnimData = [];
+
+        const jobColors = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc', '#ff9f7f'];
+        const scenarioNames = ['Optimistic', 'Most Likely', 'Pessimistic'];
+        const scenarioColors = ['#93c5fd', '#4ade80', '#fb923c'];
+
+        const DEFAULT_PATHS = {
+            dataset: '../../dataset/mk01',
+            instance: '../prepared_instances/mk01/a=1.5-2/mk01/seed_102.json',
+            result: '../results/mk01/RMOEAD_PAPER_COMPLIANT/maxeval_10000/mk01/seed_102/seed_1000.json'
+        };
+
+        async function autoLoadDefaults() {
+            const statusEl = document.getElementById('anim-status');
+            statusEl.textContent = '加载默认数据中... (Loading defaults)';
+            statusEl.className = 'px-2 py-0.5 bg-amber-600 rounded text-white';
+
+            let loadedCount = 0;
+
+            try {
+                const dsResp = await fetch(DEFAULT_PATHS.dataset);
+                if (dsResp.ok) {
+                    const text = await dsResp.text();
+                    parseDataset(text);
+                    updateJobsPanel();
+                    updateMachinesPanel();
+                    updateProcessChart();
+                    document.getElementById('dataset-file-name').textContent = 'mk01 (默认/Default)';
+                    loadedCount++;
+                }
+            } catch (e) { console.log('Default dataset not found, skip auto-load'); }
+
+            try {
+                const instResp = await fetch(DEFAULT_PATHS.instance);
+                if (instResp.ok) {
+                    instanceData = await instResp.json();
+                    document.getElementById('flow-jobs-count').textContent = `(${instanceData.num_jobs || '-'})`;
+                    document.getElementById('flow-machines-count').textContent = `(${instanceData.num_machines || '-'})`;
+                    document.getElementById('param-random-a').textContent = instanceData.random_factor_a?.toFixed(4) ?? '-';
+                    updateJobsPanel();
+                    updateMachinesPanel();
+                    updateProcessChart();
+                    document.getElementById('instance-file-name').textContent = 'seed_102.json (默认/Default)';
+                    loadedCount++;
+                }
+            } catch (e) { console.log('Default instance not found, skip auto-load'); }
+
+            try {
+                const resResp = await fetch(DEFAULT_PATHS.result);
+                if (resResp.ok) {
+                    const data = await resResp.json();
+                    setResultData(data);
+                    document.getElementById('result-file-name').textContent = 'seed_1000.json (默认/Default)';
+                    loadedCount++;
+                }
+            } catch (e) { console.log('Default result not found, skip auto-load'); }
+
+            if (loadedCount >= 3) {
+                statusEl.textContent = '就绪 (Ready)';
+                statusEl.className = 'px-2 py-0.5 bg-emerald-600 rounded text-white';
+            } else if (loadedCount > 0) {
+                statusEl.textContent = `部分加载 (Partial, ${loadedCount}/3)`;
+                statusEl.className = 'px-2 py-0.5 bg-amber-600 rounded text-white';
+            } else {
+                statusEl.textContent = '就绪 (Ready) - 请手动加载文件';
+                statusEl.className = 'px-2 py-0.5 bg-slate-700 rounded';
+            }
+        }
+
+        // ==================== 初始化 ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            paretoChart = echarts.init(document.getElementById('pareto-3d-chart'));
+            ganttChart = echarts.init(document.getElementById('gantt-chart'));
+            machineLoadChart = echarts.init(document.getElementById('machine-load-chart'));
+            jobDistributionChart = echarts.init(document.getElementById('job-distribution-chart'));
+            jobsChart = echarts.init(document.getElementById('jobs-chart'));
+            machinesChart = echarts.init(document.getElementById('machines-chart'));
+            processChart = echarts.init(document.getElementById('process-chart'));
+
+            window.addEventListener('resize', () => {
+                paretoChart.resize(); ganttChart.resize(); machineLoadChart.resize();
+                jobDistributionChart.resize(); jobsChart.resize(); machinesChart.resize(); processChart.resize();
+            });
+
+            document.getElementById('solution-select').addEventListener('change', (e) => {
+                currentSolutionIndex = parseInt(e.target.value);
+                stopAnim();
+                updateAllVisualizations();
+            });
+            document.getElementById('scenario-select').addEventListener('change', (e) => {
+                currentScenario = parseInt(e.target.value);
+                updateAllVisualizations();
+            });
+
+            autoLoadDefaults();
+        });
+
+        // ==================== Tab切换 ====================
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+            setTimeout(() => {
+                if (tabId === 'tab-jobs') jobsChart.resize();
+                if (tabId === 'tab-machines') machinesChart.resize();
+                if (tabId === 'tab-process') processChart.resize();
+            }, 50);
+        }
+
+        // ==================== 文件加载 ====================
+        function handleDatasetSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            document.getElementById('dataset-file-name').textContent = file.name;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    parseDataset(e.target.result);
+                    updateJobsPanel();
+                    updateMachinesPanel();
+                    updateProcessChart();
+                } catch (err) { alert('Dataset parse error: ' + err.message); }
+            };
+            reader.readAsText(file);
+        }
+
+        function handleInstanceSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            document.getElementById('instance-file-name').textContent = file.name;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    instanceData = JSON.parse(e.target.result);
+                    document.getElementById('flow-jobs-count').textContent = `(${instanceData.num_jobs || '-'})`;
+                    document.getElementById('flow-machines-count').textContent = `(${instanceData.num_machines || '-'})`;
+                    document.getElementById('param-random-a').textContent = instanceData.random_factor_a?.toFixed(4) ?? '-';
+                    updateJobsPanel();
+                    updateMachinesPanel();
+                    updateProcessChart();
+                    if (globalData) updateAllVisualizations();
+                } catch (err) { alert('Instance JSON parse error: ' + err.message); }
+            };
+            reader.readAsText(file);
+        }
+
+        function handleResultSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            document.getElementById('result-file-name').textContent = file.name;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try { setResultData(JSON.parse(e.target.result)); }
+                catch (err) { alert('Result JSON parse error: ' + err.message); }
+            };
+            reader.readAsText(file);
+        }
+
+        // ==================== Dataset解析 (mk01格式) ====================
+        function parseDataset(text) {
+            if (!text || typeof text !== 'string') {
+                alert('Dataset parse error: empty or invalid file content');
+                return;
+            }
+            const lines = text.trim().split('\n').map(l => l.trim()).filter(l => l);
+            if (lines.length < 2) return;
+            const header = lines[0].split(/\s+/).map(Number);
+            const numJobs = header[0];
+            const numMachines = header[1];
+            const avgOptions = header[2] || 2;
+
+            datasetData = { numJobs, numMachines, avgOptions, jobs: [] };
+            let lineIdx = 1;
+
+            for (let j = 0; j < numJobs; j++) {
+                if (lineIdx >= lines.length) break;
+                const parts = lines[lineIdx].trim().split(/\s+/).map(Number);
+                const numOps = parts[0];
+                lineIdx++;
+                const operations = [];
+                let pos = 1;
+                for (let o = 0; o < numOps; o++) {
+                    if (pos >= parts.length) break;
+                    const numOptions = parts[pos];
+                    pos++;
+                    const options = [];
+                    for (let k = 0; k < numOptions; k++) {
+                        if (pos + 1 >= parts.length) break;
+                        const mId = parts[pos];
+                        const pTime = parts[pos + 1];
+                        options.push({
+                            machine_id: mId,
+                            processing_time: [pTime, pTime, pTime]
+                        });
+                        pos += 2;
+                    }
+                    operations.push({ options });
+                }
+                datasetData.jobs.push({ operations });
+            }
+
+            if (!instanceData) {
+                instanceData = {
+                    num_jobs: numJobs,
+                    num_machines: numMachines,
+                    avg_options: avgOptions,
+                    machines: Array.from({ length: numMachines }, (_, i) => ({
+                        machine_id: i + 1,
+                        idle_power: 1.5 + Math.random() * 2,
+                        processing_power: 8 + Math.random() * 5
+                    })),
+                    jobs: datasetData.jobs.map(j => ({
+                        due_date: [40 + Math.random() * 20, 45 + Math.random() * 20],
+                        operations: j.operations
+                    }))
+                };
+            }
+            document.getElementById('flow-jobs-count').textContent = `(${numJobs})`;
+            document.getElementById('flow-machines-count').textContent = `(${numMachines})`;
+        }
+
+        // ==================== 设置结果数据 ====================
+        function setResultData(data) {
+            if (!data || !data.solutions || !Array.isArray(data.solutions) || data.solutions.length === 0) {
+                alert('Invalid JSON: missing solutions array');
+                return;
+            }
+            globalData = data;
+            document.getElementById('algo-name').textContent = data.algorithm || '-';
+            document.getElementById('dataset-id').textContent = data.dataset_id || '-';
+            document.getElementById('instance-id').textContent = data.instance_id || '-';
+            document.getElementById('evaluations').textContent = data.evaluations ?? '-';
+            document.getElementById('runtime').textContent = (data.runtime_seconds ?? '-').toFixed(3);
+            document.getElementById('pop-size').textContent = data.population_size ?? '-';
+            document.getElementById('solution-count').textContent = data.solutions.length;
+            document.getElementById('param-mutation').textContent = data.mutation_rate ?? '-';
+            document.getElementById('param-alpha').textContent = data.alpha ?? '-';
+            document.getElementById('param-gamma').textContent = data.gamma ?? '-';
+            document.getElementById('param-epsilon').textContent = data.epsilon ?? '-';
+            document.getElementById('param-memory').textContent = data.memory_size ?? '-';
+            document.getElementById('param-maxgen').textContent = data.max_generations ?? '-';
+            document.getElementById('param-paper').textContent = data.paper_compliant ? 'Yes' : 'No';
+
+            const totalOps = data.solutions[0]?.scheduling_string?.length || 0;
+            document.getElementById('flow-ops-count').textContent = `(${totalOps} ops)`;
+
+            const select = document.getElementById('solution-select');
+            select.innerHTML = '';
+            data.solutions.forEach((sol, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                const mk = sol.makespan?.[1]?.toFixed(2) ?? '-';
+                const en = sol.energy?.[1]?.toFixed(2) ?? '-';
+                const ds = sol.dissatisfaction?.[1]?.toFixed(4) ?? '-';
+                opt.textContent = `Sol #${idx + 1} | MK=${mk} EN=${en} DS=${ds}`;
+                select.appendChild(opt);
+            });
+            currentSolutionIndex = 0;
+            select.value = 0;
+            stopAnim();
+            updateAllVisualizations();
+        }
+
+        // ==================== 调度解码：scheduling_string + machine_assignment_string → Gantt数据 ====================
+        function decodeSchedule(solution, scenario) {
+            if (!instanceData || !instanceData.jobs) return [];
+            const sched = solution.scheduling_string;
+            const mach = solution.machine_assignment_string;
+            if (!sched || !mach || sched.length !== mach.length) return [];
+
+            const numJobs = instanceData.num_jobs;
+            const jobOpCounters = new Array(numJobs).fill(0);
+            const jobLastEnd = new Array(numJobs).fill(0);
+            const machineAvailable = {};
+            const operations = [];
+
+            for (let i = 0; i < sched.length; i++) {
+                const jobId = sched[i];
+                const machineId = mach[i];
+                const jobIdx = jobId - 1;
+                const opIdx = jobOpCounters[jobIdx];
+                jobOpCounters[jobIdx]++;
+
+                const job = instanceData.jobs[jobIdx];
+                if (!job || opIdx >= job.operations.length) continue;
+                const op = job.operations[opIdx];
+                const option = op.options.find(o => o.machine_id === machineId);
+                if (!option) continue;
+                const procTime = option.processing_time[scenario];
+
+                const startTime = Math.max(jobLastEnd[jobIdx], machineAvailable[machineId] || 0);
+                const endTime = startTime + procTime;
+
+                jobLastEnd[jobIdx] = endTime;
+                machineAvailable[machineId] = endTime;
+
+                operations.push({
+                    index: i,
+                    jobId: jobId,
+                    jobIdx: jobIdx,
+                    opIdx: opIdx,
+                    machineId: machineId,
+                    startTime: startTime,
+                    endTime: endTime,
+                    procTime: procTime,
+                    color: jobColors[jobIdx % jobColors.length]
+                });
+            }
+            return operations;
+        }
+
+        // ==================== 更新零件/工件面板 ====================
+        function updateJobsPanel() {
+            const panel = document.getElementById('jobs-info-panel');
+            if (!instanceData || !instanceData.jobs) {
+                panel.innerHTML = '请先加载Dataset或Instance JSON (Please load Dataset or Instance JSON first)';
+                return;
+            }
+
+            let html = '<div class="grid grid-cols-1 md:grid-cols-2 gap-3">';
+            instanceData.jobs.forEach((job, jIdx) => {
+                const due = job.due_date
+                    ? `交期 (Due): [${job.due_date[0]?.toFixed(1) || '-'}, ${job.due_date[1]?.toFixed(1) || '-'}]`
+                    : '';
+                html += `<div class="job-card">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="font-semibold text-gray-800" style="color:${jobColors[jIdx % jobColors.length]}">工件 Job ${jIdx + 1}</span>
+                        <span class="text-xs text-gray-500">${job.operations.length} 工序 (ops)</span>
+                    </div>
+                    <div class="text-xs text-gray-500 mb-2">${due}</div>
+                    <div class="flex flex-wrap gap-1">`;
+                job.operations.forEach((op, oIdx) => {
+                    const machines = op.options.map(o => `M${o.machine_id}`).join('/');
+                    html += `<span class="op-tag" title="可选机器 (Machines): ${machines}">工序Op${oIdx + 1}: ${machines}</span>`;
+                });
+                html += `</div></div>`;
+            });
+            html += '</div>';
+            panel.innerHTML = html;
+
+            const categories = instanceData.jobs.map((_, i) => `Job ${i + 1}`);
+            const opCounts = instanceData.jobs.map(j => j.operations.length);
+            const avgOptions = instanceData.jobs.map(j => {
+                const total = j.operations.reduce((s, o) => s + o.options.length, 0);
+                return +(total / j.operations.length).toFixed(1);
+            });
+
+            jobsChart.setOption({
+                tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+                legend: { data: ['工序数 (Operations)', '平均可选机器数 (Avg Options/Machine)'], top: 5 },
+                grid: { left: '60px', right: '60px', top: '40px', bottom: '40px' },
+                xAxis: { type: 'category', data: categories, axisLabel: { fontWeight: 'bold', rotate: 30 } },
+                yAxis: [
+                    { type: 'value', name: '工序数 (Ops Count)' },
+                    { type: 'value', name: '平均可选机器 (Avg Options)' }
+                ],
+                series: [
+                    { name: '工序数 (Operations)', type: 'bar', data: opCounts, itemStyle: { color: '#5470c6', borderRadius: [4, 4, 0, 0] } },
+                    { name: '平均可选机器数 (Avg Options/Machine)', type: 'line', yAxisIndex: 1, data: avgOptions, itemStyle: { color: '#91cc75' }, lineStyle: { width: 3 }, symbol: 'circle', symbolSize: 8 }
+                ]
+            }, true);
+        }
+
+        // ==================== 更新机器面板 ====================
+        function updateMachinesPanel() {
+            const panel = document.getElementById('machines-info-panel');
+            if (!instanceData || !instanceData.machines) {
+                panel.innerHTML = '请先加载Dataset或Instance JSON (Please load Dataset or Instance JSON first)';
+                return;
+            }
+
+            let html = '<div class="grid grid-cols-2 md:grid-cols-3 gap-3">';
+            instanceData.machines.forEach((m) => {
+                html += `<div class="machine-card">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="font-semibold text-gray-800">机器 (Machine) ${m.machine_id}</span>
+                        <span class="text-xs px-2 py-0.5 rounded-full" style="background:#eff6ff;color:#2563eb">ID: ${m.machine_id}</span>
+                    </div>
+                    <div class="text-xs space-y-1">
+                        <div class="flex justify-between"><span class="text-gray-500">空闲功率 (Idle Power):</span><span class="font-mono">${m.idle_power?.toFixed(2) || '-'}</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">加工功率 (Proc Power):</span><span class="font-mono">${m.processing_power?.toFixed(2) || '-'}</span></div>
+                    </div>
+                </div>`;
+            });
+            html += '</div>';
+            panel.innerHTML = html;
+
+            const machineIds = instanceData.machines.map(m => `M${m.machine_id}`);
+            const idlePowers = instanceData.machines.map(m => m.idle_power);
+            const procPowers = instanceData.machines.map(m => m.processing_power);
+
+            machinesChart.setOption({
+                tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+                legend: { data: ['空闲功率 (Idle Power)', '加工功率 (Processing Power)'], top: 5 },
+                grid: { left: '60px', right: '30px', top: '40px', bottom: '40px' },
+                xAxis: { type: 'category', data: machineIds, axisLabel: { fontWeight: 'bold' } },
+                yAxis: { type: 'value', name: '功率 (Power)' },
+                series: [
+                    { name: '空闲功率 (Idle Power)', type: 'bar', data: idlePowers, itemStyle: { color: '#93c5fd', borderRadius: [4, 4, 0, 0] } },
+                    { name: '加工功率 (Processing Power)', type: 'bar', data: procPowers, itemStyle: { color: '#4ade80', borderRadius: [4, 4, 0, 0] } }
+                ]
+            }, true);
+        }
+
+        // ==================== 加工流程图 ====================
+        function updateProcessChart() {
+            if (!instanceData || !instanceData.jobs) return;
+
+            const nodes = [];
+            const links = [];
+            let yPos = 0;
+            const jobHeight = 80;
+            const opWidth = 120;
+
+            instanceData.jobs.forEach((job, jIdx) => {
+                const jobY = yPos;
+                const color = jobColors[jIdx % jobColors.length];
+
+                nodes.push({
+                    name: `Job${jIdx + 1}`,
+                    x: 0,
+                    y: jobY + jobHeight / 2,
+                    symbolSize: [60, 30],
+                    itemStyle: { color: color },
+                    label: { show: true, fontSize: 12, fontWeight: 'bold', color: '#fff', formatter: `工件${jIdx + 1}` }
+                });
+
+                let lastNode = `Job${jIdx + 1}`;
+
+                job.operations.forEach((op, oIdx) => {
+                    const opX = 100 + oIdx * opWidth;
+                    const opY = jobY + jobHeight / 2;
+
+                    const opNodeName = `J${jIdx + 1}-Op${oIdx + 1}`;
+                    nodes.push({
+                        name: opNodeName,
+                        x: opX,
+                        y: opY,
+                        symbolSize: [50, 25],
+                        itemStyle: { color: '#e0e7ff', borderColor: color, borderWidth: 2 },
+                        label: { show: true, fontSize: 10, color: '#374151', formatter: `工序${oIdx + 1}` }
+                    });
+
+                    links.push({
+                        source: lastNode,
+                        target: opNodeName,
+                        lineStyle: { color: color, width: 1.5, curveness: 0 },
+                        label: { show: false }
+                    });
+
+                    // 机器选项节点
+                    op.options.forEach((opt, optIdx) => {
+                        const mX = opX + 60;
+                        const mY = jobY + 15 + optIdx * 22;
+                        const mNodeName = `J${jIdx + 1}-Op${oIdx + 1}-M${opt.machine_id}`;
+                        const pt = opt.processing_time;
+                        const ptStr = pt ? `[${pt[0]?.toFixed(1) || '-'}, ${pt[1]?.toFixed(1) || '-'}, ${pt[2]?.toFixed(1) || '-'}]` : '';
+
+                        nodes.push({
+                            name: mNodeName,
+                            x: mX,
+                            y: mY,
+                            symbolSize: [70, 18],
+                            itemStyle: { color: '#f0fdf4', borderColor: '#4ade80', borderWidth: 1 },
+                            label: { show: true, fontSize: 9, color: '#166534', formatter: `机器M${opt.machine_id}\n${ptStr}` }
+                        });
+
+                        links.push({
+                            source: opNodeName,
+                            target: mNodeName,
+                            lineStyle: { color: '#9ca3af', width: 1, type: 'dashed' },
+                            label: { show: false }
+                        });
+                    });
+
+                    lastNode = opNodeName;
+                });
+
+                yPos += jobHeight + 20;
+            });
+
+            processChart.setOption({
+                tooltip: {
+                    formatter: (params) => {
+                        if (params.dataType === 'node') {
+                            return params.name.replace('Job', '工件').replace('Op', '工序');
+                        }
+                        return `${params.data.source} → ${params.data.target}`;
+                    }
+                },
+                series: [{
+                    type: 'graph',
+                    layout: 'none',
+                    symbol: 'rect',
+                    roam: true,
+                    label: { show: true },
+                    edgeSymbol: ['none', 'arrow'],
+                    edgeSymbolSize: [0, 8],
+                    data: nodes,
+                    links: links,
+                    lineStyle: { opacity: 0.7, curveness: 0.1 }
+                }]
+            }, true);
+        }
+
+        // ==================== 更新所有可视化 ====================
+        function updateAllVisualizations() {
+            if (!globalData) return;
+            updateParetoChart();
+            updateMetricsCards();
+            updateGanttChart();
+            updateMachineLoadChart();
+            updateJobDistributionChart();
+        }
+
+        // ==================== 3D Pareto前沿 ====================
+        function updateParetoChart() {
+            if (!globalData || !globalData.solutions) return;
+            const sols = globalData.solutions;
+            const data = sols.map((s, i) => [
+                s.makespan?.[1] ?? 0,
+                s.energy?.[1] ?? 0,
+                s.dissatisfaction?.[1] ?? 0,
+                i
+            ]);
+
+            const mkMin = Math.min(...data.map(d => d[0]));
+            const mkMax = Math.max(...data.map(d => d[0]));
+            const enMin = Math.min(...data.map(d => d[1]));
+            const enMax = Math.max(...data.map(d => d[1]));
+            const dsMin = Math.min(...data.map(d => d[2]));
+            const dsMax = Math.max(...data.map(d => d[2]));
+
+            const seriesData = data.map(d => ({
+                value: [d[0], d[1], d[2]],
+                itemStyle: {
+                    color: d[3] === currentSolutionIndex ? '#fbbf24' : jobColors[d[3] % jobColors.length],
+                    borderColor: d[3] === currentSolutionIndex ? '#f59e0b' : 'transparent',
+                    borderWidth: d[3] === currentSolutionIndex ? 3 : 0
+                },
+                symbolSize: d[3] === currentSolutionIndex ? 16 : 10
+            }));
+
+            paretoChart.setOption({
+                tooltip: {
+                    formatter: (p) => {
+                        const idx = data[p.dataIndex]?.[3];
+                        return `Sol #${idx + 1}<br/>Makespan: ${p.value[0].toFixed(2)}<br/>Energy: ${p.value[1].toFixed(2)}<br/>Dissatisfaction: ${p.value[2].toFixed(4)}`;
+                    }
+                },
+                grid3D: { boxWidth: 100, boxHeight: 80, boxDepth: 100, viewControl: { autoRotate: false } },
+                xAxis3D: { name: 'Makespan', type: 'value', min: mkMin * 0.95, max: mkMax * 1.05 },
+                yAxis3D: { name: 'Energy', type: 'value', min: enMin * 0.95, max: enMax * 1.05 },
+                zAxis3D: { name: 'Dissatisfaction', type: 'value', min: dsMin * 0.9, max: dsMax * 1.1 },
+                series: [{ type: 'scatter3D', data: seriesData, emphasis: { itemStyle: { borderWidth: 3, borderColor: '#fbbf24' } } }]
+            }, true);
+        }
+
+        // ==================== 指标卡片 ====================
+        function updateMetricsCards() {
+            if (!globalData) return;
+            const sol = globalData.solutions[currentSolutionIndex];
+            if (!sol) return;
+
+            const mk = sol.makespan || [];
+            const en = sol.energy || [];
+            const ds = sol.dissatisfaction || [];
+
+            document.getElementById('makespan-val').textContent = mk[1]?.toFixed(2) ?? '-';
+            document.getElementById('makespan-0').textContent = mk[0]?.toFixed(2) ?? '-';
+            document.getElementById('makespan-1').textContent = mk[1]?.toFixed(2) ?? '-';
+            document.getElementById('makespan-2').textContent = mk[2]?.toFixed(2) ?? '-';
+
+            document.getElementById('energy-val').textContent = en[1]?.toFixed(2) ?? '-';
+            document.getElementById('energy-0').textContent = en[0]?.toFixed(2) ?? '-';
+            document.getElementById('energy-1').textContent = en[1]?.toFixed(2) ?? '-';
+            document.getElementById('energy-2').textContent = en[2]?.toFixed(2) ?? '-';
+
+            document.getElementById('dissatisfaction-val').textContent = ds[1]?.toFixed(4) ?? '-';
+            document.getElementById('dissatisfaction-0').textContent = ds[0]?.toFixed(4) ?? '-';
+            document.getElementById('dissatisfaction-1').textContent = ds[1]?.toFixed(4) ?? '-';
+            document.getElementById('dissatisfaction-2').textContent = ds[2]?.toFixed(4) ?? '-';
+        }
+
+        // ==================== 甘特图 ====================
+        let ganttBaseOption = null;
+        let lastActiveJobId = -1;
+
+        function updateGanttChart() {
+            if (!globalData || !instanceData) return;
+            const sol = globalData.solutions[currentSolutionIndex];
+            if (!sol) return;
+
+            ganttAnimData = decodeSchedule(sol, currentScenario);
+            lastActiveJobId = -1;
+            ganttBaseOption = null;
+            renderGanttUpTo(ganttAnimData.length);
+            renderJobLegend();
+        }
+
+        function renderGanttUpTo(step) {
+            const visible = ganttAnimData.slice(0, Math.min(step, ganttAnimData.length));
+            const numMachines = instanceData?.num_machines || 6;
+
+            const series = [];
+            for (let m = 1; m <= numMachines; m++) {
+                const machineOps = visible.filter(op => op.machineId === m);
+                series.push({
+                    name: `M${m}`,
+                    type: 'custom',
+                    renderItem: (params, api) => {
+                        const categoryIndex = api.value(0);
+                        const startVal = api.value(1);
+                        const endVal = api.value(2);
+                        const color = api.value(3);
+                        const start = api.coord([startVal, categoryIndex]);
+                        const end = api.coord([endVal, categoryIndex]);
+                        const height = api.size([0, 1])[1] * 0.6;
+                        const rectWidth = Math.max(end[0] - start[0], 2);
+                        return {
+                            type: 'group',
+                            children: [
+                                {
+                                    type: 'rect',
+                                    shape: { x: start[0], y: start[1] - height / 2, width: rectWidth, height: height, r: 3 },
+                                    style: { fill: color, stroke: '#fff', lineWidth: 1.5, shadowBlur: 3, shadowColor: 'rgba(0,0,0,0.12)' }
+                                },
+                                rectWidth > 30 ? {
+                                    type: 'text',
+                                    style: {
+                                        text: `J${api.value(4)}-O${api.value(5) + 1}`,
+                                        fill: '#fff',
+                                        font: 'bold 10px sans-serif',
+                                        textVerticalAlign: 'middle'
+                                    },
+                                    x: start[0] + 4,
+                                    y: start[1]
+                                } : null
+                            ].filter(Boolean)
+                        };
+                    },
+                    data: machineOps.map(op => [m - 1, op.startTime, op.endTime, op.color, op.jobId, op.opIdx]),
+                    encode: { x: [1, 2], y: [0] },
+                    animation: true,
+                    animationDuration: 500,
+                    animationEasing: 'cubicOut',
+                    animationDelay: (idx) => idx * 25
+                });
+            }
+
+            const maxTime = visible.length > 0 ? Math.max(...visible.map(o => o.endTime)) : 50;
+
+            const option = {
+                tooltip: {
+                    formatter: (p) => {
+                        const d = visible.find(op => op.machineId === (p.seriesIndex + 1) && Math.abs(op.startTime - p.value[1]) < 0.01);
+                        if (!d) return '';
+                        return `<b>Job ${d.jobId} Op${d.opIdx + 1}</b><br/>Machine: M${d.machineId}<br/>Start: ${d.startTime.toFixed(2)}<br/>End: ${d.endTime.toFixed(2)}<br/>Duration: ${d.procTime.toFixed(2)}`;
+                    }
+                },
+                legend: { data: Array.from({ length: numMachines }, (_, i) => `M${i + 1}`), top: 5, textStyle: { fontSize: 11 } },
+                grid: { left: '55px', right: '15px', top: '40px', bottom: '40px' },
+                xAxis: { type: 'value', name: 'Time', max: maxTime * 1.05, axisLabel: { fontSize: 10 } },
+                yAxis: {
+                    type: 'category',
+                    data: Array.from({ length: numMachines }, (_, i) => `Machine ${i + 1}`),
+                    axisLabel: { fontWeight: 'bold', fontSize: 11 }
+                },
+                series: series
+            };
+
+            if (!ganttBaseOption) {
+                ganttBaseOption = option;
+                ganttChart.setOption(option, true);
+            } else {
+                ganttChart.setOption(option, { notMerge: false, lazyUpdate: false });
+            }
+
+            const lastOp = visible.length > 0 ? visible[visible.length - 1] : null;
+            const pct = ganttAnimData.length > 0 ? ((step / ganttAnimData.length) * 100).toFixed(0) : 0;
+
+            renderJobQueue(visible, lastOp);
+            renderMachineStatus(visible, lastOp);
+            renderGanttStats(visible, lastOp, pct);
+        }
+
+        function renderJobQueue(visibleOps, lastOp) {
+            const numJobs = instanceData?.num_jobs || datasetData?.numJobs || 10;
+            const panel = document.getElementById('job-queue-panel');
+            if (!panel) return;
+
+            const jobLastOp = {};
+            const jobTotalTime = new Array(numJobs + 1).fill(0);
+            visibleOps.forEach(op => {
+                if (!jobLastOp[op.jobId] || op.opIdx > jobLastOp[op.jobId].opIdx) {
+                    jobLastOp[op.jobId] = op;
+                }
+                jobTotalTime[op.jobId] += op.procTime;
+            });
+
+            const maxJobTime = Math.max(...jobTotalTime, 1);
+            const activeJobId = lastOp ? lastOp.jobId : -1;
+            const enteringJobId = (activeJobId !== lastActiveJobId) ? activeJobId : -1;
+            lastActiveJobId = activeJobId;
+
+            let html = '';
+            for (let j = 1; j <= numJobs; j++) {
+                const last = jobLastOp[j];
+                const isActive = j === activeJobId;
+                const isEntering = j === enteringJobId;
+                const color = jobColors[(j - 1) % jobColors.length];
+                const totalOps = datasetData?.jobs?.[j - 1]?.operations?.length || 0;
+                const doneOps = last ? last.opIdx + 1 : 0;
+                const pct = totalOps > 0 ? (doneOps / totalOps) * 100 : 0;
+                const timePct = (jobTotalTime[j] / maxJobTime) * 100;
+                const curTime = last ? last.procTime : 0;
+
+                html += `<div class="job-queue-item${isActive ? ' active' : ''}${isEntering ? ' entering' : ''}" style="${isActive ? '' : 'opacity:' + (last ? '0.85' : '0.45')}">
+                    <span class="job-queue-dot" style="background:${color};color:${color}"></span>
+                    <span class="job-queue-main">
+                        <span style="display:flex;align-items:center;gap:4px">
+                            <span style="font-weight:700;color:#374151;font-size:11px">J${j}</span>
+                            <span style="font-size:9px;color:#9ca3af">${doneOps}/${totalOps}</span>
+                            <span style="font-size:9px;color:${color};margin-left:auto;font-weight:600">${pct.toFixed(0)}%</span>
+                        </span>
+                        <span class="job-queue-mini-bar"><span class="job-queue-mini-fill" style="width:${pct}%;background:${color}"></span></span>
+                        <span class="job-queue-sub">
+                            <span>${last ? '→ M' + last.machineId : '等待中 (Waiting)'}</span>
+                            ${last ? '<span>|</span><span>⏱ ' + curTime.toFixed(1) + 's</span>' : ''}
+                            <span style="margin-left:auto">∑ ${jobTotalTime[j].toFixed(1)}s</span>
+                        </span>
+                    </span>
+                    <span class="job-queue-arrow">▶</span>
+                </div>`;
+            }
+
+            panel.innerHTML = html;
+        }
+
+        function renderMachineStatus(visibleOps, lastOp) {
+            const numMachines = instanceData?.num_machines || 6;
+            const panel = document.getElementById('machine-status-panel');
+            if (!panel) return;
+
+            const machineCurrentJob = {};
+            const machineLoadSum = new Array(numMachines + 1).fill(0);
+            const machineOpCount = new Array(numMachines + 1).fill(0);
+            visibleOps.forEach(op => {
+                machineCurrentJob[op.machineId] = op;
+                machineLoadSum[op.machineId] += op.procTime;
+                machineOpCount[op.machineId]++;
+            });
+
+            const maxTime = visibleOps.length > 0 ? Math.max(...visibleOps.map(o => o.endTime)) : 1;
+            const maxLoad = Math.max(...machineLoadSum, 1);
+            const activeMachineId = lastOp ? lastOp.machineId : -1;
+
+            let html = '';
+            for (let m = 1; m <= numMachines; m++) {
+                const cur = machineCurrentJob[m];
+                const isBusy = !!cur;
+                const isReceiving = m === activeMachineId;
+                const loadPct = maxTime > 0 ? Math.min((machineLoadSum[m] / maxTime) * 100, 100) : 0;
+                const loadColor = loadPct > 80 ? '#ef4444' : loadPct > 50 ? '#f59e0b' : '#22c55e';
+                const jobColor = cur ? jobColors[(cur.jobId - 1) % jobColors.length] : '#d1d5db';
+                const curTime = cur ? cur.procTime : 0;
+
+                html += `<div class="machine-status-item${isBusy ? ' busy' : ''}${isReceiving ? ' receiving' : ''}">
+                    <span style="font-weight:700;color:#374151;font-size:11px;width:22px;flex-shrink:0">M${m}</span>
+                    <span class="machine-status-main">
+                        <span style="display:flex;align-items:center;gap:4px">
+                            <span class="job-queue-dot" style="background:${jobColor};width:7px;height:7px;flex-shrink:0"></span>
+                            <span style="font-size:10px;color:${isBusy ? '#2563eb' : '#9ca3af'};font-weight:${isBusy ? '600' : '400'}">${cur ? 'J' + cur.jobId + '-O' + (cur.opIdx + 1) : '空闲 (Idle)'}</span>
+                            <span style="font-size:9px;color:#9ca3af;margin-left:auto">${loadPct.toFixed(0)}%</span>
+                        </span>
+                        <span class="machine-load-bar"><span class="machine-load-fill" style="width:${loadPct}%;background:${loadColor}"></span></span>
+                        <span class="machine-status-sub">
+                            <span>${machineOpCount[m]} 工序 (Ops)</span>
+                            <span>|</span>
+                            <span>∑ ${machineLoadSum[m].toFixed(1)}s</span>
+                            ${cur ? '<span>|</span><span>⏱ ' + curTime.toFixed(1) + 's</span>' : ''}
+                        </span>
+                    </span>
+                </div>`;
+            }
+
+            panel.innerHTML = html;
+        }
+
+        function renderGanttStats(visibleOps, lastOp, pct) {
+            const panel = document.getElementById('gantt-stats-panel');
+            if (!panel) return;
+
+            const totalOps = visibleOps.length;
+            const totalTime = visibleOps.length > 0 ? visibleOps.reduce((s, o) => s + o.procTime, 0) : 0;
+            const maxTime = visibleOps.length > 0 ? Math.max(...visibleOps.map(o => o.endTime)) : 0;
+            const numMachines = instanceData?.num_machines || 6;
+            const numJobs = instanceData?.num_jobs || datasetData?.numJobs || 10;
+
+            const machineBusy = new Set();
+            visibleOps.forEach(o => machineBusy.add(o.machineId));
+            const jobActive = new Set();
+            visibleOps.forEach(o => jobActive.add(o.jobId));
+
+            const avgProcTime = totalOps > 0 ? totalTime / totalOps : 0;
+            const utilPct = maxTime > 0 ? (totalTime / (numMachines * maxTime)) * 100 : 0;
+            const utilColor = utilPct > 70 ? '#22c55e' : utilPct > 40 ? '#f59e0b' : '#ef4444';
+
+            const card = 'bg-white rounded border border-slate-200 p-1.5';
+
+            let html = '';
+            html += `<div class="${card} col-span-2" style="border-left:2px solid #3b82f6">
+                <div class="text-slate-400" style="font-size:8px">当前工序 (Current)</div>
+                <div class="font-semibold text-slate-700 truncate" style="font-size:11px">${lastOp ? 'J' + lastOp.jobId + ' → M' + lastOp.machineId + ' · O' + (lastOp.opIdx + 1) : '-'}</div>
+            </div>`;
+            html += `<div class="${card}" style="border-left:2px solid #8b5cf6">
+                <div class="text-slate-400" style="font-size:8px">进度 (Progress)</div>
+                <div class="font-bold text-purple-600" style="font-size:13px">${pct}%</div>
+                <div class="machine-load-bar mt-0.5"><div class="machine-load-fill" style="width:${pct}%;background:#8b5cf6"></div></div>
+            </div>`;
+            html += `<div class="${card}" style="border-left:2px solid #06b6d4">
+                <div class="text-slate-400" style="font-size:8px">总工序 (Ops)</div>
+                <div class="font-bold text-slate-700" style="font-size:13px">${totalOps}</div>
+            </div>`;
+            html += `<div class="${card}" style="border-left:2px solid #f59e0b">
+                <div class="text-slate-400" style="font-size:8px">Makespan</div>
+                <div class="font-bold text-slate-700" style="font-size:13px">${maxTime.toFixed(1)}</div>
+            </div>`;
+            html += `<div class="${card}" style="border-left:2px solid #10b981">
+                <div class="text-slate-400" style="font-size:8px">总加工时间 (Total)</div>
+                <div class="font-bold text-slate-700" style="font-size:13px">${totalTime.toFixed(1)}</div>
+            </div>`;
+            html += `<div class="${card}" style="border-left:2px solid #6366f1">
+                <div class="text-slate-400" style="font-size:8px">平均耗时 (Avg)</div>
+                <div class="font-bold text-slate-700" style="font-size:13px">${avgProcTime.toFixed(1)}</div>
+            </div>`;
+            html += `<div class="${card}" style="border-left:2px solid #ec4899">
+                <div class="text-slate-400" style="font-size:8px">活跃机器 (Machines)</div>
+                <div class="font-bold text-slate-700" style="font-size:13px">${machineBusy.size}/${numMachines}</div>
+            </div>`;
+            html += `<div class="${card}" style="border-left:2px solid #14b8a6">
+                <div class="text-slate-400" style="font-size:8px">活跃零件 (Jobs)</div>
+                <div class="font-bold text-slate-700" style="font-size:13px">${jobActive.size}/${numJobs}</div>
+            </div>`;
+            html += `<div class="${card} col-span-2" style="border-left:2px solid ${utilColor}">
+                <div class="text-slate-400" style="font-size:8px">机器利用率 (Utilization)</div>
+                <div class="font-bold" style="font-size:13px;color:${utilColor}">${utilPct.toFixed(1)}%</div>
+                <div class="machine-load-bar mt-0.5"><div class="machine-load-fill" style="width:${utilPct}%;background:${utilColor}"></div></div>
+            </div>`;
+
+            panel.innerHTML = html;
+        }
+
+        function renderJobLegend() {
+            const legend = document.getElementById('gantt-job-legend');
+            if (!legend) return;
+            const numJobs = instanceData?.num_jobs || datasetData?.numJobs || 10;
+            let html = '';
+            for (let j = 1; j <= Math.min(numJobs, 12); j++) {
+                const color = jobColors[(j - 1) % jobColors.length];
+                html += `<span class="flex items-center gap-1" style="color:#6b7280">
+                    <span style="width:8px;height:8px;border-radius:2px;background:${color};display:inline-block"></span>J${j}
+                </span>`;
+            }
+            if (numJobs > 12) html += `<span style="color:#9ca3af">+${numJobs - 12}</span>`;
+            legend.innerHTML = html;
+        }
+
+        // ==================== 机器负载分布 ====================
+        function updateMachineLoadChart() {
+            if (!globalData || !instanceData) return;
+            const sol = globalData.solutions[currentSolutionIndex];
+            if (!sol) return;
+
+            const ops = decodeSchedule(sol, currentScenario);
+            const numMachines = instanceData.num_machines || 6;
+            const machineLoad = new Array(numMachines).fill(0);
+            const machineCount = new Array(numMachines).fill(0);
+            ops.forEach(op => {
+                machineLoad[op.machineId - 1] += op.procTime;
+                machineCount[op.machineId - 1]++;
+            });
+
+            const categories = Array.from({ length: numMachines }, (_, i) => `M${i + 1}`);
+
+            machineLoadChart.setOption({
+                tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+                legend: { data: ['总负载 (Total Load)', '工序数 (Operation Count)'], top: 5 },
+                grid: { left: '60px', right: '60px', top: '40px', bottom: '40px' },
+                xAxis: { type: 'category', data: categories, axisLabel: { fontWeight: 'bold' } },
+                yAxis: [
+                    { type: 'value', name: '负载 (Load, time)' },
+                    { type: 'value', name: '工序数 (Ops Count)' }
+                ],
+                series: [
+                    { name: '总负载 (Total Load)', type: 'bar', data: machineLoad.map(v => +v.toFixed(1)), itemStyle: { color: '#7c3aed', borderRadius: [4, 4, 0, 0] } },
+                    { name: '工序数 (Operation Count)', type: 'line', yAxisIndex: 1, data: machineCount, itemStyle: { color: '#f97316' }, lineStyle: { width: 3 }, symbol: 'circle', symbolSize: 10 }
+                ]
+            }, true);
+        }
+
+        // ==================== Job工序分布 ====================
+        function updateJobDistributionChart() {
+            if (!globalData || !instanceData) return;
+            const sol = globalData.solutions[currentSolutionIndex];
+            if (!sol) return;
+
+            const ops = decodeSchedule(sol, currentScenario);
+            const numJobs = instanceData.num_jobs || 10;
+            const jobTotalTime = new Array(numJobs).fill(0);
+            const jobOpCount = new Array(numJobs).fill(0);
+            ops.forEach(op => {
+                jobTotalTime[op.jobIdx] += op.procTime;
+                jobOpCount[op.jobIdx]++;
+            });
+
+            const categories = Array.from({ length: numJobs }, (_, i) => `Job ${i + 1}`);
+
+            jobDistributionChart.setOption({
+                tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+                legend: { data: ['总加工时间 (Total Proc Time)', '工序数 (Operation Count)'], top: 5 },
+                grid: { left: '60px', right: '60px', top: '40px', bottom: '40px' },
+                xAxis: { type: 'category', data: categories, axisLabel: { fontWeight: 'bold', rotate: 30 } },
+                yAxis: [
+                    { type: 'value', name: '总时间 (Total Time)' },
+                    { type: 'value', name: '工序数 (Ops Count)' }
+                ],
+                series: [
+                    { name: '总加工时间 (Total Proc Time)', type: 'bar', data: jobTotalTime.map(v => +v.toFixed(1)), itemStyle: { color: '#ec4899', borderRadius: [4, 4, 0, 0] } },
+                    { name: '工序数 (Operation Count)', type: 'line', yAxisIndex: 1, data: jobOpCount, itemStyle: { color: '#06b6d4' }, lineStyle: { width: 3 }, symbol: 'diamond', symbolSize: 10 }
+                ]
+            }, true);
+        }
+
+        // ==================== 动画控制 ====================
+        function getAnimSpeed() { return parseInt(document.getElementById('anim-speed').value); }
+        function getAnimMode() { return document.getElementById('anim-mode').value; }
+        function isLoopEnabled() { return document.getElementById('anim-loop').checked; }
+
+        function updateAnimUI() {
+            const btnPlay = document.getElementById('btn-play');
+            const btnPause = document.getElementById('btn-pause');
+            const status = document.getElementById('anim-status');
+            const progressText = document.getElementById('anim-progress-text');
+            if (isPlaying) {
+                btnPlay.classList.add('hidden'); btnPause.classList.remove('hidden');
+                status.textContent = '播放中 (Playing)'; status.className = 'px-2 py-0.5 bg-emerald-600 rounded text-white pulse-dot';
+            } else {
+                btnPlay.classList.remove('hidden'); btnPause.classList.add('hidden');
+                status.textContent = animStep > 0 ? '已暂停 (Paused)' : '就绪 (Ready)'; status.className = 'px-2 py-0.5 bg-slate-700 rounded';
+            }
+            progressText.textContent = `${animStep} / ${animTotalSteps}`;
+            const pct = animTotalSteps > 0 ? (animStep / animTotalSteps) * 100 : 0;
+            document.getElementById('anim-slider').value = pct;
+        }
+
+        function togglePlay() {
+            if (!globalData) { alert('请先加载运行结果JSON (Please load result JSON first)'); return; }
+            if (isPlaying) return;
+            isPlaying = true;
+            const mode = getAnimMode();
+            if (mode === 'sequential') {
+                animTotalSteps = ganttAnimData.length;
+                if (animStep >= animTotalSteps) animStep = 0;
+                playSequential();
+            } else if (mode === 'solution') {
+                animTotalSteps = globalData.solutions.length;
+                if (animStep >= animTotalSteps) animStep = 0;
+                playSolutionCarousel();
+            } else if (mode === 'scenario') {
+                animTotalSteps = 3;
+                if (animStep >= animTotalSteps) animStep = 0;
+                playScenarioSwitch();
+            }
+            updateAnimUI();
+        }
+
+        function pauseAnim() {
+            isPlaying = false;
+            if (animTimer) { clearTimeout(animTimer); animTimer = null; }
+            updateAnimUI();
+        }
+
+        function stopAnim() {
+            isPlaying = false; animStep = 0;
+            if (animTimer) { clearTimeout(animTimer); animTimer = null; }
+            updateAnimUI();
+            if (globalData) updateGanttChart();
+            renderGanttStats([], null, '0');
+            renderJobLegend();
+        }
+
+        function stepNext() {
+            if (!globalData) { alert('Please load result JSON first'); return; }
+            const mode = getAnimMode();
+            if (mode === 'sequential') {
+                animTotalSteps = ganttAnimData.length;
+                if (animStep < animTotalSteps) { animStep++; renderGanttUpTo(animStep); }
+            } else if (mode === 'solution') {
+                animTotalSteps = globalData.solutions.length;
+                if (animStep < animTotalSteps - 1) {
+                    animStep++; currentSolutionIndex = animStep;
+                    document.getElementById('solution-select').value = animStep;
+                    updateAllVisualizations(); flashMetricsCards();
+                }
+            } else if (mode === 'scenario') {
+                animTotalSteps = 3;
+                if (animStep < animTotalSteps - 1) {
+                    animStep++; currentScenario = animStep;
+                    document.getElementById('scenario-select').value = animStep;
+                    updateAllVisualizations();
+                }
+            }
+            updateAnimUI();
+        }
+
+        function stepPrev() {
+            if (!globalData) { alert('Please load result JSON first'); return; }
+            const mode = getAnimMode();
+            if (mode === 'sequential') {
+                if (animStep > 0) { animStep--; renderGanttUpTo(animStep); }
+            } else if (mode === 'solution') {
+                if (animStep > 0) {
+                    animStep--; currentSolutionIndex = animStep;
+                    document.getElementById('solution-select').value = animStep;
+                    updateAllVisualizations(); flashMetricsCards();
+                }
+            } else if (mode === 'scenario') {
+                if (animStep > 0) {
+                    animStep--; currentScenario = animStep;
+                    document.getElementById('scenario-select').value = animStep;
+                    updateAllVisualizations();
+                }
+            }
+            updateAnimUI();
+        }
+
+        function seekAnim(percent) {
+            if (!globalData) return;
+            const mode = getAnimMode();
+            let total = 0;
+            if (mode === 'sequential') total = ganttAnimData.length;
+            else if (mode === 'solution') total = globalData.solutions.length;
+            else if (mode === 'scenario') total = 3;
+            animStep = Math.floor((percent / 100) * total);
+            if (mode === 'sequential') renderGanttUpTo(animStep);
+            else if (mode === 'solution') {
+                currentSolutionIndex = Math.min(animStep, total - 1);
+                document.getElementById('solution-select').value = currentSolutionIndex;
+                updateAllVisualizations(); flashMetricsCards();
+            } else if (mode === 'scenario') {
+                currentScenario = Math.min(animStep, 2);
+                document.getElementById('scenario-select').value = currentScenario;
+                updateAllVisualizations();
+            }
+            updateAnimUI();
+        }
+
+        function flashMetricsCards() {
+            ['card-makespan', 'card-energy', 'card-dissatisfaction'].forEach(id => {
+                const el = document.getElementById(id);
+                el.classList.remove('card-flash');
+                void el.offsetWidth;
+                el.classList.add('card-flash');
+            });
+        }
+
+        function playSequential() {
+            if (!isPlaying) return;
+            if (animStep >= animTotalSteps) {
+                if (isLoopEnabled()) { animStep = 0; }
+                else { isPlaying = false; updateAnimUI(); return; }
+            }
+            renderGanttUpTo(animStep + 1);
+            animStep++;
+            updateAnimUI();
+            animTimer = setTimeout(playSequential, getAnimSpeed());
+        }
+
+        function playSolutionCarousel() {
+            if (!isPlaying) return;
+            if (animStep >= animTotalSteps) {
+                if (isLoopEnabled()) { animStep = 0; }
+                else { isPlaying = false; updateAnimUI(); return; }
+            }
+            currentSolutionIndex = animStep;
+            document.getElementById('solution-select').value = animStep;
+            updateAllVisualizations();
+            flashMetricsCards();
+            animStep++;
+            updateAnimUI();
+            animTimer = setTimeout(playSolutionCarousel, getAnimSpeed());
+        }
+
+        function playScenarioSwitch() {
+            if (!isPlaying) return;
+            if (animStep >= animTotalSteps) {
+                if (isLoopEnabled()) { animStep = 0; }
+                else { isPlaying = false; updateAnimUI(); return; }
+            }
+            currentScenario = animStep;
+            document.getElementById('scenario-select').value = animStep;
+            updateAllVisualizations();
+            animStep++;
+            updateAnimUI();
+            animTimer = setTimeout(playScenarioSwitch, getAnimSpeed());
+        }
+    </script>
+</body>
+
+</html>

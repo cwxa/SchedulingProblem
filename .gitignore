@@ -21,3 +21,4 @@ out/
 experiments/results/
 trained_network/
 /.claude
+/.firecrawl
