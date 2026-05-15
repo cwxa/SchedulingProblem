@@ -636,21 +636,6 @@
             flex-wrap: wrap
         }
 
-        .process-step {
-            background: #f3f4f6;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 8px 12px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #374151
-        }
-
-        .process-arrow {
-            color: #9ca3af;
-            font-size: 16px
-        }
-
         .job-card {
             border: 1px solid #e5e7eb;
             border-radius: 8px;
@@ -744,40 +729,62 @@
 
         .job-queue-item {
             display: flex;
-            align-items: stretch;
-            gap: 6px;
-            padding: 5px 6px;
-            border-radius: 6px;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            border-radius: 8px;
             background: #fff;
             border: 1.5px solid #e5e7eb;
-            font-size: 10px;
+            font-size: 11px;
             cursor: default;
             transition: all 0.35s cubic-bezier(.4, 0, .2, 1);
             position: relative;
             overflow: hidden;
+            min-width: 140px;
         }
 
         .job-queue-item.active {
             border-color: #fbbf24;
             background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
             box-shadow: 0 0 12px rgba(251, 191, 36, 0.3);
-            transform: scale(1.01);
+            transform: scale(1.02);
             z-index: 2
+        }
+
+        .job-queue-item.completed {
+            border-color: #10b981;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
         }
 
         .job-queue-item.entering {
             animation: jobEnterPulse 0.6s ease-out
         }
 
+        .job-queue-item.completed.entering {
+            animation: jobCompletePulse 0.5s ease-out
+        }
+
         @keyframes jobEnterPulse {
             0% {
                 box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7);
-                transform: scale(1.05);
+                transform: scale(1.08);
             }
 
             100% {
                 box-shadow: 0 0 12px rgba(251, 191, 36, 0.15);
                 transform: scale(1.02);
+            }
+        }
+
+        @keyframes jobCompletePulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
+                transform: scale(1.05);
+            }
+
+            100% {
+                box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+                transform: scale(1);
             }
         }
 
@@ -794,6 +801,10 @@
             animation: dotPulse 0.8s ease-in-out infinite
         }
 
+        .job-queue-item.completed .job-queue-dot {
+            animation: checkmarkPop 0.4s ease-out forwards;
+        }
+
         @keyframes dotPulse {
 
             0%,
@@ -806,47 +817,316 @@
             }
         }
 
-        .job-queue-main {
+        @keyframes checkmarkPop {
+            0% {
+                transform: scale(0);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .job-queue-header {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .job-queue-id {
+            font-weight: 700;
+            font-size: 11px;
+            min-width: 28px;
+        }
+
+        .job-queue-status {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .job-queue-status.pending {
+            background: #9ca3af;
+        }
+
+        .job-queue-status.running {
+            background: #f59e0b;
+            animation: statusPulse 1s ease-in-out infinite;
+        }
+
+        .job-queue-status.completed {
+            background: #10b981;
+        }
+
+        @keyframes statusPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .job-queue-progress {
             flex: 1;
             min-width: 0;
             display: flex;
             flex-direction: column;
-            gap: 1.5px;
-            white-space: nowrap;
+            gap: 4px;
         }
 
-        .job-queue-sub {
+        .job-queue-progress-bar {
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(180deg, #e5e7eb 0%, #f3f4f6 100%);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .job-queue-progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .job-queue-progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.6s cubic-bezier(.4, 0, .2, 1);
+            position: relative;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, transparent 50%, rgba(0, 0, 0, 0.1) 100%);
+            overflow: hidden;
+        }
+
+        .job-queue-progress-fill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(255, 255, 255, 0.4) 20%,
+                    rgba(255, 255, 255, 0.6) 50%,
+                    rgba(255, 255, 255, 0.4) 80%,
+                    transparent 100%);
+            animation: shimmer 2s infinite;
+        }
+
+        .job-queue-item.active .job-queue-progress-fill::before {
+            animation: shimmer 0.8s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .job-queue-progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            right: 1px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            border-radius: 1px;
+        }
+
+        .job-queue-item.active .job-queue-progress-fill {
+            box-shadow: 0 0 8px currentColor, 0 0 15px currentColor;
+            animation: glowPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 8px currentColor, 0 0 15px currentColor;
+            }
+
+            50% {
+                box-shadow: 0 0 12px currentColor, 0 0 25px currentColor;
+            }
+        }
+
+        .job-queue-item.completed .job-queue-progress-fill {
+            animation: completeGlow 0.6s ease-out;
+        }
+
+        @keyframes completeGlow {
+            0% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.8);
+            }
+
+            50% {
+                box-shadow: 0 0 20px 5px rgba(16, 185, 129, 0.4);
+            }
+
+            100% {
+                box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+            }
+        }
+
+        .job-queue-segments {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            gap: 1px;
+            padding: 1px;
+            z-index: 2;
+        }
+
+        .job-queue-segment {
+            flex: 1;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .job-queue-segment.done {
+            opacity: 1;
+            box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3);
+        }
+
+        .job-queue-segment.current {
+            opacity: 1;
+            animation: segmentPulse 0.8s ease-in-out infinite;
+        }
+
+        @keyframes segmentPulse {
+
+            0%,
+            100% {
+                transform: scaleY(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scaleY(1.2);
+                opacity: 0.8;
+            }
+        }
+
+        .job-queue-confetti {
+            position: absolute;
+            top: 50%;
+            right: 8px;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            animation: confettiPop 0.6s ease-out;
+        }
+
+        .job-queue-confetti::before,
+        .job-queue-confetti::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: confettiFloat 1s ease-out infinite;
+        }
+
+        .job-queue-confetti::before {
+            left: 0;
+            top: 50%;
+            animation-delay: 0s;
+        }
+
+        .job-queue-confetti::after {
+            right: 0;
+            top: 50%;
+            animation-delay: 0.2s;
+        }
+
+        @keyframes confettiPop {
+            0% {
+                transform: translateY(-50%) scale(0);
+            }
+
+            50% {
+                transform: translateY(-50%) scale(1.5);
+            }
+
+            100% {
+                transform: translateY(-50%) scale(1);
+            }
+        }
+
+        @keyframes confettiFloat {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(0);
+                opacity: 1;
+            }
+
+            25% {
+                transform: translateY(-4px) translateX(2px);
+            }
+
+            50% {
+                transform: translateY(2px) translateX(-2px);
+                opacity: 0.8;
+            }
+
+            75% {
+                transform: translateY(-2px) translateX(1px);
+            }
+        }
+
+        .job-queue-progress-text {
+            font-size: 9px;
+            color: #6b7280;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .job-queue-progress-info {
             font-size: 8px;
             color: #9ca3af;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            transition: color 0.3s;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .job-queue-item.active .job-queue-sub {
-            color: #92400e
+        .job-queue-item.active .job-queue-progress-info {
+            color: #92400e;
         }
 
-        .job-queue-mini-bar {
-            width: 100%;
-            height: 3px;
-            background: #e5e7eb;
-            border-radius: 1.5px;
-            overflow: hidden
-        }
-
-        .job-queue-mini-fill {
-            height: 100%;
-            border-radius: 1.5px;
-            transition: width 0.5s cubic-bezier(.4, 0, .2, 1)
+        .job-queue-item.completed .job-queue-progress-info {
+            color: #059669;
         }
 
         .job-queue-arrow {
-            font-size: 10px;
+            font-size: 12px;
             color: #d1d5db;
             transition: all 0.3s;
             opacity: 0;
@@ -867,7 +1147,7 @@
             }
 
             50% {
-                transform: translateX(3px);
+                transform: translateX(4px);
             }
         }
 
@@ -968,29 +1248,7 @@
 
     <main class="max-w-7xl mx-auto px-6 py-6 space-y-6">
 
-        <!-- 流程示意 -->
-        <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
-            <div class="process-flow">
-                <div class="process-step" style="background:#eff6ff;border-color:#dbeafe;color:#1e40af">
-                    <span style="font-size:16px">📦</span> 工件 (Jobs)
-                    <span id="flow-jobs-count" class="text-xs ml-1" style="color:#6b7280">-</span>
-                </div>
-                <div class="process-arrow">→</div>
-                <div class="process-step" style="background:#f0fdf4;border-color:#bbf7d0;color:#166534">
-                    <span style="font-size:16px">⚙️</span> 机器 (Machines)
-                    <span id="flow-machines-count" class="text-xs ml-1" style="color:#6b7280">-</span>
-                </div>
-                <div class="process-arrow">→</div>
-                <div class="process-step" style="background:#faf5ff;border-color:#e9d5ff;color:#6b21a8">
-                    <span style="font-size:16px">📋</span> 调度方案 (Scheduling)
-                    <span id="flow-ops-count" class="text-xs ml-1" style="color:#6b7280">-</span>
-                </div>
-                <div class="process-arrow">→</div>
-                <div class="process-step" style="background:#fff7ed;border-color:#fed7aa;color:#9a3412">
-                    <span style="font-size:16px">🎯</span> 优化目标 (Objectives)
-                </div>
-            </div>
-        </section>
+
         <!-- 数据加载区域 -->
         <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
             <h3 class="text-sm font-semibold text-gray-700 mb-3">数据加载 (Data Loading)</h3>
@@ -1143,55 +1401,38 @@
             </div>
         </section>
 
-        <!-- 调度甘特图 (Scheduling Gantt Chart) - 两栏布局：左侧信息面板 | 右侧甘特图 -->
+        <!-- 调度甘特图 (Scheduling Gantt Chart) - 上下布局：上面甘特图 | 下面信息面板 -->
         <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
             <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2 mb-4">
                 <span class="w-1.5 h-5 bg-emerald-500 rounded-full"></span>
                 调度甘特图 (Scheduling Gantt Chart)
             </h2>
-            <div class="flex gap-4" style="min-height:480px">
-                <!-- 左侧信息面板：工件队列 + 机器状态 + 实时统计 -->
-                <div class="flex-shrink-0 w-64 flex flex-col gap-3">
-                    <!-- 工件队列 -->
-                    <div class="bg-slate-50 rounded-lg border border-slate-200 p-3 overflow-y-auto"
-                        style="max-height:180px">
-                        <div
-                            class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wider flex items-center gap-1.5">
-                            <span class="w-1.5 h-3.5 bg-blue-400 rounded-full"></span>
-                            工件队列 (Job Queue)
-                        </div>
-                        <div id="job-queue-panel" class="space-y-1">
-                            <div class="text-xs text-slate-400 text-center py-6">请先加载数据</div>
-                        </div>
+            <!-- 上面：甘特图主区域 -->
+            <div class="w-full bg-slate-50 rounded-lg border border-slate-200 p-2 mb-4" style="height:400px">
+                <div id="gantt-chart" class="w-full h-full"></div>
+            </div>
+            <!-- 下面：信息面板 -->
+            <div class="grid grid-cols-4 gap-4">
+                <!-- 工件队列 -->
+                <div class="col-span-2 bg-slate-50 rounded-lg border border-slate-200 p-3">
+                    <div
+                        class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+                        <span class="w-1.5 h-3.5 bg-blue-400 rounded-full"></span>
+                        工件队列 (Job Queue)
                     </div>
-                    <!-- 机器状态 -->
-                    <div class="bg-slate-50 rounded-lg border border-slate-200 p-3 overflow-y-auto"
-                        style="max-height:180px">
-                        <div
-                            class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wider flex items-center gap-1.5">
-                            <span class="w-1.5 h-3.5 bg-amber-400 rounded-full"></span>
-                            机器状态 (Machine Status)
-                        </div>
-                        <div id="machine-status-panel" class="space-y-1">
-                            <div class="text-xs text-slate-400 text-center py-6">请先加载数据</div>
-                        </div>
-                    </div>
-                    <!-- 实时统计 -->
-                    <div class="flex-1 bg-slate-50 rounded-lg border border-slate-200 p-3 overflow-y-auto">
-                        <div
-                            class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wider flex items-center gap-1.5">
-                            <span class="w-1.5 h-3.5 bg-purple-400 rounded-full"></span>
-                            实时统计 (Live Stats)
-                        </div>
-                        <div id="gantt-stats-panel" class="grid grid-cols-2 gap-1.5 text-xs">
-                            <div class="text-slate-400 text-center py-6 col-span-2">请先加载数据</div>
-                        </div>
+                    <div id="job-queue-panel" class="flex flex-wrap gap-1.5">
+                        <div class="text-xs text-slate-400 text-center py-4 w-full">请先加载数据</div>
                     </div>
                 </div>
-                <!-- 右侧：甘特图主区域，宽度自适应 -->
-                <div class="flex-1 min-w-0" style="height:452px;min-width:500px">
-                    <div class="w-full h-full bg-slate-50 rounded-lg border border-slate-200 p-2">
-                        <div id="gantt-chart" class="w-full h-full"></div>
+                <!-- 实时统计 -->
+                <div class="col-span-1 bg-slate-50 rounded-lg border border-slate-200 p-3">
+                    <div
+                        class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+                        <span class="w-1.5 h-3.5 bg-purple-400 rounded-full"></span>
+                        实时统计 (Live Stats)
+                    </div>
+                    <div id="gantt-stats-panel" class="grid grid-cols-2 gap-1.5 text-xs">
+                        <div class="text-slate-400 text-center py-4 col-span-2">请先加载数据</div>
                     </div>
                 </div>
             </div>
@@ -1439,8 +1680,6 @@
                 const instResp = await fetch(DEFAULT_PATHS.instance);
                 if (instResp.ok) {
                     instanceData = await instResp.json();
-                    document.getElementById('flow-jobs-count').textContent = `(${instanceData.num_jobs || '-'})`;
-                    document.getElementById('flow-machines-count').textContent = `(${instanceData.num_machines || '-'})`;
                     document.getElementById('param-random-a').textContent = instanceData.random_factor_a?.toFixed(4) ?? '-';
                     updateJobsPanel();
                     updateMachinesPanel();
@@ -1510,10 +1749,9 @@
             const ganttDom = document.getElementById('gantt-chart');
             if (ganttDom) {
                 const rect = ganttDom.getBoundingClientRect();
-                // 确保容器有正确的尺寸
                 if (rect.width === 0 || rect.height === 0) {
-                    ganttDom.style.width = '600px';
-                    ganttDom.style.height = '452px';
+                    ganttDom.style.width = '100%';
+                    ganttDom.style.height = '100%';
                 }
             }
 
@@ -1564,8 +1802,6 @@
             reader.onload = (e) => {
                 try {
                     instanceData = JSON.parse(e.target.result);
-                    document.getElementById('flow-jobs-count').textContent = `(${instanceData.num_jobs || '-'})`;
-                    document.getElementById('flow-machines-count').textContent = `(${instanceData.num_machines || '-'})`;
                     document.getElementById('param-random-a').textContent = instanceData.random_factor_a?.toFixed(4) ?? '-';
                     updateJobsPanel();
                     updateMachinesPanel();
@@ -1647,8 +1883,6 @@
                     }))
                 };
             }
-            document.getElementById('flow-jobs-count').textContent = `(${numJobs})`;
-            document.getElementById('flow-machines-count').textContent = `(${numMachines})`;
         }
 
         // ==================== 设置结果数据 ====================
@@ -1672,9 +1906,6 @@
             document.getElementById('param-memory').textContent = data.memory_size ?? '-';
             document.getElementById('param-maxgen').textContent = data.max_generations ?? '-';
             document.getElementById('param-paper').textContent = data.paper_compliant ? 'Yes' : 'No';
-
-            const totalOps = data.solutions[0]?.scheduling_string?.length || 0;
-            document.getElementById('flow-ops-count').textContent = `(${totalOps} ops)`;
 
             const select = document.getElementById('solution-select');
             select.innerHTML = '';
@@ -2169,7 +2400,6 @@
             const pct = ganttAnimData.length > 0 ? ((step / ganttAnimData.length) * 100).toFixed(0) : 0;
 
             renderJobQueue(visible, lastOp);
-            renderMachineStatus(visible, lastOp);
             renderGanttStats(visible, lastOp, pct);
         }
 
@@ -2180,14 +2410,15 @@
 
             const jobLastOp = {};
             const jobTotalTime = new Array(numJobs + 1).fill(0);
+            const jobCompletedOps = new Array(numJobs + 1).fill(0);
             visibleOps.forEach(op => {
                 if (!jobLastOp[op.jobId] || op.opIdx > jobLastOp[op.jobId].opIdx) {
                     jobLastOp[op.jobId] = op;
                 }
                 jobTotalTime[op.jobId] += op.procTime;
+                jobCompletedOps[op.jobId] = Math.max(jobCompletedOps[op.jobId], op.opIdx + 1);
             });
 
-            const maxJobTime = Math.max(...jobTotalTime, 1);
             const activeJobId = lastOp ? lastOp.jobId : -1;
             const enteringJobId = (activeJobId !== lastActiveJobId) ? activeJobId : -1;
             lastActiveJobId = activeJobId;
@@ -2201,75 +2432,41 @@
                 const totalOps = datasetData?.jobs?.[j - 1]?.operations?.length || 0;
                 const doneOps = last ? last.opIdx + 1 : 0;
                 const pct = totalOps > 0 ? (doneOps / totalOps) * 100 : 0;
-                const curTime = last ? last.procTime : 0;
-                const statusText = last ? `M${last.machineId}` : '待';
+                const isCompleted = pct >= 100 && totalOps > 0;
+                const status = isCompleted ? 'completed' : isActive ? 'running' : 'pending';
 
-                html += `<div class="job-queue-item${isActive ? ' active' : ''}${isEntering ? ' entering' : ''}" style="${isActive ? '' : 'opacity:' + (last ? '0.85' : '0.45')}">
-                    <span class="job-queue-dot" style="background:${color};color:${color}"></span>
-                    <span class="job-queue-main">
-                        <span style="display:flex;align-items:center;gap:3px">
-                            <span style="font-weight:600;color:#374151;font-size:10px;flex-shrink:0">J${j}</span>
-                            <span style="font-size:8px;color:#9ca3af;flex-shrink:0">${doneOps}/${totalOps}</span>
-                            <span class="job-queue-mini-bar flex-1" style="min-width:40px"><span class="job-queue-mini-fill" style="width:${pct}%;background:${color}"></span></span>
-                            <span style="font-size:8px;color:${color};font-weight:600;flex-shrink:0">${pct.toFixed(0)}%</span>
-                        </span>
-                        <span class="job-queue-sub">
-                            <span style="flex-shrink:0">${statusText}</span>
-                            ${last ? '<span style="flex-shrink:0">|</span><span style="flex-shrink:0">⏱' + curTime.toFixed(1) + 's</span>' : ''}
-                            <span style="flex-shrink:0">∑${jobTotalTime[j].toFixed(1)}s</span>
-                        </span>
-                    </span>
-                    <span class="job-queue-arrow">▶</span>
-                </div>`;
-            }
+                let progressSegments = '';
+                for (let o = 0; o < totalOps; o++) {
+                    const isDone = o < doneOps;
+                    const isCurrent = o === doneOps - 1 && isActive;
+                    progressSegments += `<span 
+                        class="job-queue-segment${isDone ? ' done' : ''}${isCurrent ? ' current' : ''}"
+                        style="background:${isDone ? color : '#e5e7eb'};width:${totalOps > 0 ? 100 / totalOps : 0}%"
+                    ></span>`;
+                }
 
-            panel.innerHTML = html;
-        }
-
-        function renderMachineStatus(visibleOps, lastOp) {
-            const numMachines = instanceData?.num_machines || 6;
-            const panel = document.getElementById('machine-status-panel');
-            if (!panel) return;
-
-            const machineCurrentJob = {};
-            const machineLoadSum = new Array(numMachines + 1).fill(0);
-            const machineOpCount = new Array(numMachines + 1).fill(0);
-            visibleOps.forEach(op => {
-                machineCurrentJob[op.machineId] = op;
-                machineLoadSum[op.machineId] += op.procTime;
-                machineOpCount[op.machineId]++;
-            });
-
-            const maxTime = visibleOps.length > 0 ? Math.max(...visibleOps.map(o => o.endTime)) : 1;
-            const activeMachineId = lastOp ? lastOp.machineId : -1;
-
-            let html = '';
-            for (let m = 1; m <= numMachines; m++) {
-                const cur = machineCurrentJob[m];
-                const isBusy = !!cur;
-                const isReceiving = m === activeMachineId;
-                const loadPct = maxTime > 0 ? Math.min((machineLoadSum[m] / maxTime) * 100, 100) : 0;
-                const loadColor = loadPct > 80 ? '#ef4444' : loadPct > 50 ? '#f59e0b' : '#22c55e';
-                const jobColor = cur ? jobColors[(cur.jobId - 1) % jobColors.length] : '#d1d5db';
-                const curTime = cur ? cur.procTime : 0;
-                const jobText = cur ? `J${cur.jobId}-O${cur.opIdx + 1}` : '空闲';
-
-                html += `<div class="machine-status-item${isBusy ? ' busy' : ''}${isReceiving ? ' receiving' : ''}">
-                    <span style="font-weight:600;color:#374151;font-size:10px;width:20px;flex-shrink:0">M${m}</span>
-                    <span class="machine-status-main">
-                        <span style="display:flex;align-items:center;gap:3px">
-                            <span class="job-queue-dot" style="background:${jobColor};width:6px;height:6px;flex-shrink:0"></span>
-                            <span style="font-size:9px;color:${isBusy ? '#2563eb' : '#9ca3af'};font-weight:${isBusy ? '600' : '400'};flex-shrink:0">${jobText}</span>
-                            <span class="machine-load-bar flex-1" style="min-width:30px"><span class="machine-load-fill" style="width:${loadPct}%;background:${loadColor}"></span></span>
-                            <span style="font-size:8px;color:#6b7280;font-weight:500;flex-shrink:0">${loadPct.toFixed(0)}%</span>
-                        </span>
-                        <span class="machine-status-sub">
-                            <span style="flex-shrink:0">${machineOpCount[m]} ops</span>
-                            <span style="flex-shrink:0">|</span>
-                            <span style="flex-shrink:0">∑${machineLoadSum[m].toFixed(1)}s</span>
-                            ${cur ? '<span style="flex-shrink:0">|</span><span style="flex-shrink:0">⏱' + curTime.toFixed(1) + 's</span>' : ''}
-                        </span>
-                    </span>
+                html += `<div class="job-queue-item${isActive ? ' active' : ''}${isCompleted ? ' completed' : ''}${isEntering ? ' entering' : ''}" style="${isCompleted || last ? 'opacity:0.95' : 'opacity:0.5'}">
+                    <div class="job-queue-header">
+                        <span class="job-queue-id" style="color:${color}">J${j}</span>
+                        <span class="job-queue-status ${status}"></span>
+                    </div>
+                    <div class="job-queue-progress">
+                        <div class="job-queue-progress-bar">
+                            <div class="job-queue-segments">
+                                ${progressSegments}
+                            </div>
+                            <span class="job-queue-progress-fill" style="width:${pct}%;background:${color}"></span>
+                        </div>
+                        <div class="job-queue-progress-text">
+                            <span>${doneOps}/${totalOps} 工序</span>
+                            <span style="font-weight:600;color:${color}">${pct.toFixed(0)}%</span>
+                        </div>
+                        <div class="job-queue-progress-info">
+                            ${last ? `O${last.opIdx + 1}→M${last.machineId}` : '等待'}
+                        </div>
+                    </div>
+                    <span class="job-queue-arrow">→</span>
+                    ${isCompleted ? '<span class="job-queue-confetti"></span>' : ''}
                 </div>`;
             }
 
@@ -2302,7 +2499,7 @@
             let html = '';
             html += `<div class="${card} col-span-2" style="border-left:2px solid #3b82f6">
                 <div style="${labelStyle}">当前工序</div>
-                <div class="font-semibold text-slate-700 truncate" style="font-size:10px">${lastOp ? 'J' + lastOp.jobId + '→M' + lastOp.machineId + '·O' + (lastOp.opIdx + 1) : '-'}</div>
+                <div class="font-semibold text-slate-700 truncate" style="font-size:10px">${lastOp ? 'J' + lastOp.jobId + '·O' + (lastOp.opIdx + 1) + '→M' + lastOp.machineId : '-'}</div>
             </div>`;
             html += `<div class="${card}" style="border-left:2px solid #8b5cf6">
                 <div style="${labelStyle}">进度</div>
