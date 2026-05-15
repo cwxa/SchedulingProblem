@@ -32,6 +32,15 @@ def _solution_to_dict(solution: Solution) -> dict:
 
     # 构造甘特所需数据
     gantt_ops = []
+    if solution.schedule is None:
+        # 如果 schedule 未生成（快速评估路径），则重新解码生成
+        from fbea.decoder import decode_solution
+        solution.schedule = decode_solution(
+            solution.instance,
+            solution.scheduling_string,
+            solution.machine_assignment_string,
+        )
+    
     if solution.schedule is not None:
         for op in solution.schedule.operations:
             gantt_ops.append(
