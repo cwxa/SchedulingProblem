@@ -52,13 +52,30 @@ def uniform_machine_crossover(
     parent_b: Solution,
 ) -> Tuple[List[int], List[int], OperatorUsageInfo]:
     rng = get_rng()
+    instance = parent_a.instance
     machines_a = list(parent_a.machine_assignment_string)
     machines_b = list(parent_b.machine_assignment_string)
     child_a = machines_a[:]
     child_b = machines_b[:]
+    
     for idx in range(len(machines_a)):
         if rng.random() < 0.5:
             child_a[idx], child_b[idx] = child_b[idx], child_a[idx]
+    
+    # 修复无效的机器分配：确保每个操作的机器分配都是有效的
+    def repair_invalid_assignment(child: List[int]) -> None:
+        for idx in range(len(child)):
+            job_id, op_idx = instance.linearized_operations[idx]
+            operation = instance.jobs[job_id - 1].operations[op_idx]
+            current_machine = child[idx]
+            valid_machines = {opt.machine_id for opt in operation.options}
+            if current_machine not in valid_machines:
+                # 如果当前分配无效，随机选择一个有效的机器
+                child[idx] = rng.choice(list(valid_machines))
+    
+    repair_invalid_assignment(child_a)
+    repair_invalid_assignment(child_b)
+    
     info = OperatorUsageInfo(used_uniform_machine_crossover=True)
     return child_a, child_b, info
 

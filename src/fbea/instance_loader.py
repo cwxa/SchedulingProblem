@@ -195,6 +195,20 @@ def _to_tfn_from_scalar(t: float) -> TriangularFuzzyNumber:
     return TriangularFuzzyNumber(l, t, r)
 
 
+def _parse_processing_time(value) -> TriangularFuzzyNumber:
+    """
+    Parse processing time from either scalar or tuple/list format.
+    """
+    if isinstance(value, (list, tuple)) and len(value) == 3:
+        # Already a TFN tuple (l, m, r)
+        return TriangularFuzzyNumber(value[0], value[1], value[2])
+    elif isinstance(value, (int, float)):
+        # Scalar value - convert to TFN
+        return _to_tfn_from_scalar(value)
+    else:
+        raise ValueError(f"Invalid processing time format: {value}")
+
+
 def _parse_machine_powers(
     num_machines: int, data: Optional[Sequence[Tuple[float, float]]] = None
 ) -> Dict[int, Machine]:
@@ -252,7 +266,7 @@ def load_instance_from_memory(
         operations: List[Operation] = []
         for op in job_data["operations"]:
             options = [
-                OperationOption(machine_id=option["machine_id"], processing_time=_to_tfn_from_scalar(option["processing_time"]))
+                OperationOption(machine_id=option["machine_id"], processing_time=_parse_processing_time(option["processing_time"]))
                 for option in op["options"]
             ]
             operations.append(Operation(options=options))
