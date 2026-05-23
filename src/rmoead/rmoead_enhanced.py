@@ -709,97 +709,62 @@ class RVNSLocalSearch:
 
 class MetricsCalculator:
     """
-    计算收敛性指标 (CV) 和多样性指标 (DV)
-    
-    CV: 收敛性 - 基于 Pareto 前沿上相邻点之间的距离
-    DV: 多样性 - 基于距离的方差
+    计算收敛性指标 (CV) 和多样性指标 (DV) - 双目标版本
     """
-    
+
     @staticmethod
     def calculate_cv(solutions: List[Solution]) -> float:
-        """
-        计算收敛性指标 CV
-        
-        CV 越小，收敛性越好
-        CV > 0
-        
-        Args:
-            solutions: 解集
-            
-        Returns:
-            CV 值
-        """
+        """计算双目标收敛性指标 CV（越小越好）"""
         if len(solutions) < 2:
             return float('inf')
-        
-        # 获取目标值
+
+        # 获取双目标值：makespan + energy
         objectives = []
         for sol in solutions:
             f1 = _get_fuzzy_scalar(sol.makespan)
             f2 = _get_fuzzy_scalar(sol.energy)
-            f3 = _get_fuzzy_scalar(sol.agreement)
-            objectives.append((f1, f2, f3))
+            objectives.append((f1, f2))
 
-        # 计算相邻点之间的欧几里得距离
         objectives.sort(key=lambda x: x[0])
 
         distances = []
         for i in range(len(objectives) - 1):
             d = math.sqrt((objectives[i + 1][0] - objectives[i][0]) ** 2 +
-                         (objectives[i + 1][1] - objectives[i][1]) ** 2 +
-                         (objectives[i + 1][2] - objectives[i][2]) ** 2)
+                         (objectives[i + 1][1] - objectives[i][1]) ** 2)
             distances.append(d)
 
         if not distances:
             return 0.0
 
-        # CV = sqrt(sum(min_distance^2)) / |P|
         cv = math.sqrt(sum(d ** 2 for d in distances)) / len(solutions)
         return cv
-    
+
     @staticmethod
     def calculate_dv(solutions: List[Solution]) -> float:
-        """
-        计算多样性指标 DV
-        
-        DV 越大，多样性越好
-        DV > 0
-        
-        Args:
-            solutions: 解集
-            
-        Returns:
-            DV 值
-        """
+        """计算双目标多样性指标 DV（越大越好）"""
         if len(solutions) < 2:
             return 0.0
-        
-        # 获取目标值
+
+        # 获取双目标值：makespan + energy
         objectives = []
         for sol in solutions:
             f1 = _get_fuzzy_scalar(sol.makespan)
             f2 = _get_fuzzy_scalar(sol.energy)
-            f3 = _get_fuzzy_scalar(sol.agreement)
-            objectives.append((f1, f2, f3))
+            objectives.append((f1, f2))
 
-        # 计算相邻点之间的欧几里得距离
         objectives.sort(key=lambda x: x[0])
 
         distances = []
         for i in range(len(objectives) - 1):
             d = math.sqrt((objectives[i + 1][0] - objectives[i][0]) ** 2 +
-                         (objectives[i + 1][1] - objectives[i][1]) ** 2 +
-                         (objectives[i + 1][2] - objectives[i][2]) ** 2)
+                         (objectives[i + 1][1] - objectives[i][1]) ** 2)
             distances.append(d)
 
         if not distances:
             return 0.0
 
-        # 计算平均距离
         d_mean = sum(distances) / len(distances)
-
-        # DV = sum(|di - d_mean|) / ((n-1) * d_mean)
-        dv = sum(abs(d - d_mean) for d in distances) / ((len(distances)) * d_mean)
+        dv = sum(abs(d - d_mean) for d in distances) / (len(distances) * d_mean)
         return dv
 
 
@@ -915,40 +880,31 @@ class RMOEAD:
         self._initialize_weights_and_neighborhoods()
     
     def _initialize_weights_and_neighborhoods(self) -> None:
-        """初始化权重向量和邻域"""
-        # 生成 3 目标权重向量
+        """初始化双目标权重向量: w1 + w2 = 1, H = population_size - 1"""
         self.weights = []
-        H = 13
+        H = self.population_size - 1
         for i in range(H + 1):
-            for j in range(H + 1 - i):
-                w1 = i / H
-                w2 = j / H
-                w3 = (H - i - j) / H
-                self.weights.append([w1, w2, w3])
+            w1 = i / H
+            w2 = 1.0 - w1
+            self.weights.append([w1, w2])
 
-        # 调整到 population_size
-        if len(self.weights) > self.population_size:
-            step = len(self.weights) / self.population_size
-            self.weights = [self.weights[int(i * step)] for i in range(self.population_size)]
-        elif len(self.weights) < self.population_size:
+        # 确保权重数量匹配种群大小
+        if len(self.weights) < self.population_size:
             rng = get_rng()
             while len(self.weights) < self.population_size:
-                w1, w2 = rng.random(), rng.random()
-                if w1 + w2 <= 1:
-                    self.weights.append([w1, w2, 1 - w1 - w2])
+                w1 = rng.random()
+                self.weights.append([w1, 1.0 - w1])
 
-        # 计算邻域
+        # 计算邻域（基于权重向量之间的欧式距离）
         self.neighborhoods = []
         for i in range(self.population_size):
-            # 使用权重向量之间的距离
             distances = []
             for j in range(self.population_size):
                 dist = math.sqrt(sum((self.weights[i][k] - self.weights[j][k]) ** 2
-                                     for k in range(len(self.weights[i]))))
+                                     for k in range(2)))  # 双目标：2维权重
                 distances.append((dist, j))
 
             distances.sort()
-            # 使用第一个邻域大小 T[0] = 5
             T = self.t_candidates[0]
             neighborhood = [idx for (dist, idx) in distances[:T]]
             self.neighborhoods.append(neighborhood)
@@ -982,18 +938,15 @@ class RMOEAD:
 
     def _update_reference_point(self, reference_point: List[float],
                                solution: Solution) -> List[float]:
-        """更新参考点（理想点）"""
+        """更新参考点（理想点） - 双目标：makespan + energy"""
         f1 = _get_fuzzy_scalar(solution.makespan)
         f2 = _get_fuzzy_scalar(solution.energy)
-        f3 = _get_fuzzy_scalar(solution.agreement)
 
         new_ref = list(reference_point)
         if f1 < new_ref[0]:
             new_ref[0] = f1
         if f2 < new_ref[1]:
             new_ref[1] = f2
-        if f3 < new_ref[2]:
-            new_ref[2] = f3
         return new_ref
     
     def _crossover_mutation(self, parent1: Solution, parent2: Solution) -> Solution:
@@ -1079,7 +1032,7 @@ class RMOEAD:
         """MOEA/D 分解步骤"""
         rng = get_rng()
         new_population = []
-        reference_point = [float('inf'), float('inf'), float('inf')]
+        reference_point = [float('inf'), float('inf')]  # 双目标理想点
 
         # 更新参考点
         for sol in self.population:

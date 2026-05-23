@@ -86,7 +86,7 @@ class Population:
     instance: Instance
     solutions: List[Solution] = field(default_factory=list)
     renew_i: int = 0
-    u_values: Tuple[float, float, float] = (0.0, 0.0, 0.0)
+    u_values: Tuple[float, float] = (0.0, 0.0)  # 双目标：makespan + energy
 
     def add_solution(self, solution: Solution) -> None:
         if not solution.evaluated:

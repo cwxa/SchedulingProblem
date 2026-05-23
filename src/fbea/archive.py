@@ -19,6 +19,7 @@ def _ensure_objective_vector(sol: Solution) -> tuple:
     vector = sol.objective_vector
     if vector is not None:
         return vector
+    # 双目标优化：仅缓存 makespan + energy（6分量）
     vector = (
         sol.makespan._c1(),
         sol.makespan._c2(),
@@ -26,15 +27,14 @@ def _ensure_objective_vector(sol: Solution) -> tuple:
         sol.energy._c1(),
         sol.energy._c2(),
         sol.energy._c3(),
-        sol.agreement._c1(),
-        sol.agreement._c2(),
-        sol.agreement._c3(),
     )
     sol.objective_vector = vector
     return vector
 
 
-def _compare_objective_vectors(v1: tuple, v2: tuple) -> tuple[int, int, int]:
+def _compare_objective_vectors(v1: tuple, v2: tuple) -> tuple[int, int]:
+    """双目标比较：仅比较 makespan (索引0-2) 和 energy (索引3-5)"""
+    # Makespan 比较（级联：c1→c2→c3）
     if v1[0] > v2[0] + EPS:
         ms_cmp = 1
     elif v1[0] < v2[0] - EPS:
@@ -50,6 +50,7 @@ def _compare_objective_vectors(v1: tuple, v2: tuple) -> tuple[int, int, int]:
     else:
         ms_cmp = 0
 
+    # Energy 比较（级联：c1→c2→c3）
     if v1[3] > v2[3] + EPS:
         en_cmp = 1
     elif v1[3] < v2[3] - EPS:
@@ -65,39 +66,23 @@ def _compare_objective_vectors(v1: tuple, v2: tuple) -> tuple[int, int, int]:
     else:
         en_cmp = 0
 
-    if v1[6] > v2[6] + EPS:
-        ag_cmp = 1
-    elif v1[6] < v2[6] - EPS:
-        ag_cmp = -1
-    elif v1[7] > v2[7] + EPS:
-        ag_cmp = 1
-    elif v1[7] < v2[7] - EPS:
-        ag_cmp = -1
-    elif v1[8] > v2[8] + EPS:
-        ag_cmp = 1
-    elif v1[8] < v2[8] - EPS:
-        ag_cmp = -1
-    else:
-        ag_cmp = 0
-    return ms_cmp, en_cmp, ag_cmp
+    return ms_cmp, en_cmp
 
 
 def _dominates_vectors(v1: tuple, v2: tuple) -> bool:
-    ms_cmp, en_cmp, ag_cmp = _compare_objective_vectors(v1, v2)
+    """双目标 Pareto 支配：v1 在所有目标上不差于 v2 且至少在一个目标上严格更优"""
+    ms_cmp, en_cmp = _compare_objective_vectors(v1, v2)
 
     makespan_better_or_equal = ms_cmp <= 0
     energy_better_or_equal = en_cmp <= 0
-    agreement_better_or_equal = ag_cmp <= 0
 
     makespan_strict = ms_cmp < 0
     energy_strict = en_cmp < 0
-    agreement_strict = ag_cmp < 0
 
     return (
         makespan_better_or_equal
         and energy_better_or_equal
-        and agreement_better_or_equal
-        and (makespan_strict or energy_strict or agreement_strict)
+        and (makespan_strict or energy_strict)
     )
 
 
@@ -150,16 +135,17 @@ def fast_non_dominated_sort(solutions: List[Solution], deduplicate: bool = True)
         vector_i = vectors[i]
         for j in range(i + 1, size):
             vector_j = vectors[j]
-            ms_cmp, en_cmp, ag_cmp = _compare_objective_vectors(vector_i, vector_j)
+            ms_cmp, en_cmp = _compare_objective_vectors(vector_i, vector_j)
+            # 双目标支配：i在makespan和energy上都不差于j，且至少一个严格更优
             i_dominates_j = (
-                ms_cmp <= 0 and en_cmp <= 0 and ag_cmp <= 0 and (ms_cmp < 0 or en_cmp < 0 or ag_cmp < 0)
+                ms_cmp <= 0 and en_cmp <= 0 and (ms_cmp < 0 or en_cmp < 0)
             )
             if i_dominates_j:
                 dominated_sets[i].append(j)
                 domination_counts[j] += 1
                 continue
             j_dominates_i = (
-                ms_cmp >= 0 and en_cmp >= 0 and ag_cmp >= 0 and (ms_cmp > 0 or en_cmp > 0 or ag_cmp > 0)
+                ms_cmp >= 0 and en_cmp >= 0 and (ms_cmp > 0 or en_cmp > 0)
             )
             if j_dominates_i:
                 dominated_sets[j].append(i)
@@ -204,9 +190,9 @@ def calculate_crowding_distance(front: List[Solution]) -> Dict[int, float]:
             next_value = values[order[idx + 1]]
             distances[current] += (next_value - prev_value) / denom
 
+    # 双目标优化：仅对 makespan 和 energy 计算拥挤距离
     update([sol.makespan._c1() for sol in front], minimize=True)
     update([sol.energy._c1() for sol in front], minimize=True)
-    update([sol.agreement._c1() for sol in front], minimize=True)
 
     return {ids[idx]: distances[idx] for idx in range(size)}
 

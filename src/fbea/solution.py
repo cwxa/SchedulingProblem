@@ -35,8 +35,8 @@ class Solution:
     evaluated: bool = field(default=False, init=False)
     schedule: Optional["Schedule"] = field(default=None, init=False)
     objective_key: Optional[tuple] = field(default=None, init=False, repr=False)
-    # Cached scalar objectives used by dominance checks. Stored as:
-    # (ms_c1, ms_c2, ms_c3, en_c1, en_c2, en_c3, ag_c1, ag_c2, ag_c3)
+    # 双目标优化：仅缓存 makespan + energy 的标量分量用于支配检查
+    # 存储格式: (ms_c1, ms_c2, ms_c3, en_c1, en_c2, en_c3)
     objective_vector: Optional[tuple] = field(default=None, init=False, repr=False)
 
     def __post_init__(self) -> None:
@@ -108,6 +108,7 @@ class Solution:
         self.agreement = agreement
         self.evaluated = True
         self.objective_key = None
+        # 双目标优化：仅缓存 makespan + energy（6分量），agreement 不再参与支配判定
         self.objective_vector = (
             makespan._c1(),
             makespan._c2(),
@@ -115,9 +116,6 @@ class Solution:
             energy._c1(),
             energy._c2(),
             energy._c3(),
-            agreement._c1(),
-            agreement._c2(),
-            agreement._c3(),
         )
 
     def evaluate(self) -> None:

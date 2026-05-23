@@ -1,4 +1,4 @@
-﻿"""
+"""
 Main evolutionary loop (Algorithm 4) including enhanced local search.
 """
 
@@ -332,7 +332,7 @@ def _compute_injection_probabilities(
             denom = val_i + val_j
             if denom > 0:
                 total += val_i / denom
-        return total / 3.0 if total > 0 else 0.0
+        return total / 2.0 if total > 0 else 0.0
 
     term_p1 = compute_u_term(u_a, u_b)
     term_p2 = compute_u_term(u_b, u_a)
@@ -390,24 +390,24 @@ def _calculate_new_population_sizes_from_capacity(
     capacity_p2: int,
     delta_values: tuple[float, float],
     eta_values: tuple[float, float],
-    u_values_p1: tuple[float, float, float],
-    u_values_p2: tuple[float, float, float],
+    u_values_p1: tuple[float, float],
+    u_values_p2: tuple[float, float],
 ) -> tuple[int, int]:
     if total_size == 0:
         return 0, 0
     delta_1, delta_2 = delta_values
     eta_1, eta_2 = eta_values
-    u11, u12, u13 = u_values_p1
-    u21, u22, u23 = u_values_p2
+    u11, u12 = u_values_p1
+    u21, u22 = u_values_p2
 
     def safe_frac(num: float, denom: float) -> float:
         return num / max(denom, EPS)
 
+    # 双目标：仅 makespan 和 energy 参与 u-value 聚合
     term_p1 = (
         safe_frac(u11, u11 + u21)
         + safe_frac(u12, u12 + u22)
-        + safe_frac(u13, u13 + u23)
-    ) / 3
+    ) / 2
 
     n1_real = total_size / 4 + (total_size / 8) * (
         delta_1 + eta_1 + term_p1 + capacity_p1 / max(total_size, EPS)
@@ -444,7 +444,8 @@ def _find_worst_solution_index(population: Population) -> int | None:
 
     eps = EPS
 
-    def compare_pair(v1: tuple, v2: tuple) -> tuple[int, int, int]:
+    def compare_pair(v1: tuple, v2: tuple) -> tuple[int, int]:
+        # 双目标比较：makespan (0-2) + energy (3-5)
         if v1[0] > v2[0] + eps:
             ms_cmp = 1
         elif v1[0] < v2[0] - eps:
@@ -474,38 +475,23 @@ def _find_worst_solution_index(population: Population) -> int | None:
             en_cmp = -1
         else:
             en_cmp = 0
-
-        if v1[6] > v2[6] + eps:
-            ag_cmp = 1
-        elif v1[6] < v2[6] - eps:
-            ag_cmp = -1
-        elif v1[7] > v2[7] + eps:
-            ag_cmp = 1
-        elif v1[7] < v2[7] - eps:
-            ag_cmp = -1
-        elif v1[8] > v2[8] + eps:
-            ag_cmp = 1
-        elif v1[8] < v2[8] - eps:
-            ag_cmp = -1
-        else:
-            ag_cmp = 0
-        return ms_cmp, en_cmp, ag_cmp
+        return ms_cmp, en_cmp
 
     for i in range(size):
         vector_i = vectors[i]
         dominated_i = dominated_sets[i]
         for j in range(i + 1, size):
             vector_j = vectors[j]
-            ms_cmp, en_cmp, ag_cmp = compare_pair(vector_i, vector_j)
+            ms_cmp, en_cmp = compare_pair(vector_i, vector_j)
             i_dominates_j = (
-                ms_cmp <= 0 and en_cmp <= 0 and ag_cmp <= 0 and (ms_cmp < 0 or en_cmp < 0 or ag_cmp < 0)
+                ms_cmp <= 0 and en_cmp <= 0 and (ms_cmp < 0 or en_cmp < 0)
             )
             if i_dominates_j:
                 dominated_i.append(j)
                 domination_counts[j] += 1
                 continue
             j_dominates_i = (
-                ms_cmp >= 0 and en_cmp >= 0 and ag_cmp >= 0 and (ms_cmp > 0 or en_cmp > 0 or ag_cmp > 0)
+                ms_cmp >= 0 and en_cmp >= 0 and (ms_cmp > 0 or en_cmp > 0)
             )
             if j_dominates_i:
                 dominated_sets[j].append(i)
@@ -550,9 +536,9 @@ def _select_worst_index_by_crowding(vectors: list[tuple], front_indices: list[in
             next_value = values[order[idx + 1]]
             distances[current] += (next_value - prev_value) / denom
 
+    # 双目标优化：仅对 makespan 和 energy 计算拥挤距离
     update_distances([vectors[idx][0] for idx in front_indices], minimize=True)
     update_distances([vectors[idx][3] for idx in front_indices], minimize=True)
-    update_distances([vectors[idx][6] for idx in front_indices], minimize=True)
 
     local_worst = min(range(size), key=distances.__getitem__)
     return front_indices[local_worst]

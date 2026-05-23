@@ -72,21 +72,21 @@ class MigrationStatsTracker:
         }
 
 
-def _objective_triplet(solution: Solution) -> tuple[float, float, float]:
+def _objective_triplet(solution: Solution) -> tuple[float, float]:
+    """双目标优化：仅返回 makespan 和 energy 的标量目标值"""
     solution.evaluate()
     return (
         float(solution.makespan._c1()),
         float(solution.energy._c1()),
-        float(solution.agreement._c1()),
     )
 
 
 def _build_normalization_bounds(solutions: Sequence[Solution]) -> tuple[tuple[float, float], ...]:
     vectors = [_objective_triplet(sol) for sol in solutions]
     if not vectors:
-        return ((0.0, 1.0), (0.0, 1.0), (0.0, 1.0))
+        return ((0.0, 1.0), (0.0, 1.0))
     bounds = []
-    for dim in range(3):
+    for dim in range(2):  # 双目标
         values = [vec[dim] for vec in vectors]
         low = min(values)
         high = max(values)
@@ -96,7 +96,7 @@ def _build_normalization_bounds(solutions: Sequence[Solution]) -> tuple[tuple[fl
     return tuple(bounds)
 
 
-def _normalized_vector(solution: Solution, bounds: tuple[tuple[float, float], ...]) -> tuple[float, float, float]:
+def _normalized_vector(solution: Solution, bounds: tuple[tuple[float, float], ...]) -> tuple[float, float]:
     raw = _objective_triplet(solution)
     normalized = []
     for value, (low, high) in zip(raw, bounds):

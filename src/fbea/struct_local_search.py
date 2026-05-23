@@ -180,7 +180,7 @@ def _compute_injection_probabilities(
             denom = val_i + val_j
             if denom > 0:
                 total += val_i / denom
-        return total / 3.0 if total > 0 else 0.0
+        return total / 2.0 if total > 0 else 0.0
 
     term_p1 = compute_u_term(u_a, u_b)
     term_p2 = compute_u_term(u_b, u_a)

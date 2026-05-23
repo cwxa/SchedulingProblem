@@ -1,4 +1,4 @@
-﻿"""Utilities for loading raw run outputs and constructing reference sets."""
+"""Utilities for loading raw run outputs and constructing reference sets."""
 
 from __future__ import annotations
 
@@ -131,14 +131,13 @@ def tfn_c1(values: Iterable[float]) -> float:
 
 
 def dominates(a: dict, b: dict) -> bool:
+    """双目标 Pareto 支配：仅考虑 makespan + energy"""
     return (
         a["makespan_c1"] <= b["makespan_c1"] + EPS
         and a["energy_c1"] <= b["energy_c1"] + EPS
-        and a["agreement"] <= b["agreement"] + EPS
         and (
             a["makespan_c1"] < b["makespan_c1"] - EPS
             or a["energy_c1"] < b["energy_c1"] - EPS
-            or a["agreement"] < b["agreement"] - EPS
         )
     )
 
@@ -147,7 +146,6 @@ def solutions_equal(a: dict, b: dict) -> bool:
     return (
         abs(a["makespan_c1"] - b["makespan_c1"]) <= EPS
         and abs(a["energy_c1"] - b["energy_c1"]) <= EPS
-        and abs(a["agreement"] - b["agreement"]) <= EPS
     )
 
 

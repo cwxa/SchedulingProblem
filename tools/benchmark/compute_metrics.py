@@ -38,11 +38,11 @@ def _normalize(value: float, low: float, high: float) -> float:
     return (value - low) / (high - low)
 
 
-def _objective_vector(point: dict, bounds: Dict[str, Tuple[float, float]]) -> Tuple[float, float, float]:
+def _objective_vector(point: dict, bounds: Dict[str, Tuple[float, float]]) -> Tuple[float, float]:
+    """双目标：makespan + energy"""
     mk = _normalize(point["makespan_c1"], *bounds["makespan_c1"])
     en = _normalize(point["energy_c1"], *bounds["energy_c1"])
-    dd = _normalize(point["agreement"], *bounds["agreement"])
-    return mk, en, dd
+    return mk, en
 
 
 def compute_bounds(points: List[dict]) -> Dict[str, Tuple[float, float]]:
@@ -50,7 +50,6 @@ def compute_bounds(points: List[dict]) -> Dict[str, Tuple[float, float]]:
         return {
             "makespan_c1": (0.0, 1.0),
             "energy_c1": (0.0, 1.0),
-            "agreement": (0.0, 1.0),
         }
     return {
         "makespan_c1": (
@@ -60,10 +59,6 @@ def compute_bounds(points: List[dict]) -> Dict[str, Tuple[float, float]]:
         "energy_c1": (
             min(p["energy_c1"] for p in points),
             max(p["energy_c1"] for p in points),
-        ),
-        "agreement": (
-            min(p["agreement"] for p in points),
-            max(p["agreement"] for p in points),
         ),
     }
 
@@ -150,7 +145,7 @@ def main() -> None:
             if reference:
                 agg_bounds = compute_bounds(per_key_all_points.get(ref_key, []))
                 mixed_bounds: Dict[str, Tuple[float, float]] = {}
-                for key in ("makespan_c1", "energy_c1", "agreement"):
+                for key in ("makespan_c1", "energy_c1"):
                     lo, hi = bounds[key]
                     if hi - lo <= EPS:
                         lo2, hi2 = agg_bounds[key]
@@ -213,7 +208,7 @@ def main() -> None:
             if reference:
                 agg_bounds = compute_bounds(per_instance_all_points.get((dataset_id, instance_id), []))
                 mixed_bounds: Dict[str, Tuple[float, float]] = {}
-                for key in ("makespan_c1", "energy_c1", "agreement"):
+                for key in ("makespan_c1", "energy_c1"):
                     lo, hi = bounds[key]
                     if hi - lo <= EPS:
                         lo2, hi2 = agg_bounds[key]

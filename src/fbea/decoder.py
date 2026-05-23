@@ -453,6 +453,7 @@ def _evaluate_solution_strings_python(
         total_dissatisfaction_r / num_jobs,
     )
 
+    # 双目标优化：仅缓存 makespan + energy（6分量）
     objective_vector = (
         makespan._c1(),
         makespan._c2(),
@@ -460,9 +461,6 @@ def _evaluate_solution_strings_python(
         energy._c1(),
         energy._c2(),
         energy._c3(),
-        dissatisfaction._c1(),
-        dissatisfaction._c2(),
-        dissatisfaction._c3(),
     )
     return makespan, energy, dissatisfaction, None, objective_vector
 
@@ -510,6 +508,7 @@ def _evaluate_solution_strings_numba(
     makespan = TriangularFuzzyNumber._new_unchecked(makespan_l, makespan_m, makespan_r)
     energy = TriangularFuzzyNumber._new_unchecked(energy_l, energy_m, energy_r)
     agreement = TriangularFuzzyNumber._new_unchecked(agreement_l, agreement_m, agreement_r)
+    # 双目标优化：仅缓存 makespan + energy（6分量）
     objective_vector = (
         makespan._c1(),
         makespan._c2(),
@@ -517,9 +516,6 @@ def _evaluate_solution_strings_numba(
         energy._c1(),
         energy._c2(),
         energy._c3(),
-        agreement._c1(),
-        agreement._c2(),
-        agreement._c3(),
     )
     return makespan, energy, agreement, None, objective_vector
 

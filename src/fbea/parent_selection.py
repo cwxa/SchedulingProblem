@@ -12,12 +12,12 @@ from .random_manager import get_rng
 from .solution import Solution
 
 
-def calculate_F_values(solution: Solution) -> Tuple[float, float, float]:
+def calculate_F_values(solution: Solution) -> Tuple[float, float]:
+    """双目标优化：仅计算 makespan 和 energy 的适应度值"""
     solution.evaluate()
     c1_makespan = max(solution.makespan._c1(), EPS)
     c1_energy = max(solution.energy._c1(), EPS)
-    c1_dissatisfaction = max(solution.agreement._c1(), EPS)
-    return (1.0 / c1_makespan, 1.0 / c1_dissatisfaction, 1.0 / c1_energy)
+    return (1.0 / c1_makespan, 1.0 / c1_energy)
 
 
 def _compute_ranks_and_crowding(solutions: Sequence[Solution]) -> Tuple[Dict[int, int], Dict[int, float]]:
@@ -64,8 +64,7 @@ def select_from_archive_by_objectives(archive, worse_objectives: Sequence[int]) 
 
     objective_functions = {
         0: lambda sol: sol.makespan._c1(),
-        1: lambda sol: sol.agreement._c1(),
-        2: lambda sol: sol.energy._c1(),
+        1: lambda sol: sol.energy._c1(),
     }
 
     candidates: List[Solution] = []

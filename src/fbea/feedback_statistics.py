@@ -119,14 +119,14 @@ def calculate_eta_i(population, other_population) -> float:
     return rate_i / denom
 
 
-def calculate_u_values(population) -> Tuple[float, float, float]:
+def calculate_u_values(population) -> Tuple[float, float]:
+    """双目标优化：计算 makespan 和 energy 的 u 值（倒数均值）"""
     if population.size == 0:
-        return 0.0, 0.0, 0.0
+        return 0.0, 0.0
     sum_f1 = sum(1 / max(sol.makespan._c1(), EPS) for sol in population.solutions)
-    sum_f2 = sum(1 / max(sol.agreement._c1(), EPS) for sol in population.solutions)
-    sum_f3 = sum(1 / max(sol.energy._c1(), EPS) for sol in population.solutions)
+    sum_f2 = sum(1 / max(sol.energy._c1(), EPS) for sol in population.solutions)
     size = population.size
-    return sum_f1 / size, sum_f2 / size, sum_f3 / size
+    return sum_f1 / size, sum_f2 / size
 
 
 def update_population_u_values(population_a, population_b) -> None:
@@ -140,17 +140,17 @@ def calculate_new_population_sizes(population_a, population_b, delta_values, eta
         return 0, 0
     delta_1, delta_2 = delta_values
     eta_1, eta_2 = eta_values
-    u11, u12, u13 = population_a.u_values
-    u21, u22, u23 = population_b.u_values
+    u11, u12 = population_a.u_values
+    u21, u22 = population_b.u_values
 
     def safe_frac(num, denom):
         return num / max(denom, EPS)
 
+    # 双目标：仅 makespan 和 energy 参与 u-value 聚合
     term_p1 = (
         safe_frac(u11, u11 + u21)
         + safe_frac(u12, u12 + u22)
-        + safe_frac(u13, u13 + u23)
-    ) / 3
+    ) / 2
 
     n1_real = total_size / 4 + (total_size / 8) * (
         delta_1 + eta_1 + term_p1 + population_a.size / max(total_size, EPS)

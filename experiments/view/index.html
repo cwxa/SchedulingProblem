@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>调度结果可视化</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/echarts-gl@latest/dist/echarts-gl.min.js"></script>
     <style>
         *,
         *::before,
@@ -731,7 +730,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 6px 10px;
+            padding: 6px 10px 6px 10px;
             border-radius: 8px;
             background: #fff;
             border: 1.5px solid #e5e7eb;
@@ -849,19 +848,26 @@
             height: 6px;
             border-radius: 50%;
             flex-shrink: 0;
+            display: inline-block;
+            opacity: 1 !important;
         }
 
         .job-queue-status.pending {
-            background: #9ca3af;
+            background-color: #9ca3af !important;
         }
 
         .job-queue-status.running {
-            background: #f59e0b;
+            background-color: #f59e0b !important;
             animation: statusPulse 1s ease-in-out infinite;
         }
 
         .job-queue-status.completed {
-            background: #10b981;
+            background-color: #10b981 !important;
+        }
+
+        .job-queue-status.started {
+            background-color: #f59e0b !important;
+            opacity: 0.7 !important;
         }
 
         @keyframes statusPulse {
@@ -872,7 +878,7 @@
             }
 
             50% {
-                opacity: 0.5;
+                opacity: 0.4;
             }
         }
 
@@ -1033,14 +1039,19 @@
             }
         }
 
+        .job-queue-indicators {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
         .job-queue-confetti {
-            position: absolute;
-            top: 50%;
-            right: 8px;
-            transform: translateY(-50%);
-            width: 16px;
-            height: 16px;
-            animation: confettiPop 0.6s ease-out;
+            width: 14px;
+            height: 14px;
+            position: relative;
         }
 
         .job-queue-confetti::before,
@@ -1051,33 +1062,19 @@
             height: 4px;
             background: #10b981;
             border-radius: 50%;
-            animation: confettiFloat 1s ease-out infinite;
+            animation: confettiFloat 1s ease-in-out infinite;
         }
 
         .job-queue-confetti::before {
-            left: 0;
+            left: 1px;
             top: 50%;
             animation-delay: 0s;
         }
 
         .job-queue-confetti::after {
-            right: 0;
+            right: 1px;
             top: 50%;
-            animation-delay: 0.2s;
-        }
-
-        @keyframes confettiPop {
-            0% {
-                transform: translateY(-50%) scale(0);
-            }
-
-            50% {
-                transform: translateY(-50%) scale(1.5);
-            }
-
-            100% {
-                transform: translateY(-50%) scale(1);
-            }
+            animation-delay: 0.3s;
         }
 
         @keyframes confettiFloat {
@@ -1088,18 +1085,26 @@
                 opacity: 1;
             }
 
-            25% {
-                transform: translateY(-4px) translateX(2px);
-            }
-
             50% {
-                transform: translateY(2px) translateX(-2px);
-                opacity: 0.8;
+                transform: translateY(-4px) translateX(1px);
+                opacity: 0.7;
             }
+        }
 
-            75% {
-                transform: translateY(-2px) translateX(1px);
-            }
+        .job-queue-check {
+            width: 14px;
+            height: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .job-queue-check::before,
+        .job-queue-check::after {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background-color: #10b981;
+            border-radius: 50%;
         }
 
         .job-queue-progress-text {
@@ -1126,17 +1131,23 @@
         }
 
         .job-queue-arrow {
-            font-size: 12px;
+            font-size: 10px;
             color: #d1d5db;
             transition: all 0.3s;
             opacity: 0;
-            flex-shrink: 0
+            flex-shrink: 0;
+            margin-right: 2px;
         }
 
         .job-queue-item.active .job-queue-arrow {
             color: #f59e0b;
             opacity: 1;
             animation: arrowBounce 0.5s ease-in-out infinite
+        }
+
+        .job-queue-item.completed .job-queue-arrow {
+            color: #10b981;
+            opacity: 0.6;
         }
 
         @keyframes arrowBounce {
@@ -1147,7 +1158,7 @@
             }
 
             50% {
-                transform: translateX(4px);
+                transform: translateX(3px);
             }
         }
 
@@ -1485,18 +1496,18 @@
 
 
 
-        <!-- 3D Pareto前沿 -->
+        <!-- 双目标Pareto前沿 -->
         <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
             <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <span class="w-1 h-5 bg-indigo-500 rounded-full"></span>
-                三目标Pareto前沿 (3D Pareto Frontier)
+                双目标Pareto前沿 (Dual-objective Pareto Frontier)
                 <span class="ml-auto text-xs font-normal text-gray-400">当前选中解以金色高亮 (Selected: Gold)</span>
             </h2>
-            <div id="pareto-3d-chart" class="w-full h-[480px]"></div>
+            <div id="pareto-2d-chart" class="w-full h-[480px]"></div>
         </section>
 
         <!-- 指标卡片 -->
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-4" id="metrics-section">
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-4" id="metrics-section">
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 solution-card" id="card-makespan">
                 <div class="flex items-center justify-between mb-3">
                     <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Makespan (最大完工时间)</h3>
@@ -1535,26 +1546,6 @@
                             class="font-mono">-</span></div>
                 </div>
             </div>
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 solution-card"
-                id="card-dissatisfaction">
-                <div class="flex items-center justify-between mb-3">
-                    <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Dissatisfaction (不满意度)</h3>
-                    <span class="px-2 py-0.5 bg-orange-50 text-orange-600 text-xs rounded-full font-medium">目标3 (Obj
-                        3)</span>
-                </div>
-                <div class="flex items-baseline gap-2">
-                    <span id="dissatisfaction-val" class="text-3xl font-bold text-gray-800 metric-badge">-</span>
-                    <span class="text-sm text-gray-400">单位 (Units)</span>
-                </div>
-                <div class="mt-3 text-xs text-gray-500 space-y-1">
-                    <div class="flex justify-between"><span>乐观 (Opt)</span><span id="dissatisfaction-0"
-                            class="font-mono">-</span></div>
-                    <div class="flex justify-between"><span>最可能 (ML)</span><span id="dissatisfaction-1"
-                            class="font-mono">-</span></div>
-                    <div class="flex justify-between"><span>悲观 (Pes)</span><span id="dissatisfaction-2"
-                            class="font-mono">-</span></div>
-                </div>
-            </div>
         </section>
 
         <!-- 机器负载 + Job分布 -->
@@ -1562,14 +1553,14 @@
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
                 <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
                     <span class="w-1 h-5 bg-purple-500 rounded-full"></span>
-                    机器负载分布 (Machine Load Distribution)
+                    机器负载分布
                 </h2>
                 <div id="machine-load-chart" class="w-full h-[320px]"></div>
             </div>
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
                 <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
                     <span class="w-1 h-5 bg-pink-500 rounded-full"></span>
-                    各Job工序数分布 (Job Operation Distribution)
+                    各Job工序数分布
                 </h2>
                 <div id="job-distribution-chart" class="w-full h-[320px]"></div>
             </div>
@@ -1755,7 +1746,7 @@
                 }
             }
 
-            paretoChart = echarts.init(document.getElementById('pareto-3d-chart'));
+            paretoChart = echarts.init(document.getElementById('pareto-2d-chart'));
             ganttChart = echarts.init(document.getElementById('gantt-chart'));
             machineLoadChart = echarts.init(document.getElementById('machine-load-chart'));
             jobDistributionChart = echarts.init(document.getElementById('job-distribution-chart'));
@@ -1914,8 +1905,7 @@
                 opt.value = idx;
                 const mk = sol.makespan?.[1]?.toFixed(2) ?? '-';
                 const en = sol.energy?.[1]?.toFixed(2) ?? '-';
-                const ds = sol.dissatisfaction?.[1]?.toFixed(4) ?? '-';
-                opt.textContent = `Sol #${idx + 1} | MK=${mk} EN=${en} DS=${ds}`;
+                opt.textContent = `Sol #${idx + 1} | MK=${mk} EN=${en}`;
                 select.appendChild(opt);
             });
             currentSolutionIndex = 0;
@@ -2193,14 +2183,13 @@
             updateJobDistributionChart();
         }
 
-        // ==================== 3D Pareto前沿 ====================
+        // ==================== 双目标Pareto前沿 (2D Scatter) ====================
         function updateParetoChart() {
             if (!globalData || !globalData.solutions) return;
             const sols = globalData.solutions;
             const data = sols.map((s, i) => [
                 s.makespan?.[1] ?? 0,
                 s.energy?.[1] ?? 0,
-                s.dissatisfaction?.[1] ?? 0,
                 i
             ]);
 
@@ -2208,31 +2197,48 @@
             const mkMax = Math.max(...data.map(d => d[0]));
             const enMin = Math.min(...data.map(d => d[1]));
             const enMax = Math.max(...data.map(d => d[1]));
-            const dsMin = Math.min(...data.map(d => d[2]));
-            const dsMax = Math.max(...data.map(d => d[2]));
 
             const seriesData = data.map(d => ({
-                value: [d[0], d[1], d[2]],
+                value: [d[0], d[1]],
                 itemStyle: {
-                    color: d[3] === currentSolutionIndex ? '#fbbf24' : jobColors[d[3] % jobColors.length],
-                    borderColor: d[3] === currentSolutionIndex ? '#f59e0b' : 'transparent',
-                    borderWidth: d[3] === currentSolutionIndex ? 3 : 0
+                    color: d[2] === currentSolutionIndex ? '#fbbf24' : jobColors[d[2] % jobColors.length],
+                    borderColor: d[2] === currentSolutionIndex ? '#f59e0b' : 'transparent',
+                    borderWidth: d[2] === currentSolutionIndex ? 3 : 0
                 },
-                symbolSize: d[3] === currentSolutionIndex ? 16 : 10
+                symbolSize: d[2] === currentSolutionIndex ? 16 : 10
             }));
 
             paretoChart.setOption({
                 tooltip: {
                     formatter: (p) => {
-                        const idx = data[p.dataIndex]?.[3];
-                        return `Sol #${idx + 1}<br/>Makespan: ${p.value[0].toFixed(2)}<br/>Energy: ${p.value[1].toFixed(2)}<br/>Dissatisfaction: ${p.value[2].toFixed(4)}`;
+                        const idx = data[p.dataIndex]?.[2];
+                        return `Sol #${idx + 1}<br/>Makespan: ${p.value[0].toFixed(2)}<br/>Energy: ${p.value[1].toFixed(2)}`;
                     }
                 },
-                grid3D: { boxWidth: 100, boxHeight: 80, boxDepth: 100, viewControl: { autoRotate: false } },
-                xAxis3D: { name: 'Makespan', type: 'value', min: mkMin * 0.95, max: mkMax * 1.05 },
-                yAxis3D: { name: 'Energy', type: 'value', min: enMin * 0.95, max: enMax * 1.05 },
-                zAxis3D: { name: 'Dissatisfaction', type: 'value', min: dsMin * 0.9, max: dsMax * 1.1 },
-                series: [{ type: 'scatter3D', data: seriesData, emphasis: { itemStyle: { borderWidth: 3, borderColor: '#fbbf24' } } }]
+                xAxis: {
+                    name: 'Makespan',
+                    type: 'value',
+                    min: mkMin * 0.95,
+                    max: mkMax * 1.05,
+                    nameLocation: 'center',
+                    nameGap: 30
+                },
+                yAxis: {
+                    name: 'Energy',
+                    type: 'value',
+                    min: enMin * 0.95,
+                    max: enMax * 1.05,
+                    nameLocation: 'center',
+                    nameGap: 40
+                },
+                series: [{
+                    type: 'scatter',
+                    data: seriesData,
+                    emphasis: {
+                        focus: 'series',
+                        itemStyle: { borderWidth: 3, borderColor: '#fbbf24' }
+                    }
+                }]
             }, true);
         }
 
@@ -2244,7 +2250,6 @@
 
             const mk = sol.makespan || [];
             const en = sol.energy || [];
-            const ds = sol.dissatisfaction || [];
 
             document.getElementById('makespan-val').textContent = mk[1]?.toFixed(2) ?? '-';
             document.getElementById('makespan-0').textContent = mk[0]?.toFixed(2) ?? '-';
@@ -2255,11 +2260,6 @@
             document.getElementById('energy-0').textContent = en[0]?.toFixed(2) ?? '-';
             document.getElementById('energy-1').textContent = en[1]?.toFixed(2) ?? '-';
             document.getElementById('energy-2').textContent = en[2]?.toFixed(2) ?? '-';
-
-            document.getElementById('dissatisfaction-val').textContent = ds[1]?.toFixed(4) ?? '-';
-            document.getElementById('dissatisfaction-0').textContent = ds[0]?.toFixed(4) ?? '-';
-            document.getElementById('dissatisfaction-1').textContent = ds[1]?.toFixed(4) ?? '-';
-            document.getElementById('dissatisfaction-2').textContent = ds[2]?.toFixed(4) ?? '-';
         }
 
         // ==================== 甘特图 ====================
@@ -2337,7 +2337,8 @@
             }
 
             const maxTime = visible.length > 0 ? Math.max(...visible.map(o => o.endTime)) : 50;
-            const lastOp = visible.length > 0 ? visible[visible.length - 1] : null;
+            // 当前正在进行的工序是对应 step 的那个工序，确保动画在整个加工期间都显示
+            const lastOp = step > 0 && step <= ganttAnimData.length ? ganttAnimData[step - 1] : null;
 
             const option = {
                 tooltip: {
@@ -2433,7 +2434,18 @@
                 const doneOps = last ? last.opIdx + 1 : 0;
                 const pct = totalOps > 0 ? (doneOps / totalOps) * 100 : 0;
                 const isCompleted = pct >= 100 && totalOps > 0;
-                const status = isCompleted ? 'completed' : isActive ? 'running' : 'pending';
+                const hasStarted = doneOps > 0;
+                const isProcessing = hasStarted && !isCompleted && last && last.opIdx === (doneOps - 1);
+                let status;
+                if (isCompleted) {
+                    status = 'completed';
+                } else if (isActive || isProcessing) {
+                    status = 'running';
+                } else if (hasStarted) {
+                    status = 'started';
+                } else {
+                    status = 'pending';
+                }
 
                 let progressSegments = '';
                 for (let o = 0; o < totalOps; o++) {
@@ -2446,6 +2458,7 @@
                 }
 
                 html += `<div class="job-queue-item${isActive ? ' active' : ''}${isCompleted ? ' completed' : ''}${isEntering ? ' entering' : ''}" style="${isCompleted || last ? 'opacity:0.95' : 'opacity:0.5'}">
+                    <span class="job-queue-arrow">→</span>
                     <div class="job-queue-header">
                         <span class="job-queue-id" style="color:${color}">J${j}</span>
                         <span class="job-queue-status ${status}"></span>
@@ -2465,8 +2478,10 @@
                             ${last ? `O${last.opIdx + 1}→M${last.machineId}` : '等待'}
                         </div>
                     </div>
-                    <span class="job-queue-arrow">→</span>
-                    ${isCompleted ? '<span class="job-queue-confetti"></span>' : ''}
+                    <div class="job-queue-indicators">
+                        ${(isActive || isProcessing) ? '<span class="job-queue-confetti"></span>' : ''}
+                        ${isCompleted ? '<span class="job-queue-check"></span>' : ''}
+                    </div>
                 </div>`;
             }
 
@@ -2573,7 +2588,7 @@
 
             machineLoadChart.setOption({
                 tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-                legend: { data: ['总负载 (Total Load)', '工序数 (Operation Count)'], top: 5 },
+                legend: { data: ['总负载 ', '工序数 '], top: 5 },
                 grid: { left: '60px', right: '60px', top: '40px', bottom: '40px' },
                 xAxis: { type: 'category', data: categories, axisLabel: { fontWeight: 'bold' } },
                 yAxis: [
@@ -2581,8 +2596,8 @@
                     { type: 'value', name: '工序数 (Ops Count)' }
                 ],
                 series: [
-                    { name: '总负载 (Total Load)', type: 'bar', data: machineLoad.map(v => +v.toFixed(1)), itemStyle: { color: '#7c3aed', borderRadius: [4, 4, 0, 0] } },
-                    { name: '工序数 (Operation Count)', type: 'line', yAxisIndex: 1, data: machineCount, itemStyle: { color: '#f97316' }, lineStyle: { width: 3 }, symbol: 'circle', symbolSize: 10 }
+                    { name: '总负载 ', type: 'bar', data: machineLoad.map(v => +v.toFixed(1)), itemStyle: { color: '#7c3aed', borderRadius: [4, 4, 0, 0] } },
+                    { name: '工序数 ', type: 'line', yAxisIndex: 1, data: machineCount, itemStyle: { color: '#f97316' }, lineStyle: { width: 3 }, symbol: 'circle', symbolSize: 10 }
                 ]
             }, true);
         }
@@ -2606,7 +2621,7 @@
 
             jobDistributionChart.setOption({
                 tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-                legend: { data: ['总加工时间 (Total Proc Time)', '工序数 (Operation Count)'], top: 5 },
+                legend: { data: ['总加工时间 ', '工序数 '], top: 5 },
                 grid: { left: '60px', right: '60px', top: '40px', bottom: '40px' },
                 xAxis: { type: 'category', data: categories, axisLabel: { fontWeight: 'bold', rotate: 30 } },
                 yAxis: [
@@ -2614,8 +2629,8 @@
                     { type: 'value', name: '工序数 (Ops Count)' }
                 ],
                 series: [
-                    { name: '总加工时间 (Total Proc Time)', type: 'bar', data: jobTotalTime.map(v => +v.toFixed(1)), itemStyle: { color: '#ec4899', borderRadius: [4, 4, 0, 0] } },
-                    { name: '工序数 (Operation Count)', type: 'line', yAxisIndex: 1, data: jobOpCount, itemStyle: { color: '#06b6d4' }, lineStyle: { width: 3 }, symbol: 'diamond', symbolSize: 10 }
+                    { name: '总加工时间 ', type: 'bar', data: jobTotalTime.map(v => +v.toFixed(1)), itemStyle: { color: '#ec4899', borderRadius: [4, 4, 0, 0] } },
+                    { name: '工序数 ', type: 'line', yAxisIndex: 1, data: jobOpCount, itemStyle: { color: '#06b6d4' }, lineStyle: { width: 3 }, symbol: 'diamond', symbolSize: 10 }
                 ]
             }, true);
         }
@@ -2745,7 +2760,7 @@
         }
 
         function flashMetricsCards() {
-            ['card-makespan', 'card-energy', 'card-dissatisfaction'].forEach(id => {
+            ['card-makespan', 'card-energy'].forEach(id => {
                 const el = document.getElementById(id);
                 el.classList.remove('card-flash');
                 void el.offsetWidth;
